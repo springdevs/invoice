@@ -1,0 +1,24 @@
+{
+    "name": "springdevs/pdf-invoices-and-packing-slips",
+    "description": "Create, print & email PDF invoices & packing slips for WooCommerce orders.",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "SpringDevs",
+            "email": "contact@springdevs.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "dompdf/dompdf": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "SpringDevs\\Pips\\": "includes/"
+        },
+        "files": [
+            "includes/functions.php"
+        ]
+    }
+}

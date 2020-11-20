@@ -1,0 +1,8 @@
+.pips-action-buttons a.button.exists::after {
+    font-family: Dashicons;
+    content: "\f147";
+    font-size: 16px;
+    margin-left: 4px;
+    color: #2aad2a;
+    vertical-align: middle;
+}
