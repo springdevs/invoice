@@ -109,7 +109,7 @@
 		}
 
 		table.head {
-			margin-bottom: 12mm
+			margin-bottom: 0mm
 		}
 
 		td.header img {
@@ -294,11 +294,18 @@
 	<table class="head container">
 		<tr>
 			<td class="header">
-				Invoice
+				<?php if (get_option('pips_invoice_logo_height')) : ?>
+					<img height="<?php echo get_option('pips_invoice_logo_height'); ?>" src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+				<?php else : ?>
+					<img src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+				<?php endif; ?>
 			</td>
 			<td class="shop-info">
 				<div class="shop-name">
-					<h3><?php if (!$this->has_header_logo()) echo get_bloginfo('name'); ?></h3>
+					<h3><?php echo $this->get_shop_name(); ?></h3>
+					<?php if ($this->get_shop_address()) : ?>
+						<p><?php echo $this->get_shop_address(); ?></p>
+					<?php endif; ?>
 				</div>
 			</td>
 		</tr>
@@ -306,23 +313,40 @@
 
 	<table class="order-data-addresses">
 		<tr>
-			<td class="address billing-address">
-				<h3><?php if ($this->order->has_shipping_address()) _e('Billing Address:', 'sdevs_wea'); ?></h3>
-				<?php echo $this->order->get_formatted_billing_address(); ?>
-				<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
-				<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
+			<td>
+				<h1><?php _e('Invoice', 'sdevs_wea'); ?></h1>
 			</td>
-			<td></td>
+		</tr>
+		<tr>
+			<td class="address billing-address">
+				<?php echo $this->order->get_formatted_billing_address(); ?>
+				<?php if ('yes' === get_option('pips_display_user_email', 'no')) : ?>
+					<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
+				<?php endif; ?>
+				<?php if ('yes' === get_option('pips_display_user_phone', 'no')) : ?>
+					<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
+				<?php endif; ?>
+			</td>
+			<td class="address shipping-address">
+				<?php if ($this->has_shipping_address()) : ?>
+					<h3><?php _e('Ship To:', 'sdevs_wea'); ?></h3>
+					<?php echo $this->order->has_shipping_address() ? $this->order->get_formatted_shipping_address() : 'N/A'; ?>
+				<?php endif; ?>
+			</td>
 			<td class="order-data">
 				<table>
-					<tr class="invoice-number">
-						<th>Invoice Number:</th>
-						<td># <?php echo $this->get_invoice_number(); ?></td>
-					</tr>
-					<tr class="invoice-date">
-						<th>Invoice Date:</th>
-						<td><?php echo $this->get_invoice_date(); ?></td>
-					</tr>
+					<?php if ('yes' === get_option('pips_display_invoice_number', 'no')) : ?>
+						<tr class="invoice-number">
+							<th><?php _e('Invoice Number:', 'sdevs_wea'); ?></th>
+							<td># <?php echo $this->get_invoice_number(); ?></td>
+						</tr>
+					<?php endif; ?>
+					<?php if ('yes' === get_option('pips_display_invoice_date', 'no')) : ?>
+						<tr class="invoice-date">
+							<th><?php _e('Invoice Date:', 'sdevs_wea'); ?></th>
+							<td><?php echo $this->get_invoice_date(); ?></td>
+						</tr>
+					<?php endif; ?>
 					<tr class="order-number">
 						<th>Order Number:</th>
 						<td><?php echo $this->order->get_id(); ?></td>
@@ -338,32 +362,14 @@
 				</table>
 			</td>
 		</tr>
-		<tr>
-			<td>-</td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<?php if ($this->order->has_shipping_address()) : ?>
-				<td class="address shipping-address">
-					<h3>Ship To:</h3>
-					<?php echo $this->order->get_formatted_shipping_address(); ?>
-					<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
-					<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
-				</td>
-			<?php endif; ?>
-		</tr>
-	</table>
-	</td>
-	</tr>
 	</table>
 
 	<table class="order-details">
 		<thead>
 			<tr>
-				<th class="product">Product</th>
-				<th class="quantity">Quantity</th>
-				<th class="price">Price</th>
+				<th class="product"><?php _e('Product', 'sdevs_wea'); ?></th>
+				<th class="quantity"><?php _e('Quantity', 'sdevs_wea'); ?></th>
+				<th class="price"><?php _e('Price', 'sdevs_wea'); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -393,13 +399,13 @@
 				<td class="no-borders" style="border: none;">
 					<?php if ($this->get_invoice_note()) : ?>
 						<div class="document-notes">
-							<h3>Notes</h3>
+							<h3><?php _e('Notes', 'sdevs_wea'); ?></h3>
 							<p><?php echo $this->get_invoice_note(); ?></p>
 						</div>
 					<?php endif; ?>
-					<?php if ($this->order->get_customer_note() != '') : ?>
+					<?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
 						<div class="customer-notes">
-							<h3>Customer Notes</h3>
+							<h3><?php _e('Customer Notes', 'sdevs_wea'); ?></h3>
 							<p><?php echo $this->order->get_customer_note(); ?></p>
 						</div>
 					<?php endif; ?>
@@ -427,6 +433,14 @@
 			</tr>
 		</tfoot>
 	</table>
+
+	<div class="bottom-spacer"></div>
+	<?php if ($this->get_footer_note()) : ?>
+		<div id="footer">
+			<?php echo $this->get_footer_note(); ?>
+		</div>
+	<?php endif; ?>
+
 </body>
 
 </html>

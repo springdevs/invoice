@@ -3,6 +3,7 @@
 namespace SpringDevs\Pips;
 
 use SpringDevs\Pips\Admin\MetaBoxes;
+use SpringDevs\Pips\Admin\Order;
 use SpringDevs\Pips\Admin\Settings;
 use SpringDevs\Pips\Illuminate\Invoice;
 
@@ -20,6 +21,7 @@ class Admin
         $this->dispatch_actions();
         new MetaBoxes;
         new Invoice;
+        new Order;
         new Settings;
     }
 

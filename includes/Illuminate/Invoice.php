@@ -21,9 +21,11 @@ class Invoice
 
     public function admin_menu()
     {
-        $hook = add_submenu_page(null, 'Test PDF', 'Test', 'manage_options', 'pips_view_pdf', function () {
-        });
-        add_action('load-' . $hook, [$this, 'generate_order_pdf']);
+        if ('yes' === get_option('pips_enable_invoice', 'yes')) :
+            $hook = add_submenu_page(null, 'Test PDF', 'Test', 'manage_options', 'pips_view_pdf', function () {
+            });
+            add_action('load-' . $hook, [$this, 'generate_order_pdf']);
+        endif;
     }
 
     public function generate_order_pdf()
@@ -35,10 +37,13 @@ class Invoice
             $this->order = $order;
             $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/template.php', ['order' => $order]);
             $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+            $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
-            $dompdf->stream('invoice-' . $this->get_invoice_number(), ['Attachment' => false]);
+            $attachment = false;
+            if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
+            $dompdf->stream('invoice-' . $this->get_invoice_number(), ['Attachment' => $attachment]);
             exit;
         }
     }
@@ -50,8 +55,15 @@ class Invoice
         return ob_get_clean();
     }
 
-    public function has_header_logo()
+    public function get_shop_name()
     {
+        if (get_option('pips_invoice_shop_name')) return get_option('pips_invoice_shop_name');
+        return get_bloginfo('name');
+    }
+
+    public function get_shop_address()
+    {
+        if (get_option('pips_invoice_shop_address')) return get_option('pips_invoice_shop_address');
         return false;
     }
 
@@ -73,11 +85,26 @@ class Invoice
     {
         $order_meta = get_post_meta($this->order->get_id(), '_pips_order_invoice_note', true);
         if ($order_meta) return $order_meta;
+        if (get_option('pips_invoice_note')) return get_option('pips_invoice_note');
+        return false;
+    }
+
+    public function get_footer_note()
+    {
+        if (get_option('pips_invoice_footer_note')) return get_option('pips_invoice_footer_note');
         return false;
     }
 
     public function get_invoice_title()
     {
         return "invoice-" . $this->get_invoice_number();
+    }
+
+    public function has_shipping_address()
+    {
+        $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
+        if ('no' === $setting) return false;
+        if ('always' === $setting) return true;
+        return $this->order->has_shipping_address();
     }
 }

@@ -184,6 +184,7 @@ class Settings
                 'name'     => __('Custom Column', 'sdevs_wea'),
                 'id'       => 'pips_order_custom_column',
                 'type'     => 'checkbox',
+                'default'  => 'yes',
                 'desc' => __('Order Column for direct view or download pdf (Admin)', 'sdevs_wea')
             );
 

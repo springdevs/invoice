@@ -25,24 +25,26 @@ class MetaBoxes
     public function create_meta_boxes()
     {
         // Sidebar [ order action ]
-        add_meta_box(
-            'pips_order_action',
-            'Create PDF',
-            [$this, 'order_action_html'],
-            'shop_order',
-            'side',
-            'default'
-        );
+        if ('yes' === get_option('pips_enable_invoice', 'yes')) :
+            add_meta_box(
+                'pips_order_action',
+                'Create PDF',
+                [$this, 'order_action_html'],
+                'shop_order',
+                'side',
+                'default'
+            );
 
-        // Sidebar [ order edit invoice ]
-        add_meta_box(
-            'pips_order_edit_invoice',
-            'Invoice Details',
-            [$this, 'order_edit_invoice'],
-            'shop_order',
-            'normal',
-            'low'
-        );
+            // Sidebar [ order edit invoice ]
+            add_meta_box(
+                'pips_order_edit_invoice',
+                'Invoice Details',
+                [$this, 'order_edit_invoice'],
+                'shop_order',
+                'normal',
+                'low'
+            );
+        endif;
     }
 
     public function order_action_html()

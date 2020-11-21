@@ -2,6 +2,8 @@
 
 namespace SpringDevs\Pips;
 
+use SpringDevs\Pips\Frontend\Order;
+
 /**
  * Frontend handler class
  */
@@ -12,5 +14,6 @@ class Frontend
      */
     public function __construct()
     {
+        new Order;
     }
 }
