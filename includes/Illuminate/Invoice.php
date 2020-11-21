@@ -48,6 +48,27 @@ class Invoice
         }
     }
 
+    public function generate_save_pdf($order_id)
+    {
+        $dompdf = new Dompdf();
+        $order = wc_get_order($order_id);
+        if (!$order) return;
+        $this->order = $order;
+        $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/template.php', ['order' => $order]);
+        $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+        $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $attachment = false;
+        if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
+        $upload_dir = wp_upload_dir();
+        $upload_path = $upload_dir['basedir'] . "/pips";
+        if (!file_exists($upload_path)) mkdir($upload_path, 0777, true);
+        file_put_contents($upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf', $dompdf->output());
+        return $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
+    }
+
     public function render_template($file, $args)
     {
         ob_start();
