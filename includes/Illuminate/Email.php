@@ -20,12 +20,14 @@ class Email
     {
         $email_ids = ['customer_invoice'];
 
+        if ('yes' === get_option('pips_free_order_invoice', 'no')) return $attachments;
+
         if ('yes' === get_option('pips_attach_pdf_new_order_admin', 'yes')) $email_ids[] = 'new_order';
         if ('yes' === get_option('pips_attach_pdf_cancelled_order', 'no')) $email_ids[] = 'cancelled_order';
         if ('yes' === get_option('pips_attach_pdf_failed_order', 'no')) $email_ids[] = 'failed_order';
         if ('yes' === get_option('pips_attach_pdf_on-hold_order', 'no')) $email_ids[] = 'on-hold_order';
         if ('yes' === get_option('pips_attach_pdf_processing_order', 'no')) $email_ids[] = 'customer_processing_order';
-        if ('yes' === get_option('pips_attach_pdf_completed_order', 'yes')) $email_ids[] = 'completed_order';
+        if ('yes' === get_option('pips_attach_pdf_completed_order', 'no')) $email_ids[] = 'completed_order';
         if ('yes' === get_option('pips_attach_pdf_refunded_order', 'no')) $email_ids[] = 'refunded_order';
         if ('yes' === get_option('pips_attach_pdf_admin_note_order', 'no')) $email_ids[] = 'customer_note';
 
@@ -45,7 +47,7 @@ class Email
         return $attachments;
     }
 
-    public function clean_directory($order)
+    public function clean_directory()
     {
         $path_options = get_option('pips_save_pdfs', []);
         foreach ($path_options as $file_path) if (file_exists($file_path)) unlink($file_path);

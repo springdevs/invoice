@@ -38,6 +38,7 @@ class Settings
                 'name'     => __('Enable Invoice', 'sdevs_wea'),
                 'id'       => 'pips_enable_invoice',
                 'type'     => 'checkbox',
+                'default'  => 'yes',
                 'desc' => __('Enable or Disable invoice feature', 'sdevs_wea')
             );
 
@@ -47,6 +48,7 @@ class Settings
                 'id'       => 'pips_attach_pdf_new_order_admin',
                 'type'     => 'checkbox',
                 'checkboxgroup'   => 'start',
+                'default'  => 'yes',
                 'desc'     => __('New order (Admin email)', 'sdevs_wea')
             );
 
@@ -110,6 +112,7 @@ class Settings
                 'id'       => 'pips_attach_pdf_admin_note_order',
                 'type'     => 'checkbox',
                 'checkboxgroup'   => 'end',
+                'default'  => 'yes',
                 'desc'     => __('Customer note', 'sdevs_wea'),
             );
 
@@ -131,7 +134,8 @@ class Settings
                     'no' => __('No', 'sdevs_wea'),
                     'when_different' => __('Only when different from billing address', 'sdevs_wea'),
                     'always' => __('Always', 'sdevs_wea'),
-                ]
+                ],
+                'default'  => 'when_different',
             );
 
             // display invoice number
@@ -176,6 +180,7 @@ class Settings
                 'id'       => 'pips_display_customer_note',
                 'type'     => 'checkbox',
                 'checkboxgroup'   => 'end',
+                'default'  => 'yes',
                 'desc'     => __('Display customer note', 'sdevs_wea'),
             );
 
@@ -205,6 +210,7 @@ class Settings
                     'download' => __('Download the PDF', 'sdevs_wea'),
                     'display' => __('Open the PDF in a new browser tab/window', 'sdevs_wea')
                 ],
+                'default' => 'display',
                 'desc' => __('How do you want to view the PDF ?', 'sdevs_wea'),
                 'desc_tip' => true
             );
