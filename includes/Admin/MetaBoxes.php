@@ -50,10 +50,11 @@ class MetaBoxes
     public function order_action_html()
     {
         $invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . get_the_ID();
+        $packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . get_the_ID();
 ?>
         <ul class="pips-action-buttons">
             <li><a href="<?php echo $invoice_link; ?>" class="button exists" alt="PDF Invoice" target="_blank">PDF Invoice</a></li>
-            <li><a href="" class="button exists" target="_blank" alt="PDF Packing Slip">PDF Packing Slip</a></li>
+            <li><a href="<?php echo $packing_link; ?>" class="button exists" target="_blank" alt="PDF Packing Slip">PDF Packing Slip</a></li>
         </ul>
     <?php
     }

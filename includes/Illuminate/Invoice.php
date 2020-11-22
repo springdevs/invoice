@@ -45,6 +45,21 @@ class Invoice
             if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
             $dompdf->stream('invoice-' . $this->get_invoice_number(), ['Attachment' => $attachment]);
             exit;
+        } elseif (isset($_GET['view']) && isset($_GET['post']) && $_GET['view'] == 'pips_packing_slip') {
+            $dompdf = new Dompdf();
+            $order = wc_get_order($_GET['post']);
+            if (!$order) return;
+            $this->order = $order;
+            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing.php', ['order' => $order]);
+            $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+            $dompdf->set_option('isRemoteEnabled', true);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+            $attachment = false;
+            if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
+            $dompdf->stream('packing-slip-' . $this->get_invoice_number(), ['Attachment' => $attachment]);
+            exit;
         }
     }
 
@@ -119,6 +134,11 @@ class Invoice
     public function get_invoice_title()
     {
         return "invoice-" . $this->get_invoice_number();
+    }
+
+    public function get_packing_title()
+    {
+        return "packing-slip-" . $this->get_invoice_number();
     }
 
     public function has_shipping_address()
