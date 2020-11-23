@@ -10,7 +10,7 @@ class Settings
 {
     public function __construct()
     {
-        add_filter('woocommerce_get_sections_wcma', [$this, 'add_section'], 50);
+        add_filter('woocommerce_get_sections_wcma', [$this, 'add_section'], 30);
         add_filter('woocommerce_get_settings_wcma', [$this, 'settings_content']);
     }
 
