@@ -261,8 +261,6 @@ class Settings
                 'type'     => 'textarea'
             );
 
-            wp_editor('Hi,its content', 'desired_id_of_textarea', $settings = array('textarea_name' => 'your_desired_name_for_$POST'));
-
             $invoice_settings[] = array('type' => 'sectionend', 'id' => 'invoice');
             return $invoice_settings;
         endif;
