@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo $this->get_invoice_title(); ?></title>
 	<style>
 		@page {
@@ -13,7 +14,8 @@
 		}
 
 		* {
-			line-height: 1.5em
+			line-height: 1.5em;
+			/* font-family: 'DejaVu Sans', sans-serif; */
 		}
 
 		body {
@@ -21,6 +23,7 @@
 			color: #000;
 			margin: 0cm;
 			font-family: 'Open Sans', sans-serif;
+			/* font-family: 'DejaVu Sans', sans-serif; */
 			font-size: 9pt;
 			line-height: 100%;
 			line-height: 1.3rem
@@ -319,18 +322,18 @@
 		</tr>
 		<tr>
 			<td class="address billing-address">
-				<?php echo $this->order->get_formatted_billing_address(); ?>
-				<?php if ('yes' === get_option('pips_display_user_email', 'no')) : ?>
-					<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
-				<?php endif; ?>
+				<?php echo sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro') ? $this->get_customer_details() : $this->order->get_formatted_billing_address(); ?>
 				<?php if ('yes' === get_option('pips_display_user_phone', 'no')) : ?>
 					<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
+				<?php endif; ?>
+				<?php if ('yes' === get_option('pips_display_user_email', 'no')) : ?>
+					<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
 				<?php endif; ?>
 			</td>
 			<td class="address shipping-address">
 				<?php if ($this->has_shipping_address()) : ?>
 					<h3><?php _e('Ship To:', 'sdevs_wea'); ?></h3>
-					<?php echo $this->order->has_shipping_address() ? $this->order->get_formatted_shipping_address() : 'N/A'; ?>
+					<?php echo $this->order->has_shipping_address() ? (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro') ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address()) : 'N/A'; ?>
 				<?php endif; ?>
 			</td>
 			<td class="order-data">
@@ -349,7 +352,8 @@
 					<?php endif; ?>
 					<tr class="order-number">
 						<th>Order Number:</th>
-						<td><?php echo $this->order->get_id(); ?></td>
+						<td><?php echo $this->order->get_id(); ?></span>
+						</td>
 					</tr>
 					<tr class="order-date">
 						<th>Order Date:</th>

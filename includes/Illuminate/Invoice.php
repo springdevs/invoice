@@ -91,6 +91,16 @@ class Invoice
         return ob_get_clean();
     }
 
+    public function get_customer_details()
+    {
+        return apply_filters('pips_get_customer_details', 'N/A', $this->order);
+    }
+
+    public function get_shipping_details()
+    {
+        return apply_filters('pips_get_shipping_details', 'N/A', $this->order);
+    }
+
     public function get_shop_name()
     {
         if (get_option('pips_invoice_shop_name')) return get_option('pips_invoice_shop_name');
