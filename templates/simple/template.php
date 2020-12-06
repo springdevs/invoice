@@ -20,7 +20,7 @@
 
 		body {
 			background: #fff;
-			color: #000;
+			color: <?php echo get_option('pipspro_invoice_text_color', '#000'); ?>;
 			margin: 0cm;
 			font-family: 'Open Sans', sans-serif;
 			/* font-family: 'DejaVu Sans', sans-serif; */
@@ -89,7 +89,7 @@
 		th,
 		td {
 			vertical-align: top;
-			text-align: left
+			text-align: left;
 		}
 
 		table.container {
@@ -108,7 +108,7 @@
 
 		div.bottom-spacer {
 			clear: both;
-			height: 8mm
+			height: 5mm
 		}
 
 		table.head {
@@ -155,50 +155,9 @@
 			padding-right: 2mm
 		}
 
-		table.order-details {
-			width: 100%;
-			margin-bottom: 0mm
-		}
-
 		.quantity,
 		.price {
 			width: 20%
-		}
-
-		.order-details tr {
-			page-break-inside: always;
-			page-break-after: auto
-		}
-
-		.order-details td,
-		.order-details th {
-			border-bottom: 1px #ccc solid;
-			border-top: 1px #ccc solid;
-			padding: .375em
-		}
-
-		.order-details th {
-			font-weight: 700;
-			text-align: left
-		}
-
-		.order-details thead th {
-			color: #fff;
-			background-color: #000;
-			border-color: #000
-		}
-
-		.order-details tr.bundled-item td.product {
-			padding-left: 5mm
-		}
-
-		.order-details tr.product-bundle td,
-		.order-details tr.bundled-item td {
-			border: 0
-		}
-
-		.order-details tr.bundled-item.hidden {
-			display: none
 		}
 
 		dl {
@@ -304,12 +263,14 @@
 				<?php endif; ?>
 			</td>
 			<td class="shop-info">
-				<div class="shop-name">
-					<h3><?php echo $this->get_shop_name(); ?></h3>
-					<?php if ($this->get_shop_address()) : ?>
-						<p><?php echo $this->get_shop_address(); ?></p>
-					<?php endif; ?>
-				</div>
+				<?php if ("yes" === get_option('pipspro_invoice_display_shop', 'yes')) : ?>
+					<div class="shop-name">
+						<h3><?php echo $this->get_shop_name(); ?></h3>
+						<?php if ($this->get_shop_address()) : ?>
+							<p><?php echo $this->get_shop_address(); ?></p>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
 			</td>
 		</tr>
 	</table>
@@ -357,7 +318,7 @@
 					</tr>
 					<tr class="order-date">
 						<th>Order Date:</th>
-						<td><?php echo date("F d,Y", strtotime($this->order->get_date_created())); ?></td>
+						<td><?php echo date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created())); ?></td>
 					</tr>
 					<tr class="payment-method">
 						<th>Payment Method:</th>
@@ -368,12 +329,15 @@
 		</tr>
 	</table>
 
-	<table class="order-details">
+	<table style="width: 100%;">
 		<thead>
-			<tr>
-				<th class="product"><?php _e('Product', 'sdevs_wea'); ?></th>
-				<th class="quantity"><?php _e('Quantity', 'sdevs_wea'); ?></th>
-				<th class="price"><?php _e('Price', 'sdevs_wea'); ?></th>
+			<tr style="background-color: <?php echo get_option('pipspro_table_header_background', '#000000'); ?>;color: <?php echo get_option('pipspro_table_header_font_color', '#ffffff'); ?>;">
+				<?php do_action('pips_start_order_th', $this->order); ?>
+				<th style="padding: 5px;text-align: center;"><?php _e('Product', 'sdevs_wea'); ?></th>
+				<?php do_action('pips_th_content_after_product', $this->order); ?>
+				<th style="padding: 5px;text-align: center;"><?php _e('Qty', 'sdevs_wea'); ?></th>
+				<th style="padding: 5px;text-align: center;"><?php _e('Subtotal', 'sdevs_wea'); ?></th>
+				<?php do_action('pips_end_order_th'); ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -386,57 +350,82 @@
 				} else {
 					$product = wc_get_product($item['product_id']);
 				}
-				$sku = $product->get_sku();
 				?>
-				<tr class="wpo_wcpdf_item_row_class">
-					<td class="product">
+				<tr>
+					<?php do_action('pips_start_order_td', $this->order, $product); ?>
+					<td style="width: 50%;border: 1px solid gray; padding: 10px;border-top:none;vertical-align: middle;">
 						<span class="item-name"><?php echo $item->get_name(); ?></span>
-						<dl class="meta"><small>SKU: <?php echo $sku; ?></small></dl>
+						<?php if ($this->get_product_sku($product)) : ?>
+							<dl class="meta"><small>SKU: <?php echo $this->get_product_sku($product); ?></small></dl>
+						<?php endif; ?>
 					</td>
-					<td class="quantity"><?php echo $item->get_quantity(); ?></td>
-					<td class="price"><?php echo wc_price($item->get_total()); ?></td>
+					<?php do_action('pips_td_content_after_product', $this->order, $product, $item); ?>
+					<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
+						<?php echo $item->get_quantity(); ?>
+					</td>
+					<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
+						<?php echo $this->get_line_subtotal($this->order, $item); ?>
+					</td>
+					<?php do_action('pips_end_order_td', $item); ?>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
 		<tfoot>
-			<tr class="no-borders">
-				<td class="no-borders" style="border: none;">
-					<?php if ($this->get_invoice_note()) : ?>
-						<div class="document-notes">
-							<h3><?php _e('Notes', 'sdevs_wea'); ?></h3>
-							<p><?php echo $this->get_invoice_note(); ?></p>
-						</div>
-					<?php endif; ?>
-					<?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
-						<div class="customer-notes">
-							<h3><?php _e('Customer Notes', 'sdevs_wea'); ?></h3>
-							<p><?php echo $this->order->get_customer_note(); ?></p>
-						</div>
-					<?php endif; ?>
+			<?php $blank_columns = apply_filters('pips_invoice_table_footer_blank_columns', 1); ?>
+			<tr>
+				<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
+					<td></td>
+				<?php endfor; ?>
+				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+					<strong>Subtotal : </strong>
 				</td>
-				<td class="no-borders" colspan="2" style="border: none;">
-					<table class="totals">
-						<tfoot>
-							<tr>
-								<th class="description">Subtotal :</th>
-								<td class="price"><span class="totals-price"><?php echo wc_price($this->order->get_subtotal()); ?></span></td>
-							</tr>
-							<?php if ($this->order->get_discount_total() != 0) : ?>
-								<tr>
-									<th class="description">Discount :</th>
-									<td class="price"><span class="totals-price">- <?php echo $this->order->get_discount_to_display(); ?></span></td>
-								</tr>
-							<?php endif; ?>
-							<tr>
-								<th class="description">Total :</th>
-								<td class="price"><span class="totals-price"><?php echo $this->order->get_formatted_order_total(); ?></span></td>
-							</tr>
-						</tfoot>
-					</table>
+				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+					<?php echo wc_price($this->order->get_subtotal()); ?>
+				</td>
+			</tr>
+			<?php if ($this->order->get_discount_total() != 0) : ?>
+				<tr>
+					<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
+						<td></td>
+					<?php endfor; ?>
+					<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+						<strong>Discount : </strong>
+					</td>
+					<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+						- <?php echo $this->order->get_discount_to_display(); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+			<tr>
+				<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
+					<td></td>
+				<?php endfor; ?>
+				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+					<strong>Total : </strong>
+				</td>
+				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+					<?php echo $this->order->get_formatted_order_total(); ?>
 				</td>
 			</tr>
 		</tfoot>
 	</table>
+
+	<div>
+		<div style="margin: 20px 0;">
+			<?php if ($this->get_invoice_note()) : ?>
+				<div>
+					<h3><?php _e('Notes', 'sdevs_wea'); ?></h3>
+					<p><?php echo $this->get_invoice_note(); ?></p>
+				</div>
+			<?php endif; ?>
+			<?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
+				<div class="customer-notes">
+					<h3><?php _e('Customer Notes', 'sdevs_wea'); ?></h3>
+					<p><?php echo $this->order->get_customer_note(); ?></p>
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
 
 	<div class="bottom-spacer"></div>
 	<?php if ($this->get_footer_note()) : ?>

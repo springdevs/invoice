@@ -123,8 +123,8 @@ class Invoice
     public function get_invoice_date()
     {
         $order_meta = get_post_meta($this->order->get_id(), '_pips_order_invoice_date', true);
-        if ($order_meta) return date("F d,Y", $order_meta);
-        return date("F d,Y", strtotime($this->order->get_date_created()));
+        if ($order_meta) return date(get_option('pipspro_invoice_date_format', 'F d, Y'), $order_meta);
+        return date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created()));
     }
 
     public function get_invoice_note()
@@ -157,5 +157,20 @@ class Invoice
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;
         return $this->order->has_shipping_address();
+    }
+
+    public function get_product_sku($product)
+    {
+        $sku = $product->get_sku();
+        return apply_filters("pips_product_sku", $sku, $product);
+    }
+
+    public function get_line_subtotal($order, $item)
+    {
+        $single_price = $order->get_item_subtotal($item, false, true);
+        $regular_price = $single_price * $item->get_quantity();
+        $sale_price = $item->get_total();
+        if ($regular_price != $sale_price && "yes" === get_option('pipspro_invoice_slashed_price', 'yes')) return wc_format_sale_price($regular_price, $sale_price);
+        return wc_price($sale_price);
     }
 }
