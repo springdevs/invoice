@@ -7,6 +7,7 @@ use SpringDevs\Pips\Admin\Order;
 use SpringDevs\Pips\Admin\Settings;
 use SpringDevs\Pips\Illuminate\Email;
 use SpringDevs\Pips\Illuminate\Invoice;
+use SpringDevs\WcSubscription\Frontend\Product;
 
 /**
  * The admin class
@@ -34,5 +35,6 @@ class Admin
      */
     public function dispatch_actions()
     {
+        if (class_exists(Product::class)) new Product;
     }
 }

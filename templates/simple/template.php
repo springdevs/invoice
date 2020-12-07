@@ -312,16 +312,16 @@
 						</tr>
 					<?php endif; ?>
 					<tr class="order-number">
-						<th>Order Number:</th>
+						<th><?php _e('Order Number:', 'sdevs_wea'); ?></th>
 						<td><?php echo $this->order->get_id(); ?></span>
 						</td>
 					</tr>
 					<tr class="order-date">
-						<th>Order Date:</th>
+						<th><?php _e('Order Date:', 'sdevs_wea'); ?></th>
 						<td><?php echo date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created())); ?></td>
 					</tr>
 					<tr class="payment-method">
-						<th>Payment Method:</th>
+						<th><?php _e('Payment Method:', 'sdevs_wea'); ?></th>
 						<td><?php echo $this->order->get_payment_method_title(); ?></td>
 					</tr>
 				</table>
@@ -358,13 +358,14 @@
 						<?php if ($this->get_product_sku($product)) : ?>
 							<dl class="meta"><small>SKU: <?php echo $this->get_product_sku($product); ?></small></dl>
 						<?php endif; ?>
+						<?php do_action('pips_invoice_after_sku', $this->order, $product, $item); ?>
 					</td>
 					<?php do_action('pips_td_content_after_product', $this->order, $product, $item); ?>
 					<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
 						<?php echo $item->get_quantity(); ?>
 					</td>
 					<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
-						<?php echo $this->get_line_subtotal($this->order, $item); ?>
+						<?php echo apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product); ?>
 					</td>
 					<?php do_action('pips_end_order_td', $item); ?>
 				</tr>
