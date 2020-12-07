@@ -45,7 +45,7 @@ class Invoice
             if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
             $dompdf->stream('invoice-' . $this->get_invoice_number(), ['Attachment' => $attachment]);
             exit;
-        } elseif (isset($_GET['view']) && isset($_GET['post']) && $_GET['view'] == 'pips_packing_slip') {
+        } elseif (isset($_GET['view']) && isset($_GET['post']) && $_GET['view'] == 'pips_packing_slip' && "yes" === get_option("pips_enable_packing_slip", "yes")) {
             $dompdf = new Dompdf();
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
@@ -75,8 +75,6 @@ class Invoice
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
-        $attachment = false;
-        if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
         $upload_dir = wp_upload_dir();
         $upload_path = $upload_dir['basedir'] . "/pips";
         if (!file_exists($upload_path)) mkdir($upload_path, 0777, true);
@@ -124,7 +122,8 @@ class Invoice
     {
         $order_meta = get_post_meta($this->order->get_id(), '_pips_order_invoice_date', true);
         if ($order_meta) return date(get_option('pipspro_invoice_date_format', 'F d, Y'), $order_meta);
-        return date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created()));
+        $default_date = date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created()));
+        return apply_filters("pips_filter_invoice_date", $default_date, $this->order->get_id());
     }
 
     public function get_invoice_note()
@@ -132,6 +131,14 @@ class Invoice
         $order_meta = get_post_meta($this->order->get_id(), '_pips_order_invoice_note', true);
         if ($order_meta) return $order_meta;
         if (get_option('pips_invoice_note')) return get_option('pips_invoice_note');
+        return false;
+    }
+
+    public function get_packing_note()
+    {
+        $order_meta = get_post_meta($this->order->get_id(), '_pips_order_packing_note', true);
+        if ($order_meta) return $order_meta;
+        if (get_option('pips_packing_slip_note')) return get_option('pips_packing_slip_note');
         return false;
     }
 

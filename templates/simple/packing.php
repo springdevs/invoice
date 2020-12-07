@@ -320,10 +320,10 @@
         <tr>
             <td class="address billing-address">
                 <?php echo $this->order->has_shipping_address() ? $this->order->get_formatted_shipping_address() : $this->order->get_formatted_billing_address(); ?>
-                <?php if ('yes' === get_option('pips_display_user_email', 'no')) : ?>
+                <?php if ('yes' === get_option('pips_packing_slip_display_email', 'no')) : ?>
                     <div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
                 <?php endif; ?>
-                <?php if ('yes' === get_option('pips_display_user_phone', 'no')) : ?>
+                <?php if ('yes' === get_option('pips_packing_slip_display_phone', 'no')) : ?>
                     <div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
                 <?php endif; ?>
             </td>
@@ -331,15 +331,15 @@
             <td class="order-data">
                 <table>
                     <tr class="order-number">
-                        <th>Order Number:</th>
+                        <th><?php _e('Order Number:', 'sdevs_wea'); ?></th>
                         <td><?php echo $this->order->get_id(); ?></td>
                     </tr>
                     <tr class="order-date">
-                        <th>Order Date:</th>
+                        <th><?php _e('Order Date:', 'sdevs_wea'); ?></th>
                         <td><?php echo date("F d,Y", strtotime($this->order->get_date_created())); ?></td>
                     </tr>
                     <tr class="payment-method">
-                        <th>Shipping Method:</th>
+                        <th><?php _e('Shipping Method:', 'sdevs_wea'); ?></th>
                         <td><?php echo $this->order->get_shipping_method(); ?></td>
                     </tr>
                 </table>
@@ -376,6 +376,23 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <div>
+        <div style="margin: 40px 0;">
+            <?php if ($this->get_packing_note() && "yes" === get_option("pips_packing_slip_display_note", "no")) : ?>
+                <div>
+                    <h3><?php _e('Notes', 'sdevs_wea'); ?></h3>
+                    <p><?php echo $this->get_packing_note(); ?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
+                <div class="customer-notes">
+                    <h3><?php _e('Customer Notes', 'sdevs_wea'); ?></h3>
+                    <p><?php echo $this->order->get_customer_note(); ?></p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 
     <div class="bottom-spacer"></div>
     <?php if ($this->get_footer_note()) : ?>
