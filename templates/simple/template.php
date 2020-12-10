@@ -15,16 +15,14 @@
 
 		* {
 			line-height: 1.5em;
-			/* font-family: 'DejaVu Sans', sans-serif; */
 		}
 
 		body {
 			background: #fff;
 			color: <?php echo get_option('pipspro_invoice_text_color', '#000'); ?>;
 			margin: 0cm;
-			font-family: 'Open Sans', sans-serif;
-			/* font-family: 'DejaVu Sans', sans-serif; */
-			font-size: 9pt;
+			font-family: '<?php echo get_option('pipspro_invoice_font_family', 'Open Sans'); ?>', sans-serif;
+			font-size: <?php echo get_option('pipspro_invoice_font_size', '9pt'); ?>;
 			line-height: 100%;
 			line-height: 1.3rem
 		}

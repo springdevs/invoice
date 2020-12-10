@@ -135,6 +135,17 @@ class Settings
             'options'  => function_exists('wc_get_order_statuses') ? wc_get_order_statuses() : []
         );
 
+        // Paper Size
+        $invoice_settings[] = array(
+            'title'     => __('Paper Size', 'sdevs_wea'),
+            'id'       => 'pips_invoice_paper_size',
+            'type'     => 'select',
+            'options'  => [
+                'a4'       => __("A4", "sdevs_wea"),
+                'letter'   => __("Letter", "sdevs_wea"),
+            ]
+        );
+
         // Display shipping address
         $invoice_settings[] = array(
             'name'     => __('Display shipping address', 'sdevs_wea'),

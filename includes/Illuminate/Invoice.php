@@ -39,7 +39,7 @@ class Invoice
             $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
             $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
-            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->setPaper(get_option("pips_invoice_paper_size", "a4"), 'portrait');
             $dompdf->render();
             $attachment = false;
             if (isset($_GET['download']) && $_GET['download'] === 'true') $attachment = true;
