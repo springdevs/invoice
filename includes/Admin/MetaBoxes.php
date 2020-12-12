@@ -24,86 +24,35 @@ class MetaBoxes
 
     public function create_meta_boxes()
     {
-        // Sidebar [ order action ]
+        // Sidebar [ pdf buttons & forms ]
         if ('yes' === get_option('pips_enable_invoice', 'yes')) :
             add_meta_box(
                 'pips_order_action',
-                'Create PDF',
+                __('Order Invoices', 'sdevs_wea'),
                 [$this, 'order_action_html'],
                 'shop_order',
                 'side',
                 'default'
-            );
-
-            // Sidebar [ order edit invoice ]
-            add_meta_box(
-                'pips_order_edit_invoice',
-                'Invoice Details',
-                [$this, 'order_edit_invoice'],
-                'shop_order',
-                'normal',
-                'low'
             );
         endif;
     }
 
     public function order_action_html()
     {
-        $invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . get_the_ID();
-        $packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . get_the_ID();
-        if (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro')) {
-            do_action('pipspro_load_order_action_html', get_the_ID(), $invoice_link, $packing_link);
-        } else {
-?>
-            ?>
-            <ul class="pips-action-buttons">
-                <li><a href="<?php echo $invoice_link; ?>" class="button exists" alt="PDF Invoice" target="_blank"><?php _e('PDF Invoice', 'sdevs_wea'); ?></a></li>
-                <?php if ("yes" === get_option("pips_enable_packing_slip", "yes")) : ?>
-                    <li><a href="<?php echo $packing_link; ?>" class="button exists" target="_blank" alt="PDF Packing Slip"><?php _e('PDF Packing Slip', 'sdevs_wea'); ?></a></li>
-                <?php endif; ?>
-            </ul>
-        <?php
-        }
-    }
-
-    public function order_edit_invoice()
-    {
         $post_id = get_the_ID();
         $invoice_number = get_post_meta($post_id, '_pips_order_invoice_number', true) ? get_post_meta($post_id, '_pips_order_invoice_number', true) : null;
         $invoice_date = get_post_meta($post_id, '_pips_order_invoice_number', true) ? get_post_meta($post_id, '_pips_order_invoice_date', true) : null;
         if ($invoice_date != null) $invoice_date = date('Y-m-d', $invoice_date);
         $invoice_note = get_post_meta($post_id, '_pips_order_invoice_number', true) ? get_post_meta($post_id, '_pips_order_invoice_note', true) : null;
-        ?>
-        <table class="form-table">
-            <input type="hidden" value="<?php echo wp_create_nonce('pips_order_edit_invoice'); ?>" name="pips_invoice_nonce">
-            <tbody>
-                <tr>
-                    <th scope="row">
-                        <label for="pips_invoice_number">Invoice Number</label>
-                    </th>
-                    <td>
-                        <input name="pips_invoice_number" type="text" id="pips_invoice_number" placeholder="Custom Invoice Number" class="regular-text" value="<?php echo $invoice_number; ?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label for="pips_invoice_date">Invoice Date</label>
-                    </th>
-                    <td>
-                        <input type="date" name="pips_invoice_date" id="pips_invoice_date" value="<?php echo $invoice_date; ?>" />
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label for="pips_invoice_note">Note</label>
-                    </th>
-                    <td>
-                        <textarea type="text" name="pips_invoice_note" id="pips_invoice_note" class="input-text" style="width: 100%;"><?php echo $invoice_note; ?></textarea>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-<?php
+
+        $invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $post_id;
+        $packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $post_id;
+        if (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro')) {
+            do_action('pipspro_load_order_action_html', $post_id, $invoice_link, $packing_link);
+        } else {
+            include_once 'views/invoice-buttons.php';
+        }
+        include_once 'views/order-form.php';
     }
 
     public function save_invoice_meta($post_id)
