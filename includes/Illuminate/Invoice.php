@@ -12,7 +12,8 @@ use Dompdf\Dompdf;
  */
 class Invoice
 {
-    protected $order;
+    public $order;
+    public $bulk = false;
 
     public function __construct()
     {
@@ -35,7 +36,9 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/template.php', ['order' => $order]);
+            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/header.php', []);
+            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
+            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/footer.php', []);
             $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
             $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
@@ -50,7 +53,9 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing.php', ['order' => $order]);
+            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/header.php', []);
+            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/template.php', ['order' => $order]);
+            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/footer.php', []);
             $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
             $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
@@ -61,6 +66,8 @@ class Invoice
             $dompdf->stream('packing-slip-' . $this->get_invoice_number(), ['Attachment' => $attachment]);
             exit;
         }
+
+        do_action('pips_pdf_generator');
     }
 
     public function generate_save_pdf($order_id)
@@ -69,7 +76,9 @@ class Invoice
         $order = wc_get_order($order_id);
         if (!$order) return;
         $this->order = $order;
-        $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/template.php', ['order' => $order]);
+        $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/header.php', []);
+        $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
+        $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/footer.php', []);
         $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
         $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->loadHtml($html);
@@ -150,11 +159,13 @@ class Invoice
 
     public function get_invoice_title()
     {
+        if ($this->bulk) return "Bulk PDF invoices";
         return "invoice-" . $this->get_invoice_number();
     }
 
     public function get_packing_title()
     {
+        if ($this->bulk) return "Bulk PDF packing slips";
         return "packing-slip-" . $this->get_invoice_number();
     }
 
