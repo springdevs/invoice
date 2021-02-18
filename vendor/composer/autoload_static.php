@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba
+class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
 {
     public static $files = array (
         'e6e8dd34c6264eecc6af95d11d50fa04' => __DIR__ . '/../..' . '/includes/functions.php',
@@ -56,6 +56,7 @@ class ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
         'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
@@ -67,10 +68,10 @@ class ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit56e1d2f08402b8599771561fb8b0eeba::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$classMap;
 
         }, null, ClassLoader::class);
     }
