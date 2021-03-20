@@ -188,7 +188,10 @@ class Invoice
         $single_price = $order->get_item_subtotal($item, false, true);
         $regular_price = $single_price * $item->get_quantity();
         $sale_price = $item->get_total();
+        $currency_code = $order->get_currency();
         if ($regular_price != $sale_price && "yes" === get_option('pipspro_invoice_slashed_price', 'yes')) return wc_format_sale_price($regular_price, $sale_price);
-        return wc_price($sale_price);
+        return wc_price($sale_price, [
+            'currency' => $currency_code
+        ]);
     }
 }

@@ -123,10 +123,10 @@
 				<td></td>
 			<?php endfor; ?>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
-				<strong>Subtotal : </strong>
+				<strong><?php _e('Subtotal', 'sdevs_wea'); ?> : </strong>
 			</td>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
-				<?php echo wc_price($this->order->get_subtotal()); ?>
+				<?php echo wc_price($this->order->get_subtotal(), ['currency' => $this->order->get_currency()]); ?>
 			</td>
 		</tr>
 		<?php if ($this->order->get_discount_total() != 0) : ?>
@@ -135,7 +135,7 @@
 					<td></td>
 				<?php endfor; ?>
 				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
-					<strong>Discount : </strong>
+					<strong><?php _e('Discount', 'sdevs_wea'); ?> : </strong>
 				</td>
 				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
 					- <?php echo $this->order->get_discount_to_display(); ?>
@@ -147,7 +147,7 @@
 				<td></td>
 			<?php endfor; ?>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
-				<strong>Total : </strong>
+				<strong><?php _e('Total', 'sdevs_wea'); ?> : </strong>
 			</td>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
 				<?php echo $this->order->get_formatted_order_total(); ?>
