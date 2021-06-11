@@ -1,4 +1,42 @@
 <?php
+/*
+Plugin Name: PDF Invoices & Packing Slips
+Plugin URI: https://wordpress.org/plugins/sdevs-wc-pips
+Description: Create, print & email PDF invoices & packing slips for WooCommerce orders.
+Version: 1.0.1
+Author: SpringDevs
+Author URI: https://springdevs.com/
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: sdevs_pips
+Domain Path: /languages
+*/
+
+/**
+ * Copyright (c) 2021 SpringDevs (email: contact@springdevs.com). All rights reserved.
+ *
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ *
+ * This is an add-on for WordPress
+ * http://wordpress.org/
+ *
+ * **********************************************************************
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * **********************************************************************
+ */
 
 // don't call the file directly
 if (!defined('ABSPATH')) {
@@ -19,7 +57,7 @@ final class Sdevs_pips_main
      *
      * @var string
      */
-    const version = '1.0.0';
+    const version = '1.0.1';
 
     /**
      * Holds various class instances
@@ -169,7 +207,7 @@ final class Sdevs_pips_main
      */
     public function localization_setup()
     {
-        load_plugin_textdomain('sdevs_wea', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain('sdevs_pips', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     }
 
     /**
