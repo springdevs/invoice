@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td class="address billing-address">
-			<?php echo sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro') ? $this->get_customer_details() : $this->order->get_formatted_billing_address(); ?>
+			<?php echo pips_pro_activated() ? $this->get_customer_details() : $this->order->get_formatted_billing_address(); ?>
 			<?php if ('yes' === get_option('pips_display_user_phone', 'no')) : ?>
 				<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
 			<?php endif; ?>
@@ -39,7 +39,7 @@
 		<td class="address shipping-address">
 			<?php if ($this->has_shipping_address()) : ?>
 				<h3><?php _e('Ship To:', 'sdevs_wea'); ?></h3>
-				<?php echo $this->order->has_shipping_address() ? (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro') ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address()) : 'N/A'; ?>
+				<?php echo $this->order->has_shipping_address() ? (pips_pro_activated() ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address()) : 'N/A'; ?>
 			<?php endif; ?>
 		</td>
 		<td class="order-data">

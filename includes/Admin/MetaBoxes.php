@@ -47,7 +47,7 @@ class MetaBoxes
 
         $invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $post_id;
         $packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $post_id;
-        if (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro')) {
+        if (pips_pro_activated()) {
             do_action('pipspro_load_order_action_html', $post_id, $invoice_link, $packing_link);
         } else {
             include_once 'views/invoice-buttons.php';
