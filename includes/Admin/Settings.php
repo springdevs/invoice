@@ -16,8 +16,8 @@ class Settings
 
     public function add_section($sections)
     {
-        $sections['invoice'] = __('Invoices', 'sdevs_wea');
-        $sections['packing-slip'] = __('Packing Slips', 'sdevs_wea');
+        $sections['invoice'] = __('Invoices', 'sdevs_pips');
+        $sections['packing-slip'] = __('Packing Slips', 'sdevs_pips');
         return $sections;
     }
 
@@ -37,98 +37,98 @@ class Settings
         $invoice_settings = [];
 
         $invoice_settings[] = [
-            'name' => __('Invoice Settings', 'sdevs_wea'),
+            'name' => __('Invoice Settings', 'sdevs_pips'),
             'type' => 'title',
-            'desc' => __('The following options are used to configure Invoice Module', 'sdevs_wea'),
+            'desc' => __('The following options are used to configure Invoice Module', 'sdevs_pips'),
             'id' => 'invoice'
         ];
 
         // Enable / Disable Invoice
         $invoice_settings[] = array(
-            'name'     => __('Enable Invoice', 'sdevs_wea'),
+            'name'     => __('Enable Invoice', 'sdevs_pips'),
             'id'       => 'pips_enable_invoice',
             'type'     => 'checkbox',
             'default'  => 'yes',
-            'desc' => __('Enable or Disable invoice feature', 'sdevs_wea')
+            'desc' => __('Enable or Disable invoice feature', 'sdevs_pips')
         );
 
         // attach pdf [ new order ]
         $invoice_settings[] = array(
-            'name'     => __('Attach to', 'sdevs_wea'),
+            'name'     => __('Attach to', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_new_order_admin',
             'type'     => 'checkbox',
             'checkboxgroup'   => 'start',
             'default'  => 'yes',
-            'desc'     => __('New order (Admin email)', 'sdevs_wea')
+            'desc'     => __('New order (Admin email)', 'sdevs_pips')
         );
 
         // attach pdf [ Cancelled order ]
         $invoice_settings[] = array(
-            'name'     => __('Cancelled order', 'sdevs_wea'),
+            'name'     => __('Cancelled order', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_cancelled_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Cancelled order', 'sdevs_wea'),
+            'desc'     => __('Cancelled order', 'sdevs_pips'),
         );
 
         // attach pdf [ Failed order ]
         $invoice_settings[] = array(
-            'name'     => __('Failed order', 'sdevs_wea'),
+            'name'     => __('Failed order', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_failed_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Failed order', 'sdevs_wea'),
+            'desc'     => __('Failed order', 'sdevs_pips'),
         );
 
         // attach pdf [ Order on-hold ]
         $invoice_settings[] = array(
-            'name'     => __('Order on-hold', 'sdevs_wea'),
+            'name'     => __('Order on-hold', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_on-hold_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Order on-hold', 'sdevs_wea'),
+            'desc'     => __('Order on-hold', 'sdevs_pips'),
         );
 
         // attach pdf [ Processing order ]
         $invoice_settings[] = array(
-            'name'     => __('Processing order', 'sdevs_wea'),
+            'name'     => __('Processing order', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_processing_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Processing order', 'sdevs_wea'),
+            'desc'     => __('Processing order', 'sdevs_pips'),
         );
 
         // attach pdf [ Completed order ]
         $invoice_settings[] = array(
-            'name'     => __('Completed order', 'sdevs_wea'),
+            'name'     => __('Completed order', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_completed_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Completed order', 'sdevs_wea'),
+            'desc'     => __('Completed order', 'sdevs_pips'),
         );
 
         // attach pdf [ Refunded order ]
         $invoice_settings[] = array(
-            'name'     => __('Refunded order', 'sdevs_wea'),
+            'name'     => __('Refunded order', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_refunded_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Refunded order', 'sdevs_wea'),
+            'desc'     => __('Refunded order', 'sdevs_pips'),
         );
 
         // attach pdf [ Customer note ]
         $invoice_settings[] = array(
-            'name'     => __('Customer note', 'sdevs_wea'),
+            'name'     => __('Customer note', 'sdevs_pips'),
             'id'       => 'pips_attach_pdf_admin_note_order',
             'type'     => 'checkbox',
             'checkboxgroup'   => 'end',
             'default'  => 'yes',
-            'desc'     => __('Customer note', 'sdevs_wea'),
+            'desc'     => __('Customer note', 'sdevs_pips'),
         );
 
         // Disable for:
         $invoice_settings[] = array(
-            'title'     => __('Disable for', 'sdevs_wea'),
+            'title'     => __('Disable for', 'sdevs_pips'),
             'id'       => 'pips_invoice_disable_statuses',
             'class'    => 'wc-enhanced-select',
             'type'     => 'multiselect',
@@ -137,116 +137,116 @@ class Settings
 
         // Paper Size
         $invoice_settings[] = array(
-            'title'     => __('Paper Size', 'sdevs_wea'),
+            'title'     => __('Paper Size', 'sdevs_pips'),
             'id'       => 'pips_invoice_paper_size',
             'type'     => 'select',
             'options'  => [
-                'a4'       => __("A4", "sdevs_wea"),
-                'letter'   => __("Letter", "sdevs_wea"),
+                'a4'       => __("A4", "sdevs_pips"),
+                'letter'   => __("Letter", "sdevs_pips"),
             ]
         );
 
         // Display shipping address
         $invoice_settings[] = array(
-            'name'     => __('Display shipping address', 'sdevs_wea'),
+            'name'     => __('Display shipping address', 'sdevs_pips'),
             'id'       => 'pips_invoice_display_shipping_address',
             'type'     => 'select',
             'options'  => [
-                'no' => __('No', 'sdevs_wea'),
-                'when_different' => __('Only when different from billing address', 'sdevs_wea'),
-                'always' => __('Always', 'sdevs_wea'),
+                'no' => __('No', 'sdevs_pips'),
+                'when_different' => __('Only when different from billing address', 'sdevs_pips'),
+                'always' => __('Always', 'sdevs_pips'),
             ],
             'default'  => 'when_different',
         );
 
         // display invoice number
         $invoice_settings[] = array(
-            'name'     => __('Show / Hide', 'sdevs_wea'),
+            'name'     => __('Show / Hide', 'sdevs_pips'),
             'id'       => 'pips_display_invoice_number',
             'type'     => 'checkbox',
             'checkboxgroup'   => 'start',
-            'desc'     => __('Invoice Number', 'sdevs_wea')
+            'desc'     => __('Invoice Number', 'sdevs_pips')
         );
 
         // Enable invoice date
         $invoice_settings[] = array(
-            'name'     => __('Invoice Date', 'sdevs_wea'),
+            'name'     => __('Invoice Date', 'sdevs_pips'),
             'id'       => 'pips_display_invoice_date',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Invoice Date', 'sdevs_wea'),
+            'desc'     => __('Invoice Date', 'sdevs_pips'),
         );
 
         // display email address
         $invoice_settings[] = array(
-            'name'     => __('Email address', 'sdevs_wea'),
+            'name'     => __('Email address', 'sdevs_pips'),
             'id'       => 'pips_display_user_email',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Email address', 'sdevs_wea')
+            'desc'     => __('Email address', 'sdevs_pips')
         );
 
         // Display phone number
         $invoice_settings[] = array(
-            'name'     => __('Phone number', 'sdevs_wea'),
+            'name'     => __('Phone number', 'sdevs_pips'),
             'id'       => 'pips_display_user_phone',
             'type'     => 'checkbox',
             'checkboxgroup'   => '',
-            'desc'     => __('Phone number', 'sdevs_wea')
+            'desc'     => __('Phone number', 'sdevs_pips')
         );
 
         // Display customer note
         $invoice_settings[] = array(
-            'name'     => __('Display customer note', 'sdevs_wea'),
+            'name'     => __('Display customer note', 'sdevs_pips'),
             'id'       => 'pips_display_customer_note',
             'type'     => 'checkbox',
             'checkboxgroup'   => 'end',
             'default'  => 'yes',
-            'desc'     => __('Display customer note', 'sdevs_wea'),
+            'desc'     => __('Display customer note', 'sdevs_pips'),
         );
 
         // custom colum
         $invoice_settings[] = array(
-            'name'     => __('Custom Column', 'sdevs_wea'),
+            'name'     => __('Custom Column', 'sdevs_pips'),
             'id'       => 'pips_order_custom_column',
             'type'     => 'checkbox',
             'default'  => 'yes',
-            'desc' => __('Order Column for direct view or download pdf (Admin)', 'sdevs_wea')
+            'desc' => __('Order Column for direct view or download pdf (Admin)', 'sdevs_pips')
         );
 
         // Disable for free orders
         $invoice_settings[] = array(
-            'name'     => __('Disable for free orders', 'sdevs_wea'),
+            'name'     => __('Disable for free orders', 'sdevs_pips'),
             'id'       => 'pips_free_order_invoice',
             'type'     => 'checkbox',
-            'desc' => __('Disable invoice when the order total is ' . wc_price(0), 'sdevs_wea')
+            'desc' => __('Disable invoice when the order total is ' . wc_price(0), 'sdevs_pips')
         );
 
         // view pdf
         $invoice_settings[] = array(
-            'name'     => __('view PDF', 'sdevs_wea'),
+            'name'     => __('view PDF', 'sdevs_pips'),
             'id'       => 'pips_view_invoice_front',
             'type'     => 'select',
             'options'  => [
-                'download' => __('Download the PDF', 'sdevs_wea'),
-                'display' => __('Open the PDF in a new browser tab/window', 'sdevs_wea')
+                'download' => __('Download the PDF', 'sdevs_pips'),
+                'display' => __('Open the PDF in a new browser tab/window', 'sdevs_pips')
             ],
             'default' => 'display',
-            'desc' => __('How do you want to view the PDF ?', 'sdevs_wea'),
+            'desc' => __('How do you want to view the PDF ?', 'sdevs_pips'),
             'desc_tip' => true
         );
 
         // Logo Upload
         $invoice_settings[] = array(
-            'name'     => __('Invoice Logo', 'sdevs_wea'),
+            'name'     => __('Invoice Logo', 'sdevs_pips'),
             'id'       => 'pips_invoice_logo',
             'type'     => 'text',
-            'desc' => __('Logo URL for invoice', 'sdevs_wea')
+            'desc' => __('Logo URL for invoice', 'sdevs_pips')
         );
 
         // Logo height
         $invoice_settings[] = array(
-            'name'     => __('Logo height', 'sdevs_wea'),
+            'name'     => __('Logo height', 'sdevs_pips'),
             'id'       => 'pips_invoice_logo_height',
             'type'     => 'text',
             'placeholder' => '3cm',
@@ -255,7 +255,7 @@ class Settings
 
         // Shop Name
         $invoice_settings[] = array(
-            'name'     => __('Shop Name', 'sdevs_wea'),
+            'name'     => __('Shop Name', 'sdevs_pips'),
             'id'       => 'pips_invoice_shop_name',
             'type'     => 'text',
             'placeholder' => 'Enter Shop Name'
@@ -263,21 +263,21 @@ class Settings
 
         // Shop Address
         $invoice_settings[] = array(
-            'name'     => __('Shop Address', 'sdevs_wea'),
+            'name'     => __('Shop Address', 'sdevs_pips'),
             'id'       => 'pips_invoice_shop_address',
             'type'     => 'textarea'
         );
 
         // Default Invoice Note
         $invoice_settings[] = array(
-            'name'     => __('Default Invoice Note', 'sdevs_wea'),
+            'name'     => __('Default Invoice Note', 'sdevs_pips'),
             'id'       => 'pips_invoice_note',
             'type'     => 'textarea'
         );
 
         // Footer
         $invoice_settings[] = array(
-            'name'     => __('Footer', 'sdevs_wea'),
+            'name'     => __('Footer', 'sdevs_pips'),
             'id'       => 'pips_invoice_footer_note',
             'type'     => 'textarea'
         );
@@ -290,40 +290,40 @@ class Settings
     {
         $fields = array(
             [
-                'name' => __('Packing Slips Settings', 'sdevs_wea'),
+                'name' => __('Packing Slips Settings', 'sdevs_pips'),
                 'type' => 'title',
-                'desc' => __('The following options are used to configure Invoice Module', 'sdevs_wea'),
+                'desc' => __('The following options are used to configure Invoice Module', 'sdevs_pips'),
                 'id'   => 'packing-slip'
             ],
             [
-                'name'     => __('Enable Packing Slips', 'sdevs_wea'),
+                'name'     => __('Enable Packing Slips', 'sdevs_pips'),
                 'id'       => 'pips_enable_packing_slip',
                 'type'     => 'checkbox',
                 'default'  => 'yes',
-                'desc' => __('Enable or Disable packing slips feature', 'sdevs_wea')
+                'desc' => __('Enable or Disable packing slips feature', 'sdevs_pips')
             ],
             [
-                'name'     => __('Display email address', 'sdevs_wea'),
+                'name'     => __('Display email address', 'sdevs_pips'),
                 'id'       => 'pips_packing_slip_display_email',
                 'type'     => 'checkbox',
             ],
             [
-                'name'     => __('Display phone number', 'sdevs_wea'),
+                'name'     => __('Display phone number', 'sdevs_pips'),
                 'id'       => 'pips_packing_slip_display_phone',
                 'type'     => 'checkbox',
             ],
             [
-                'name'     => __('Display note', 'sdevs_wea'),
+                'name'     => __('Display note', 'sdevs_pips'),
                 'id'       => 'pips_packing_slip_display_note',
                 'type'     => 'checkbox',
             ],
             [
-                'name'     => __('Default Note', 'sdevs_wea'),
+                'name'     => __('Default Note', 'sdevs_pips'),
                 'id'       => 'pips_packing_slip_note',
                 'type'     => 'textarea'
             ],
             [
-                'name'     => __('Display customer notes', 'sdevs_wea'),
+                'name'     => __('Display customer notes', 'sdevs_pips'),
                 'id'       => 'pips_packing_slip_display_customer_note',
                 'type'     => 'checkbox',
             ],

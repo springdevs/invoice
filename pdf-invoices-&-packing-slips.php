@@ -46,11 +46,11 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * Sdevs_pips_main class
+ * Sdevs_pips class
  *
- * @class Sdevs_pips_main The class that holds the entire Sdevs_pips_main plugin
+ * @class Sdevs_pips The class that holds the entire Sdevs_pips plugin
  */
-final class Sdevs_pips_main
+final class Sdevs_pips
 {
     /**
      * Plugin version
@@ -67,7 +67,7 @@ final class Sdevs_pips_main
     private $container = [];
 
     /**
-     * Constructor for the Sdevs_pips_main class
+     * Constructor for the Sdevs_pips class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -80,9 +80,9 @@ final class Sdevs_pips_main
     }
 
     /**
-     * Initializes the Sdevs_pips_main() class
+     * Initializes the Sdevs_pips() class
      *
-     * Checks for an existing Sdevs_pips_main() instance
+     * Checks for an existing Sdevs_pips() instance
      * and if it doesn't find one, creates it.
      *
      * @return Sdevs_pips_main|bool
@@ -92,7 +92,7 @@ final class Sdevs_pips_main
         static $instance = false;
 
         if (!$instance) {
-            $instance = new Sdevs_pips_main();
+            $instance = new Sdevs_pips();
         }
 
         return $instance;
@@ -133,12 +133,12 @@ final class Sdevs_pips_main
      */
     public function define_constants()
     {
-        define('SDEVS_PIPS_VERSION', self::version);
-        define('SDEVS_PIPS_FILE', __FILE__);
-        define('SDEVS_PIPS_PATH', dirname(SDEVS_PIPS_FILE));
-        define('SDEVS_PIPS_INCLUDES', SDEVS_PIPS_PATH . '/includes');
-        define('SDEVS_PIPS_URL', plugins_url('', SDEVS_PIPS_FILE));
-        define('SDEVS_PIPS_ASSETS', SDEVS_PIPS_URL . '/assets');
+        define('PIPS_VERSION', self::version);
+        define('PIPS_FILE', __FILE__);
+        define('PIPS_PATH', dirname(PIPS_FILE));
+        define('PIPS_INCLUDES', PIPS_PATH . '/includes');
+        define('PIPS_URL', plugins_url('', PIPS_FILE));
+        define('PIPS_ASSETS', PIPS_URL . '/assets');
     }
 
     /**
@@ -236,19 +236,19 @@ final class Sdevs_pips_main
                 return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON');
         }
     }
-} // Sdevs_pips_main
+} // Sdevs_pips
 
 /**
  * Initialize the main plugin
  *
- * @return \Sdevs_pips_main|bool
+ * @return \Sdevs_pips|bool
  */
-function sdevs_pips_main()
+function sdevs_pips()
 {
-    return Sdevs_pips_main::init();
+    return Sdevs_pips::init();
 }
 
 /**
  *  kick-off the plugin
  */
-sdevs_pips_main();
+sdevs_pips();

@@ -32,7 +32,7 @@ class Order
         if ('download' === get_option('pips_view_invoice_front')) $invoice_link .= "&download=true";
         $actions['pips_invoice'] = array(
             'url'  => $invoice_link,
-            'name' => __('Invoice', 'sdevs_wea'),
+            'name' => __('Invoice', 'sdevs_pips'),
         );
 
         return $actions;
