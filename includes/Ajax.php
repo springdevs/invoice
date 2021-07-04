@@ -1,6 +1,6 @@
 <?php
 
-namespace SpringDevs\Pips;
+namespace SpringDevs\WcPips;
 
 use Dompdf\Dompdf;
 

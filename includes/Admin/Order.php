@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Admin;
+namespace SpringDevs\WcPips\Admin;
 
 /**
  * Handle Order related feature
  *
  * Class Order
- * @package SpringDevs\Pips\Admin
+ * @package SpringDevs\WcPips\Admin
  */
 class Order
 {

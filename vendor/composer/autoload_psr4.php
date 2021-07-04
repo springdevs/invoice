@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Svg\\' => array($vendorDir . '/phenx/php-svg-lib/src/Svg'),
-    'SpringDevs\\Pips\\' => array($baseDir . '/includes'),
+    'SpringDevs\\WcPips\\' => array($baseDir . '/includes'),
     'FontLib\\' => array($vendorDir . '/phenx/php-font-lib/src/FontLib'),
     'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
 );

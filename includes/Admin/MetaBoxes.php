@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Admin;
+namespace SpringDevs\WcPips\Admin;
 
 /**
  * Handle Admin MetaBoxes
  *
  * Class MetaBoxes
- * @package SpringDevs\Pips\Admin
+ * @package SpringDevs\WcPips\Admin
  */
 class MetaBoxes
 {

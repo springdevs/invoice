@@ -1,6 +1,6 @@
 <?php
 
-namespace SpringDevs\Pips\Illuminate;
+namespace SpringDevs\WcPips\Illuminate;
 
 use Dompdf\Dompdf;
 
@@ -8,7 +8,7 @@ use Dompdf\Dompdf;
  * Handle Invoices
  *
  * Class Invoice
- * @package SpringDevs\Pips\Illuminate
+ * @package SpringDevs\WcPips\Illuminate
  */
 class Invoice
 {

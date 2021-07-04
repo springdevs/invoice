@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips;
+namespace SpringDevs\WcPips;
 
-use SpringDevs\Pips\Admin\MetaBoxes;
-use SpringDevs\Pips\Admin\Order;
-use SpringDevs\Pips\Admin\Settings;
-use SpringDevs\Pips\Illuminate\Email;
-use SpringDevs\Pips\Illuminate\Invoice;
+use SpringDevs\WcPips\Admin\MetaBoxes;
+use SpringDevs\WcPips\Admin\Order;
+use SpringDevs\WcPips\Admin\Settings;
+use SpringDevs\WcPips\Illuminate\Email;
+use SpringDevs\WcPips\Illuminate\Invoice;
 use SpringDevs\WcSubscription\Frontend\Product;
 
 /**

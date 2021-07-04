@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Frontend;
+namespace SpringDevs\WcPips\Frontend;
 
-use SpringDevs\Pips\Illuminate\Invoice;
+use SpringDevs\WcPips\Illuminate\Invoice;
 
 /**
  * Class Order
- * @package SpringDevs\Pips\Frontend
+ * @package SpringDevs\WcPips\Frontend
  */
 class Order
 {

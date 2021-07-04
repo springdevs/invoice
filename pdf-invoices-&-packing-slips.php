@@ -85,7 +85,7 @@ final class Sdevs_pips
      * Checks for an existing Sdevs_pips() instance
      * and if it doesn't find one, creates it.
      *
-     * @return Sdevs_pips_main|bool
+     * @return Sdevs_pips|bool
      */
     public static function init()
     {
@@ -160,15 +160,15 @@ final class Sdevs_pips
     public function includes()
     {
         if ($this->is_request('admin')) {
-            $this->container['admin'] = new SpringDevs\Pips\Admin();
+            $this->container['admin'] = new SpringDevs\WcPips\Admin();
         }
 
         if ($this->is_request('frontend')) {
-            $this->container['frontend'] = new SpringDevs\Pips\Frontend();
+            $this->container['frontend'] = new SpringDevs\WcPips\Frontend();
         }
 
         if ($this->is_request('ajax')) {
-            $this->container['ajax'] = new SpringDevs\Pips\Ajax();
+            $this->container['ajax'] = new SpringDevs\WcPips\Ajax();
         }
     }
 
@@ -193,11 +193,11 @@ final class Sdevs_pips
     public function init_classes()
     {
         if ($this->is_request('ajax')) {
-            // $this->container['ajax'] =  new SpringDevs\Pips\Ajax();
+            // $this->container['ajax'] =  new SpringDevs\WcPips\Ajax();
         }
 
-        $this->container['api']    = new SpringDevs\Pips\Api();
-        $this->container['assets'] = new SpringDevs\Pips\Assets();
+        $this->container['api']    = new SpringDevs\WcPips\Api();
+        $this->container['assets'] = new SpringDevs\WcPips\Assets();
     }
 
     /**

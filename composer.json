@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SpringDevs\\Pips\\": "includes/"
+            "SpringDevs\\WcPips\\": "includes/"
         },
         "files": [
             "includes/functions.php"

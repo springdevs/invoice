@@ -1,6 +1,6 @@
 <?php
 
-namespace SpringDevs\Pips\Admin;
+namespace SpringDevs\WcPips\Admin;
 
 /**
  * Settings class

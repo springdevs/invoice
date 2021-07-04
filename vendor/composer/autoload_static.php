@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
+class ComposerStaticInit6e33e993a983ed19458aefa628276a36
 {
     public static $files = array (
         'e6e8dd34c6264eecc6af95d11d50fa04' => __DIR__ . '/../..' . '/includes/functions.php',
@@ -14,7 +14,7 @@ class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
         'S' => 
         array (
             'Svg\\' => 4,
-            'SpringDevs\\Pips\\' => 16,
+            'SpringDevs\\WcPips\\' => 18,
         ),
         'F' => 
         array (
@@ -31,7 +31,7 @@ class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
         array (
             0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
         ),
-        'SpringDevs\\Pips\\' => 
+        'SpringDevs\\WcPips\\' => 
         array (
             0 => __DIR__ . '/../..' . '/includes',
         ),
@@ -56,7 +56,6 @@ class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
         'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
@@ -68,10 +67,10 @@ class ComposerStaticInit9052cf2b59865ac64fb036e843cf732e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9052cf2b59865ac64fb036e843cf732e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6e33e993a983ed19458aefa628276a36::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6e33e993a983ed19458aefa628276a36::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6e33e993a983ed19458aefa628276a36::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6e33e993a983ed19458aefa628276a36::$classMap;
 
         }, null, ClassLoader::class);
     }

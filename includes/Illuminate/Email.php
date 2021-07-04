@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Illuminate;
+namespace SpringDevs\WcPips\Illuminate;
 
 /**
  * Handle Emails
  *
  * Class Email
- * @package SpringDevs\Pips\Illuminate
+ * @package SpringDevs\WcPips\Illuminate
  */
 class Email
 {
