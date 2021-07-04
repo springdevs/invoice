@@ -20,7 +20,7 @@ class Order
 
     public function add_custom_columns($columns)
     {
-        $columns['pips_order_column'] = ''; // __('PDF', 'sdevs_wea')
+        $columns['pips_order_column'] = ''; // __('PDF', 'sdevs_pips')
         return $columns;
     }
 

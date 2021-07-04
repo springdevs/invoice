@@ -28,7 +28,7 @@ class MetaBoxes
         if ('yes' === get_option('pips_enable_invoice', 'yes')) :
             add_meta_box(
                 'pips_order_action',
-                __('Order Invoices', 'sdevs_wea'),
+                __('Order Invoices', 'sdevs_pips'),
                 [$this, 'order_action_html'],
                 'shop_order',
                 'side',
