@@ -10,26 +10,39 @@ class Settings
 {
     public function __construct()
     {
-        add_filter('woocommerce_get_sections_wcma', [$this, 'add_section'], 30);
-        add_filter('woocommerce_get_settings_wcma', [$this, 'settings_content']);
+        add_filter('woocommerce_settings_tabs_array', [$this, 'register_tabs'], 60);
+        add_filter('woocommerce_settings_tabs_pips_invoice', [$this, 'invoice_settings_content']);
+        add_filter('woocommerce_settings_tabs_pips_slip', [$this, 'slip_settings_content']);
+
+        add_action('woocommerce_update_options_pips_invoice', [$this, 'update_invoice_settings']);
+        add_action('woocommerce_update_options_pips_slip', [$this, 'update_slip_settings']);
     }
 
-    public function add_section($sections)
+    public function register_tabs($settings_tabs)
     {
-        $sections['invoice'] = __('Invoices', 'sdevs_pips');
-        $sections['packing-slip'] = __('Packing Slips', 'sdevs_pips');
-        return $sections;
+        $settings_tabs['pips_invoice'] = __('Invoices', 'sdevs_pips');
+        $settings_tabs['pips_slip'] = __('Packing Slips', 'sdevs_pips');
+        return $settings_tabs;
     }
 
-    public function settings_content($settings)
+    public function invoice_settings_content($settings)
     {
-        global $current_section;
-        if ('invoice' === $current_section) :
-            return $this->invoice_settings();
-        elseif ('packing-slip' === $current_section) :
-            return $this->packing_slip_settings();
-        endif;
-        return $settings;
+        woocommerce_admin_fields($this->invoice_settings());
+    }
+
+    public function slip_settings_content($settings)
+    {
+        woocommerce_admin_fields($this->packing_slip_settings());
+    }
+
+    public function update_invoice_settings()
+    {
+        woocommerce_update_options($this->invoice_settings());
+    }
+
+    public function update_slip_settings()
+    {
+        woocommerce_update_options($this->packing_slip_settings());
     }
 
     public function invoice_settings()
