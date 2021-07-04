@@ -40,6 +40,17 @@ Create, print & email PDF invoices & packing slips for WooCommerce orders.
         3. Activate the `PDF Invoices & Packing Slips` plugin.
 
 
+== Screenshots ==
+
+1. Order Preview
+2. Invoice Preview
+3. Admin Order Preview
+4. Single Order page [Admin]
+5. Invoice settings
+6. Invoice settings
+7. Packing Slips settings
+
+
 == Changelog ==
 
     = 1.0.0 =
