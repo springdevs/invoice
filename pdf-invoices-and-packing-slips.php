@@ -217,7 +217,7 @@ final class Sdevs_pips
      *
      * @return bool
      */
-    private function is_request($type)
+    private function is_request( string $type): bool
     {
         switch ($type) {
             case 'admin':
@@ -241,7 +241,7 @@ final class Sdevs_pips
 /**
  * Initialize the main plugin
  *
- * @return \Sdevs_pips|bool
+ * @return Sdevs_pips|bool
  */
 function sdevs_pips()
 {
