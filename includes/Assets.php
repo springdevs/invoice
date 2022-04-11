@@ -37,12 +37,12 @@ class Assets
      *
      * @return void
      */
-    private function register_scripts($scripts)
+    private function register_scripts( array $scripts)
     {
         foreach ($scripts as $handle => $script) {
-            $deps      = isset($script['deps']) ? $script['deps'] : false;
-            $in_footer = isset($script['in_footer']) ? $script['in_footer'] : false;
-            $version   = isset($script['version']) ? $script['version'] : PIPS_VERSION;
+            $deps      = $script['deps'] ?? false;
+            $in_footer = $script['in_footer'] ?? false;
+            $version   = $script['version'] ?? PIPS_VERSION;
 
             wp_register_script($handle, $script['src'], $deps, $version, $in_footer);
         }
@@ -55,10 +55,10 @@ class Assets
      *
      * @return void
      */
-    public function register_styles($styles)
+    public function register_styles( array $styles)
     {
         foreach ($styles as $handle => $style) {
-            $deps = isset($style['deps']) ? $style['deps'] : false;
+            $deps = $style['deps'] ?? false;
 
             wp_register_style($handle, $style['src'], $deps, PIPS_VERSION);
         }
@@ -69,13 +69,10 @@ class Assets
      *
      * @return array
      */
-    public function get_scripts()
-    {
+    public function get_scripts(): array {
         $plugin_js_assets_path = PIPS_ASSETS . '/js/';
 
-        $scripts = [];
-
-        return $scripts;
+        return [];
     }
 
     /**
@@ -83,16 +80,13 @@ class Assets
      *
      * @return array
      */
-    public function get_styles()
-    {
+    public function get_styles(): array {
         $plugin_css_assets_path = PIPS_ASSETS . '/css/';
 
-        $styles = [
+        return [
             "pips_admin_css" => [
                 "src" => $plugin_css_assets_path . "admin.css"
             ]
         ];
-
-        return $styles;
     }
 }

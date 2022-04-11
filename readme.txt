@@ -1,9 +1,9 @@
 === PDF Invoices & Packing Slips ===
-Contributors: springdevs, naminbd, istiaqnirab
+Contributors: springdevs, naminbd, ok9xnirab
 Donate link:
 Tags: pdf-invoice, woocommerce-invoice, product-invoice
 Requires at least: 1.0.0
-Tested up to: 5.7
+Tested up to: 5.9
 Stable tag: 1.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
@@ -15,16 +15,16 @@ Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
 Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
- 
+
 ## Features
- 
+
 - Automatic generate invoice for order
-- Avaiable to Download or Preview
+- Available to Download or Preview
 - Download or Preview bulk invoices
 - Automatically update invoice when order data is changed
 - Easy to use !
 
- 
+
 == Installation ==
 
     = Installation from within WordPress =

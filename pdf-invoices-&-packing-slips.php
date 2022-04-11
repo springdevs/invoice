@@ -142,7 +142,7 @@ final class Sdevs_pips
     }
 
     /**
-     * Load the plugin after all plugis are loaded
+     * Load the plugin after all plugins are loaded
      *
      * @return void
      */
