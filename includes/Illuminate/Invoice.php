@@ -157,20 +157,17 @@ class Invoice
         return false;
     }
 
-    public function get_invoice_title()
-    {
+    public function get_invoice_title(): string {
         if ($this->bulk) return "Bulk PDF invoices";
         return "invoice-" . $this->get_invoice_number();
     }
 
-    public function get_packing_title()
-    {
+    public function get_packing_title(): string {
         if ($this->bulk) return "Bulk PDF packing slips";
         return "packing-slip-" . $this->get_invoice_number();
     }
 
-    public function has_shipping_address()
-    {
+    public function has_shipping_address(): bool {
         $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;

@@ -2,17 +2,17 @@
 	<tr>
 		<td class="header">
 			<?php if (get_option('pips_invoice_logo_height')) : ?>
-				<img height="<?php echo get_option('pips_invoice_logo_height'); ?>" src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+				<img height="<?php echo esc_html(get_option('pips_invoice_logo_height')); ?>" src="<?php echo esc_html(get_option('pips_invoice_logo')); ?>" alt="Logo" />
 			<?php else : ?>
-				<img src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+				<img src="<?php echo esc_html(get_option('pips_invoice_logo')); ?>" alt="Logo" />
 			<?php endif; ?>
 		</td>
 		<td class="shop-info">
 			<?php if ("yes" === get_option('pipspro_invoice_display_shop', 'yes')) : ?>
 				<div class="shop-name">
-					<h3><?php echo $this->get_shop_name(); ?></h3>
+					<h3><?php echo esc_html($this->get_shop_name()); ?></h3>
 					<?php if ($this->get_shop_address()) : ?>
-						<p><?php echo $this->get_shop_address(); ?></p>
+						<p><?php echo esc_html($this->get_shop_address()); ?></p>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
@@ -28,18 +28,18 @@
 	</tr>
 	<tr>
 		<td class="address billing-address">
-			<?php echo pips_pro_activated() ? $this->get_customer_details() : $this->order->get_formatted_billing_address(); ?>
+			<?php echo wp_kses_post(pips_pro_activated() ? $this->get_customer_details() : $this->order->get_formatted_billing_address()); ?>
 			<?php if ('yes' === get_option('pips_display_user_phone', 'no')) : ?>
-				<div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
+				<div class="billing-phone"><?php echo wp_kses_post($this->order->get_billing_phone()); ?></div>
 			<?php endif; ?>
 			<?php if ('yes' === get_option('pips_display_user_email', 'no')) : ?>
-				<div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
+				<div class="billing-email"><?php echo wp_kses_post($this->order->get_billing_email()); ?></div>
 			<?php endif; ?>
 		</td>
 		<td class="address shipping-address">
 			<?php if ($this->has_shipping_address()) : ?>
 				<h3><?php _e('Ship To:', 'sdevs_pips'); ?></h3>
-				<?php echo $this->order->has_shipping_address() ? (pips_pro_activated() ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address()) : 'N/A'; ?>
+				<?php echo wp_kses_post($this->order->has_shipping_address() ? (pips_pro_activated() ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address()) : 'N/A'); ?>
 			<?php endif; ?>
 		</td>
 		<td class="order-data">
@@ -47,27 +47,26 @@
 				<?php if ('yes' === get_option('pips_display_invoice_number', 'no')) : ?>
 					<tr class="invoice-number">
 						<th><?php _e('Invoice Number:', 'sdevs_pips'); ?></th>
-						<td># <?php echo $this->get_invoice_number(); ?></td>
+						<td># <?php echo esc_html($this->get_invoice_number()); ?></td>
 					</tr>
 				<?php endif; ?>
 				<?php if ('yes' === get_option('pips_display_invoice_date', 'no')) : ?>
 					<tr class="invoice-date">
 						<th><?php _e('Invoice Date:', 'sdevs_pips'); ?></th>
-						<td><?php echo $this->get_invoice_date(); ?></td>
+						<td><?php echo esc_html($this->get_invoice_date()); ?></td>
 					</tr>
 				<?php endif; ?>
 				<tr class="order-number">
 					<th><?php _e('Order Number:', 'sdevs_pips'); ?></th>
-					<td><?php echo $this->order->get_id(); ?></span>
-					</td>
+					<td><?php echo esc_html($this->order->get_id()); ?></td>
 				</tr>
 				<tr class="order-date">
 					<th><?php _e('Order Date:', 'sdevs_pips'); ?></th>
-					<td><?php echo date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created())); ?></td>
+					<td><?php echo esc_html(date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created()))); ?></td>
 				</tr>
 				<tr class="payment-method">
 					<th><?php _e('Payment Method:', 'sdevs_pips'); ?></th>
-					<td><?php echo $this->order->get_payment_method_title(); ?></td>
+					<td><?php echo wp_kses_post($this->order->get_payment_method_title()); ?></td>
 				</tr>
 			</table>
 		</td>
@@ -99,18 +98,18 @@
 			<tr>
 				<?php do_action('pips_start_order_td', $this->order, $product); ?>
 				<td style="width: 50%;border: 1px solid gray; padding: 10px;border-top:none;vertical-align: middle;">
-					<span class="item-name"><?php echo $item->get_name(); ?></span>
+					<span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
 					<?php if ($this->get_product_sku($product)) : ?>
-						<dl class="meta"><small>SKU: <?php echo $this->get_product_sku($product); ?></small></dl>
+						<dl class="meta"><small>SKU: <?php echo esc_html($this->get_product_sku($product)); ?></small></dl>
 					<?php endif; ?>
 					<?php do_action('pips_invoice_after_sku', $this->order, $product, $item); ?>
 				</td>
 				<?php do_action('pips_td_content_after_product', $this->order, $product, $item); ?>
 				<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
-					<?php echo $item->get_quantity(); ?>
+					<?php echo esc_html($item->get_quantity()); ?>
 				</td>
 				<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
-					<?php echo apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product); ?>
+					<?php echo wp_kses_post(apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product)); ?>
 				</td>
 				<?php do_action('pips_end_order_td', $item); ?>
 			</tr>
@@ -126,7 +125,7 @@
 				<strong><?php _e('Subtotal', 'sdevs_pips'); ?> : </strong>
 			</td>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
-				<?php echo wc_price($this->order->get_subtotal(), ['currency' => $this->order->get_currency()]); ?>
+				<?php echo wp_kses_post(wc_price($this->order->get_subtotal(), ['currency' => $this->order->get_currency()])); ?>
 			</td>
 		</tr>
 		<?php if ($this->order->get_discount_total() != 0) : ?>
@@ -138,7 +137,7 @@
 					<strong><?php _e('Discount', 'sdevs_pips'); ?> : </strong>
 				</td>
 				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
-					- <?php echo $this->order->get_discount_to_display(); ?>
+					- <?php echo wp_kses_post($this->order->get_discount_to_display()); ?>
 				</td>
 			</tr>
 		<?php endif; ?>
@@ -150,7 +149,7 @@
 				<strong><?php _e('Total', 'sdevs_pips'); ?> : </strong>
 			</td>
 			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
-				<?php echo $this->order->get_formatted_order_total(); ?>
+				<?php echo wp_kses_post($this->order->get_formatted_order_total()); ?>
 			</td>
 		</tr>
 	</tfoot>
@@ -161,13 +160,13 @@
 		<?php if ($this->get_invoice_note()) : ?>
 			<div>
 				<h3><?php _e('Notes', 'sdevs_pips'); ?></h3>
-				<p><?php echo $this->get_invoice_note(); ?></p>
+				<p><?php echo wp_kses_post($this->get_invoice_note()); ?></p>
 			</div>
 		<?php endif; ?>
 		<?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
 			<div class="customer-notes">
 				<h3><?php _e('Customer Notes', 'sdevs_pips'); ?></h3>
-				<p><?php echo $this->order->get_customer_note(); ?></p>
+				<p><?php echo wp_kses_post($this->order->get_customer_note()); ?></p>
 			</div>
 		<?php endif; ?>
 	</div>
@@ -176,7 +175,7 @@
 <div class="bottom-spacer"></div>
 <?php if ($this->get_footer_note()) : ?>
 	<div id="footer">
-		<?php echo $this->get_footer_note(); ?>
+		<?php echo wp_kses_post($this->get_footer_note()); ?>
 	</div>
 <?php endif; ?>
 

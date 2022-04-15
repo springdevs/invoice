@@ -3,13 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?php echo $this->get_packing_title(); ?></title>
+    <title><?php echo esc_html($this->get_packing_title()); ?></title>
     <style>
         @page {
-            margin-top: 1cm;
-            margin-bottom: 3cm;
-            margin-left: 2cm;
-            margin-right: 2cm
+            margin: 1cm 2cm 3cm;
         }
 
         * {

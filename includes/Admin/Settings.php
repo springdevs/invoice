@@ -299,8 +299,7 @@ class Settings
         return $invoice_settings;
     }
 
-    public function packing_slip_settings()
-    {
+    public function packing_slip_settings(): array {
         $fields = array(
             [
                 'name' => __('Packing Slips Settings', 'sdevs_pips'),
