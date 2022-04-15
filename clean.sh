@@ -1,4 +1,4 @@
-composer dump-autoload
+composer install --no-dev
 rm -r composer.json
 rm -r composer.lock
 
