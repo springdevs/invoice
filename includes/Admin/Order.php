@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Admin;
+namespace SpringDevs\WcPips\Admin;
 
 /**
  * Handle Order related feature
  *
  * Class Order
- * @package SpringDevs\Pips\Admin
+ * @package SpringDevs\WcPips\Admin
  */
 class Order
 {
@@ -20,7 +20,7 @@ class Order
 
     public function add_custom_columns($columns)
     {
-        $columns['pips_order_column'] = ''; // __('PDF', 'sdevs_wea')
+        $columns['pips_order_column'] = ''; // __('PDF', 'sdevs_pips')
         return $columns;
     }
 
@@ -29,10 +29,10 @@ class Order
         if ($column == "pips_order_column") :
             $invoice_view_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $post_id;
 ?>
-            <a style="margin-right: 10px;" href="<?php echo $invoice_view_link; ?>" target="_blank">
+            <a style="margin-right: 10px;" href="<?php echo esc_html($invoice_view_link); ?>" target="_blank">
                 <span class="dashicons dashicons-welcome-view-site"></span>
             </a>
-            <a href="<?php echo $invoice_view_link . '&download=true'; ?>" target="_blank">
+            <a href="<?php echo esc_html($invoice_view_link . '&download=true'); ?>" target="_blank">
                 <span class="dashicons dashicons-database-import"></span>
             </a>
 <?php

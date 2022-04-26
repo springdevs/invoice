@@ -1,17 +1,19 @@
 <?php
 
-namespace SpringDevs\Pips;
+namespace SpringDevs\WcPips;
 
 /**
  * API Class
  */
-class API {
+class API
+{
 
     /**
      * Initialize the class
      */
-    function __construct() {
-        add_action( 'rest_api_init', [ $this, 'register_api' ] );
+    function __construct()
+    {
+        add_action('rest_api_init', [$this, 'register_api']);
     }
 
     /**
@@ -19,7 +21,7 @@ class API {
      *
      * @return void
      */
-    public function register_api() {
-        
+    public function register_api()
+    {
     }
 }

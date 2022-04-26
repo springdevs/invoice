@@ -1,9 +1,6 @@
 /* Main Body */
 @page {
-    margin-top: 1cm;
-    margin-bottom: 3cm;
-    margin-left: 2cm;
-    margin-right: 2cm;
+    margin: 1cm 2cm 3cm;
 }
 
 * {

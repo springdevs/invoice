@@ -1,7 +1,9 @@
 # PDF Invoices & Packing Slips
 
-> A module of [Missing Addons for WooCommerce](https://github.com/springdevs/wc-essential-addons)
+Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
-= 1.0.0 =
+## Changelog
+
+## 1.0.0
 
 - Initial release

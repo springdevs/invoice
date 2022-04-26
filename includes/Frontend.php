@@ -1,9 +1,9 @@
 <?php
 
-namespace SpringDevs\Pips;
+namespace SpringDevs\WcPips;
 
-use SpringDevs\Pips\Frontend\Order;
-use SpringDevs\Pips\Illuminate\Email;
+use SpringDevs\WcPips\Frontend\Order;
+use SpringDevs\WcPips\Illuminate\Email;
 
 /**
  * Frontend handler class

@@ -1,6 +1,6 @@
 <?php
 
-namespace SpringDevs\Pips\Illuminate;
+namespace SpringDevs\WcPips\Illuminate;
 
 use Dompdf\Dompdf;
 
@@ -8,7 +8,7 @@ use Dompdf\Dompdf;
  * Handle Invoices
  *
  * Class Invoice
- * @package SpringDevs\Pips\Illuminate
+ * @package SpringDevs\WcPips\Illuminate
  */
 class Invoice
 {
@@ -36,10 +36,10 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/header.php', []);
-            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
-            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/footer.php', []);
-            $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+            $html = $this->render_template(PIPS_PATH . '/templates/simple/invoice/header.php', []);
+            $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
+            $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/footer.php', []);
+            $dompdf->set_option('chroot', PIPS_PATH);
             $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
             $dompdf->setPaper(get_option("pips_invoice_paper_size", "a4"), 'portrait');
@@ -53,10 +53,10 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/header.php', []);
-            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/template.php', ['order' => $order]);
-            $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/packing/footer.php', []);
-            $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+            $html = $this->render_template(PIPS_PATH . '/templates/simple/packing/header.php', []);
+            $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/template.php', ['order' => $order]);
+            $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/footer.php', []);
+            $dompdf->set_option('chroot', PIPS_PATH);
             $dompdf->set_option('isRemoteEnabled', true);
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4', 'portrait');
@@ -76,10 +76,10 @@ class Invoice
         $order = wc_get_order($order_id);
         if (!$order) return;
         $this->order = $order;
-        $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/header.php', []);
-        $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
-        $html .= $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/invoice/footer.php', []);
-        $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+        $html = $this->render_template(PIPS_PATH . '/templates/simple/invoice/header.php', []);
+        $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
+        $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/footer.php', []);
+        $dompdf->set_option('chroot', PIPS_PATH);
         $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
@@ -157,20 +157,17 @@ class Invoice
         return false;
     }
 
-    public function get_invoice_title()
-    {
+    public function get_invoice_title(): string {
         if ($this->bulk) return "Bulk PDF invoices";
         return "invoice-" . $this->get_invoice_number();
     }
 
-    public function get_packing_title()
-    {
+    public function get_packing_title(): string {
         if ($this->bulk) return "Bulk PDF packing slips";
         return "packing-slip-" . $this->get_invoice_number();
     }
 
-    public function has_shipping_address()
-    {
+    public function has_shipping_address(): bool {
         $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;

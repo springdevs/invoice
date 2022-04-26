@@ -1,11 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Traits;
+namespace SpringDevs\WcPips\Traits;
 
 /**
  * Error handler trait
  */
-trait Form_Error {
+trait Form_Error
+{
 
     /**
      * Holds the errors
@@ -21,8 +22,9 @@ trait Form_Error {
      *
      * @return boolean
      */
-    public function has_error( $key ) {
-        return isset( $this->errors[ $key ] ) ? true : false;
+    public function has_error($key)
+    {
+        return isset($this->errors[$key]) ? true : false;
     }
 
     /**
@@ -32,9 +34,10 @@ trait Form_Error {
      *
      * @return string | false
      */
-    public function get_error( $key ) {
-        if ( isset( $this->errors[ $key ] ) ) {
-            return $this->errors[ $key ];
+    public function get_error($key)
+    {
+        if (isset($this->errors[$key])) {
+            return $this->errors[$key];
         }
 
         return false;

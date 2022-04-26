@@ -2,16 +2,16 @@
     <tr>
         <td class="header">
             <?php if (get_option('pips_invoice_logo_height')) : ?>
-                <img height="<?php echo get_option('pips_invoice_logo_height'); ?>" src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+                <img height="<?php echo esc_attr(get_option('pips_invoice_logo_height')); ?>" src="<?php echo esc_attr(get_option('pips_invoice_logo')); ?>" alt="Logo" />
             <?php else : ?>
-                <img src="<?php echo get_option('pips_invoice_logo'); ?>" alt="Logo" />
+                <img src="<?php echo esc_attr(get_option('pips_invoice_logo')); ?>" alt="Logo" />
             <?php endif; ?>
         </td>
         <td class="shop-info">
             <div class="shop-name">
-                <h3><?php echo $this->get_shop_name(); ?></h3>
+                <h3><?php echo esc_html($this->get_shop_name()); ?></h3>
                 <?php if ($this->get_shop_address()) : ?>
-                    <p><?php echo $this->get_shop_address(); ?></p>
+                    <p><?php echo wp_kses_post($this->get_shop_address()); ?></p>
                 <?php endif; ?>
             </div>
         </td>
@@ -21,33 +21,33 @@
 <table class="order-data-addresses">
     <tr>
         <td>
-            <h1><?php _e('PACKING SLIP', 'sdevs_wea'); ?></h1>
+            <h1><?php _e('PACKING SLIP', 'sdevs_pips'); ?></h1>
         </td>
     </tr>
     <tr>
         <td class="address billing-address">
-            <?php echo $this->order->has_shipping_address() ? $this->order->get_formatted_shipping_address() : $this->order->get_formatted_billing_address(); ?>
+            <?php echo wp_kses_post($this->order->has_shipping_address() ? $this->order->get_formatted_shipping_address() : $this->order->get_formatted_billing_address()); ?>
             <?php if ('yes' === get_option('pips_packing_slip_display_email', 'no')) : ?>
-                <div class="billing-email"><?php echo $this->order->get_billing_email(); ?></div>
+                <div class="billing-email"><?php echo esc_html($this->order->get_billing_email()); ?></div>
             <?php endif; ?>
             <?php if ('yes' === get_option('pips_packing_slip_display_phone', 'no')) : ?>
-                <div class="billing-phone"><?php echo $this->order->get_billing_phone(); ?></div>
+                <div class="billing-phone"><?php echo esc_html($this->order->get_billing_phone()); ?></div>
             <?php endif; ?>
         </td>
         <td></td>
         <td class="order-data">
             <table>
                 <tr class="order-number">
-                    <th><?php _e('Order Number:', 'sdevs_wea'); ?></th>
-                    <td><?php echo $this->order->get_id(); ?></td>
+                    <th><?php _e('Order Number:', 'sdevs_pips'); ?></th>
+                    <td><?php echo esc_html($this->order->get_id()); ?></td>
                 </tr>
                 <tr class="order-date">
-                    <th><?php _e('Order Date:', 'sdevs_wea'); ?></th>
-                    <td><?php echo date("F d,Y", strtotime($this->order->get_date_created())); ?></td>
+                    <th><?php _e('Order Date:', 'sdevs_pips'); ?></th>
+                    <td><?php echo esc_html(date("F d,Y", strtotime($this->order->get_date_created()))); ?></td>
                 </tr>
                 <tr class="payment-method">
-                    <th><?php _e('Shipping Method:', 'sdevs_wea'); ?></th>
-                    <td><?php echo $this->order->get_shipping_method(); ?></td>
+                    <th><?php _e('Shipping Method:', 'sdevs_pips'); ?></th>
+                    <td><?php echo wp_kses_post($this->order->get_shipping_method()); ?></td>
                 </tr>
             </table>
         </td>
@@ -57,8 +57,8 @@
 <table class="order-details">
     <thead>
         <tr>
-            <th class="product"><?php _e('Product', 'sdevs_wea'); ?></th>
-            <th class="quantity"><?php _e('Quantity', 'sdevs_wea'); ?></th>
+            <th class="product"><?php _e('Product', 'sdevs_pips'); ?></th>
+            <th class="quantity"><?php _e('Quantity', 'sdevs_pips'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -75,10 +75,10 @@
             ?>
             <tr class="wpo_wcpdf_item_row_class">
                 <td class="product">
-                    <span class="item-name"><?php echo $item->get_name(); ?></span>
-                    <dl class="meta"><small>SKU: <?php echo $sku; ?></small></dl>
+                    <span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
+                    <dl class="meta"><small>SKU: <?php echo esc_html($sku); ?></small></dl>
                 </td>
-                <td class="quantity"><?php echo $item->get_quantity(); ?></td>
+                <td class="quantity"><?php echo esc_html($item->get_quantity()); ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -88,14 +88,14 @@
     <div style="margin: 40px 0;">
         <?php if ($this->get_packing_note() && "yes" === get_option("pips_packing_slip_display_note", "no")) : ?>
             <div>
-                <h3><?php _e('Notes', 'sdevs_wea'); ?></h3>
-                <p><?php echo $this->get_packing_note(); ?></p>
+                <h3><?php _e('Notes', 'sdevs_pips'); ?></h3>
+                <p><?php echo wp_kses_post($this->get_packing_note()); ?></p>
             </div>
         <?php endif; ?>
         <?php if ($this->order->get_customer_note() != '' && 'yes' === get_option('pips_display_customer_note', 'yes')) : ?>
             <div class="customer-notes">
-                <h3><?php _e('Customer Notes', 'sdevs_wea'); ?></h3>
-                <p><?php echo $this->order->get_customer_note(); ?></p>
+                <h3><?php _e('Customer Notes', 'sdevs_pips'); ?></h3>
+                <p><?php echo wp_kses_post($this->order->get_customer_note()); ?></p>
             </div>
         <?php endif; ?>
     </div>
@@ -104,7 +104,7 @@
 <div class="bottom-spacer"></div>
 <?php if ($this->get_footer_note()) : ?>
     <div id="footer">
-        <?php echo $this->get_footer_note(); ?>
+        <?php echo wp_kses_post($this->get_footer_note()); ?>
     </div>
 <?php endif; ?>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace SpringDevs\Pips;
+namespace SpringDevs\WcPips;
 
 use Dompdf\Dompdf;
 
@@ -21,8 +21,8 @@ class Ajax
     public function pips_save_order_pdf()
     {
         $dompdf = new Dompdf;
-        $html = $this->render_template(SDEVS_PIPS_PATH . '/templates/simple/template.php');
-        $dompdf->set_option('chroot', SDEVS_PIPS_PATH);
+        $html = $this->render_template(PIPS_PATH . '/templates/simple/template.php');
+        $dompdf->set_option('chroot', PIPS_PATH);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();

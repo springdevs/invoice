@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Admin;
+namespace SpringDevs\WcPips\Admin;
 
 /**
  * Handle Admin MetaBoxes
  *
  * Class MetaBoxes
- * @package SpringDevs\Pips\Admin
+ * @package SpringDevs\WcPips\Admin
  */
 class MetaBoxes
 {
@@ -28,7 +28,7 @@ class MetaBoxes
         if ('yes' === get_option('pips_enable_invoice', 'yes')) :
             add_meta_box(
                 'pips_order_action',
-                __('Order Invoices', 'sdevs_wea'),
+                __('Order Invoices', 'sdevs_pips'),
                 [$this, 'order_action_html'],
                 'shop_order',
                 'side',
@@ -47,7 +47,7 @@ class MetaBoxes
 
         $invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $post_id;
         $packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $post_id;
-        if (sdevs_is_pro_module_activate('pdf-invoices-and-packing-slips-pro')) {
+        if (pips_pro_activated()) {
             do_action('pipspro_load_order_action_html', $post_id, $invoice_link, $packing_link);
         } else {
             include_once 'views/invoice-buttons.php';

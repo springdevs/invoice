@@ -1,12 +1,12 @@
 <?php
 
-namespace SpringDevs\Pips\Illuminate;
+namespace SpringDevs\WcPips\Illuminate;
 
 /**
  * Handle Emails
  *
  * Class Email
- * @package SpringDevs\Pips\Illuminate
+ * @package SpringDevs\WcPips\Illuminate
  */
 class Email
 {
@@ -40,7 +40,7 @@ class Email
             if (file_exists($file_path)) {
                 $attachments[] = $file_path;
                 $path_options = get_option('pips_save_pdfs', []);
-                array_push($path_options, $file_path);
+                $path_options[] = $file_path;
                 update_option('pips_save_pdfs', $path_options);
             }
         }

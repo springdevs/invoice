@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title><?php echo $this->get_invoice_title(); ?></title>
+    <title><?php echo esc_html($this->get_invoice_title()); ?></title>
     <style>
         @page {
             margin-top: 1cm;
@@ -19,10 +19,10 @@
 
         body {
             background: #fff;
-            color: <?php echo get_option('pipspro_invoice_text_color', '#000'); ?>;
+            color: <?php echo esc_html(get_option('pipspro_invoice_text_color', '#000')); ?>;
             margin: 0cm;
-            font-family: '<?php echo get_option('pipspro_invoice_font_family', 'Open Sans'); ?>', sans-serif;
-            font-size: <?php echo get_option('pipspro_invoice_font_size', '9pt'); ?>;
+            font-family: '<?php echo esc_html(get_option('pipspro_invoice_font_family', 'Open Sans')); ?>', sans-serif;
+            font-size: <?php echo esc_html(get_option('pipspro_invoice_font_size', '9pt')); ?>;
             line-height: 100%;
             line-height: 1.3rem
         }

@@ -1,4 +1,42 @@
 <?php
+/*
+Plugin Name: PDF Invoices & Packing Slips
+Plugin URI: https://wordpress.org/plugins/wc-pips
+Description: Create, print & email PDF invoices & packing slips for WooCommerce orders.
+Version: 1.0.0
+Author: SpringDevs
+Author URI: https://springdevs.com/
+License: GPLv2
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: sdevs_pips
+Domain Path: /languages
+*/
+
+/**
+ * Copyright (c) 2021 SpringDevs (email: contact@springdevs.com). All rights reserved.
+ *
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ *
+ * This is an add-on for WordPress
+ * http://wordpress.org/
+ *
+ * **********************************************************************
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * **********************************************************************
+ */
 
 // don't call the file directly
 if (!defined('ABSPATH')) {
@@ -8,11 +46,11 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * Sdevs_pips_main class
+ * Sdevs_pips class
  *
- * @class Sdevs_pips_main The class that holds the entire Sdevs_pips_main plugin
+ * @class Sdevs_pips The class that holds the entire Sdevs_pips plugin
  */
-final class Sdevs_pips_main
+final class Sdevs_pips
 {
     /**
      * Plugin version
@@ -29,7 +67,7 @@ final class Sdevs_pips_main
     private $container = [];
 
     /**
-     * Constructor for the Sdevs_pips_main class
+     * Constructor for the Sdevs_pips class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
@@ -42,19 +80,19 @@ final class Sdevs_pips_main
     }
 
     /**
-     * Initializes the Sdevs_pips_main() class
+     * Initializes the Sdevs_pips() class
      *
-     * Checks for an existing Sdevs_pips_main() instance
+     * Checks for an existing Sdevs_pips() instance
      * and if it doesn't find one, creates it.
      *
-     * @return Sdevs_pips_main|bool
+     * @return Sdevs_pips|bool
      */
     public static function init()
     {
         static $instance = false;
 
         if (!$instance) {
-            $instance = new Sdevs_pips_main();
+            $instance = new Sdevs_pips();
         }
 
         return $instance;
@@ -95,16 +133,16 @@ final class Sdevs_pips_main
      */
     public function define_constants()
     {
-        define('SDEVS_PIPS_VERSION', self::version);
-        define('SDEVS_PIPS_FILE', __FILE__);
-        define('SDEVS_PIPS_PATH', dirname(SDEVS_PIPS_FILE));
-        define('SDEVS_PIPS_INCLUDES', SDEVS_PIPS_PATH . '/includes');
-        define('SDEVS_PIPS_URL', plugins_url('', SDEVS_PIPS_FILE));
-        define('SDEVS_PIPS_ASSETS', SDEVS_PIPS_URL . '/assets');
+        define('PIPS_VERSION', self::version);
+        define('PIPS_FILE', __FILE__);
+        define('PIPS_PATH', dirname(PIPS_FILE));
+        define('PIPS_INCLUDES', PIPS_PATH . '/includes');
+        define('PIPS_URL', plugins_url('', PIPS_FILE));
+        define('PIPS_ASSETS', PIPS_URL . '/assets');
     }
 
     /**
-     * Load the plugin after all plugis are loaded
+     * Load the plugin after all plugins are loaded
      *
      * @return void
      */
@@ -122,15 +160,15 @@ final class Sdevs_pips_main
     public function includes()
     {
         if ($this->is_request('admin')) {
-            $this->container['admin'] = new SpringDevs\Pips\Admin();
+            $this->container['admin'] = new SpringDevs\WcPips\Admin();
         }
 
         if ($this->is_request('frontend')) {
-            $this->container['frontend'] = new SpringDevs\Pips\Frontend();
+            $this->container['frontend'] = new SpringDevs\WcPips\Frontend();
         }
 
         if ($this->is_request('ajax')) {
-            $this->container['ajax'] = new SpringDevs\Pips\Ajax();
+            $this->container['ajax'] = new SpringDevs\WcPips\Ajax();
         }
     }
 
@@ -155,11 +193,11 @@ final class Sdevs_pips_main
     public function init_classes()
     {
         if ($this->is_request('ajax')) {
-            // $this->container['ajax'] =  new SpringDevs\Pips\Ajax();
+            // $this->container['ajax'] =  new SpringDevs\WcPips\Ajax();
         }
 
-        $this->container['api']    = new SpringDevs\Pips\Api();
-        $this->container['assets'] = new SpringDevs\Pips\Assets();
+        $this->container['api']    = new SpringDevs\WcPips\Api();
+        $this->container['assets'] = new SpringDevs\WcPips\Assets();
     }
 
     /**
@@ -169,7 +207,7 @@ final class Sdevs_pips_main
      */
     public function localization_setup()
     {
-        load_plugin_textdomain('sdevs_wea', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        load_plugin_textdomain('sdevs_pips', false, dirname(plugin_basename(__FILE__)) . '/languages/');
     }
 
     /**
@@ -179,7 +217,7 @@ final class Sdevs_pips_main
      *
      * @return bool
      */
-    private function is_request($type)
+    private function is_request( string $type): bool
     {
         switch ($type) {
             case 'admin':
@@ -198,19 +236,19 @@ final class Sdevs_pips_main
                 return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON');
         }
     }
-} // Sdevs_pips_main
+} // Sdevs_pips
 
 /**
  * Initialize the main plugin
  *
- * @return \Sdevs_pips_main|bool
+ * @return Sdevs_pips|bool
  */
-function sdevs_pips_main()
+function sdevs_pips()
 {
-    return Sdevs_pips_main::init();
+    return Sdevs_pips::init();
 }
 
 /**
  *  kick-off the plugin
  */
-sdevs_pips_main();
+sdevs_pips();
