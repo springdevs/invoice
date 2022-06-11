@@ -10,12 +10,12 @@
         <label for="pips_invoice_date">
             <strong><?php _e('Invoice Date', 'sdevs_pips'); ?></strong>
         </label>
-        <input type="date" class="short" name="pips_invoice_date" id="pips_invoice_date" value="<?php echo esc_attr($invoice_date); ?>" />
+        <input style="width: 100%;" type="date" class="short" name="pips_invoice_date" id="pips_invoice_date" value="<?php echo esc_attr($invoice_date); ?>" />
     </p>
     <p class="form-field sdevs-form">
         <label for="pips_invoice_note">
             <strong><?php _e('Note', 'sdevs_pips'); ?></strong>
         </label>
-        <textarea type="text" name="pips_invoice_note" id="pips_invoice_note" class="short"><?php echo esc_html($invoice_note); ?></textarea>
+        <textarea type="text" name="pips_invoice_note" id="pips_invoice_note" style="width: 100%;"><?php echo esc_html($invoice_note); ?></textarea>
     </p>
 </div>

@@ -10,39 +10,26 @@ class Settings
 {
     public function __construct()
     {
-        add_filter('woocommerce_settings_tabs_array', [$this, 'register_tabs'], 60);
-        add_filter('woocommerce_settings_tabs_pips_invoice', [$this, 'invoice_settings_content']);
-        add_filter('woocommerce_settings_tabs_pips_slip', [$this, 'slip_settings_content']);
-
-        add_action('woocommerce_update_options_pips_invoice', [$this, 'update_invoice_settings']);
-        add_action('woocommerce_update_options_pips_slip', [$this, 'update_slip_settings']);
+        add_filter('woocommerce_get_sections_pips', [$this, 'add_section'], 10);
+        add_filter('woocommerce_get_settings_pips', [$this, 'settings_content']);
     }
 
-    public function register_tabs($settings_tabs)
+    public function add_section($sections)
     {
-        $settings_tabs['pips_invoice'] = __('Invoices', 'sdevs_pips');
-        $settings_tabs['pips_slip'] = __('Packing Slips', 'sdevs_pips');
-        return $settings_tabs;
+        $sections[''] = __('Invoices', 'sdevs_pips');
+        $sections['pips_slip'] = __('Packing Slips', 'sdevs_pips');
+        return $sections;
     }
 
-    public function invoice_settings_content($settings)
+    public function settings_content($settings)
     {
-        woocommerce_admin_fields($this->invoice_settings());
-    }
-
-    public function slip_settings_content($settings)
-    {
-        woocommerce_admin_fields($this->packing_slip_settings());
-    }
-
-    public function update_invoice_settings()
-    {
-        woocommerce_update_options($this->invoice_settings());
-    }
-
-    public function update_slip_settings()
-    {
-        woocommerce_update_options($this->packing_slip_settings());
+        global $current_section;
+        if ($current_section == '') {
+            return $this->invoice_settings();
+        } else if ($current_section == 'pips_slip') {
+            return $this->packing_slip_settings();
+        }
+        return $settings;
     }
 
     public function invoice_settings()
@@ -299,7 +286,8 @@ class Settings
         return $invoice_settings;
     }
 
-    public function packing_slip_settings(): array {
+    public function packing_slip_settings(): array
+    {
         $fields = array(
             [
                 'name' => __('Packing Slips Settings', 'sdevs_pips'),
