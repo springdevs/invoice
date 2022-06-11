@@ -39,8 +39,10 @@ class Invoice
             $html = $this->render_template(PIPS_PATH . '/templates/simple/invoice/header.php', []);
             $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
             $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/footer.php', []);
-            $dompdf->set_option('chroot', PIPS_PATH);
-            $dompdf->set_option('isRemoteEnabled', true);
+            $options = $dompdf->getOptions();
+            $options->set('chroot', PIPS_PATH);
+            $options->set('isRemoteEnabled', true);
+            $dompdf->setOptions($options);
             $dompdf->loadHtml($html);
             $dompdf->setPaper(get_option("pips_invoice_paper_size", "a4"), 'portrait');
             $dompdf->render();
@@ -56,8 +58,10 @@ class Invoice
             $html = $this->render_template(PIPS_PATH . '/templates/simple/packing/header.php', []);
             $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/template.php', ['order' => $order]);
             $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/footer.php', []);
-            $dompdf->set_option('chroot', PIPS_PATH);
-            $dompdf->set_option('isRemoteEnabled', true);
+            $options = $dompdf->getOptions();
+            $options->set('chroot', PIPS_PATH);
+            $options->set('isRemoteEnabled', true);
+            $dompdf->setOptions($options);
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
@@ -79,8 +83,10 @@ class Invoice
         $html = $this->render_template(PIPS_PATH . '/templates/simple/invoice/header.php', []);
         $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
         $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/footer.php', []);
-        $dompdf->set_option('chroot', PIPS_PATH);
-        $dompdf->set_option('isRemoteEnabled', true);
+        $options = $dompdf->getOptions();
+        $options->set('chroot', PIPS_PATH);
+        $options->set('isRemoteEnabled', true);
+        $dompdf->setOptions($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
@@ -157,17 +163,20 @@ class Invoice
         return false;
     }
 
-    public function get_invoice_title(): string {
+    public function get_invoice_title(): string
+    {
         if ($this->bulk) return "Bulk PDF invoices";
         return "invoice-" . $this->get_invoice_number();
     }
 
-    public function get_packing_title(): string {
+    public function get_packing_title(): string
+    {
         if ($this->bulk) return "Bulk PDF packing slips";
         return "packing-slip-" . $this->get_invoice_number();
     }
 
-    public function has_shipping_address(): bool {
+    public function has_shipping_address(): bool
+    {
         $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;

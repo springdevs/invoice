@@ -22,7 +22,9 @@ class Ajax
     {
         $dompdf = new Dompdf;
         $html = $this->render_template(PIPS_PATH . '/templates/simple/template.php');
-        $dompdf->set_option('chroot', PIPS_PATH);
+        $options = $dompdf->getOptions();
+        $options->set('chroot', PIPS_PATH);
+        $dompdf->setOptions($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
