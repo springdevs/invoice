@@ -2,6 +2,7 @@
 
 namespace SpringDevs\WcPips;
 
+use SpringDevs\WcPips\Admin\Required;
 use SpringDevs\WcPips\Admin\MetaBoxes;
 use SpringDevs\WcPips\Admin\Order;
 use SpringDevs\WcPips\Admin\Settings;
@@ -26,6 +27,7 @@ class Admin
         new Order;
         new Settings;
         new Email;
+        new Required;
     }
 
     /**

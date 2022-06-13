@@ -37,7 +37,7 @@ class Assets
      *
      * @return void
      */
-    private function register_scripts( array $scripts)
+    private function register_scripts(array $scripts)
     {
         foreach ($scripts as $handle => $script) {
             $deps      = $script['deps'] ?? false;
@@ -55,7 +55,7 @@ class Assets
      *
      * @return void
      */
-    public function register_styles( array $styles)
+    public function register_styles(array $styles)
     {
         foreach ($styles as $handle => $style) {
             $deps = $style['deps'] ?? false;
@@ -69,10 +69,17 @@ class Assets
      *
      * @return array
      */
-    public function get_scripts(): array {
+    public function get_scripts(): array
+    {
         $plugin_js_assets_path = PIPS_ASSETS . '/js/';
 
-        return [];
+        return [
+            "sdevs_installer" => [
+                'src' => $plugin_js_assets_path . 'installer.js',
+                'deps' => ['jquery'],
+                'in_footer' => true
+            ]
+        ];
     }
 
     /**
@@ -80,12 +87,16 @@ class Assets
      *
      * @return array
      */
-    public function get_styles(): array {
+    public function get_styles(): array
+    {
         $plugin_css_assets_path = PIPS_ASSETS . '/css/';
 
         return [
             "pips_admin_css" => [
                 "src" => $plugin_css_assets_path . "admin.css"
+            ],
+            "sdevs_installer" => [
+                "src" => $plugin_css_assets_path . "installer.css"
             ]
         ];
     }
