@@ -34,15 +34,6 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 - **Insert Header/ Image Logo:** Using PDF invoices and packing slips, you can also insert a custom header image/ logo. You can create your design and unique brand identity for your company.
 
 
-## Features
-
-- Automatic generate invoice for order
-- Available to Download or Preview
-- Download or Preview bulk invoices
-- Automatically update invoice when order data is changed
-- Easy to use !
-
-
 == Installation ==
 
     = Installation from within WordPress =
@@ -71,7 +62,7 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 == Changelog ==
 
 = 1.1.0 - June 14, 2022 =
-- **Update:** Merge 2-setting's into single tab "Invoices"
+- **Update:** Merge 2-settings into single tab "Invoices"
 - **Fix:** Deprecated related issues
 - **New:** Display "WooCommerce" installer notice if "WooCommerce" isn't installed OR activated.
 - **Update:** Update plugin readme
