@@ -2,6 +2,7 @@
 
 namespace SpringDevs\WcPips;
 
+use SpringDevs\WcPips\Admin\Links;
 use SpringDevs\WcPips\Admin\Required;
 use SpringDevs\WcPips\Admin\MetaBoxes;
 use SpringDevs\WcPips\Admin\Order;
@@ -22,6 +23,7 @@ class Admin
     public function __construct()
     {
         $this->dispatch_actions();
+        new Links;
         new MetaBoxes;
         new Invoice;
         new Order;
