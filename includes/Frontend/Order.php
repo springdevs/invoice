@@ -28,12 +28,14 @@ class Order
 
     public function add_custom_action($actions, $order)
     {
-        $invoice_link = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) . '?view=pips_invoice&post=' . $order->get_id();
-        if ('download' === get_option('pips_view_invoice_front')) $invoice_link .= "&download=true";
-        $actions['pips_invoice'] = array(
-            'url'  => $invoice_link,
-            'name' => __('Invoice', 'sdevs_pips'),
-        );
+        if (in_array($order->get_status(), ['processing', 'completed'])) {
+            $invoice_link = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) . '?view=pips_invoice&post=' . $order->get_id();
+            if ('download' === get_option('pips_view_invoice_front')) $invoice_link .= "&download=true";
+            $actions['pips_invoice'] = array(
+                'url'  => $invoice_link,
+                'name' => __('Invoice', 'sdevs_pips'),
+            );
+        }
 
         return $actions;
     }
