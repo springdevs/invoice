@@ -1,3 +1,11 @@
+.pips-action-buttons {
+    display: flex;
+}
+
+.pips-action-buttons>li {
+    margin-right: 10px;
+}
+
 .pips-action-buttons a.button.exists::after {
     font-family: Dashicons;
     content: "\f147";
