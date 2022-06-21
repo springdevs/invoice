@@ -1,0 +1,366 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PDF Invoices & Packing Slips\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-19 01:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.2; wp-6.0\n"
+"X-Domain: sdevs_pips"
+
+#: includes/Admin/Settings.php:144
+msgid "A4"
+msgstr ""
+
+#: includes/Admin/Required.php:51
+msgid "Activate Woocommerce"
+msgstr ""
+
+#: includes/Admin/Settings.php:157
+msgid "Always"
+msgstr ""
+
+#: includes/Admin/Settings.php:57
+msgid "Attach to"
+msgstr ""
+
+#: includes/Admin/Settings.php:67 includes/Admin/Settings.php:71
+msgid "Cancelled order"
+msgstr ""
+
+#: includes/Admin/Settings.php:103 includes/Admin/Settings.php:107
+msgid "Completed order"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Create, print & email PDF invoices & packing slips for WooCommerce orders."
+msgstr ""
+
+#: includes/Admin/Settings.php:210
+msgid "Custom Column"
+msgstr ""
+
+#: includes/Admin/Settings.php:121 includes/Admin/Settings.php:126
+msgid "Customer note"
+msgstr ""
+
+#: templates/simple/invoice/template.php:168
+#: templates/simple/packing/template.php:97
+msgid "Customer Notes"
+msgstr ""
+
+#: includes/Admin/Settings.php:273
+msgid "Default Invoice Note"
+msgstr ""
+
+#: includes/Admin/Settings.php:321
+msgid "Default Note"
+msgstr ""
+
+#: includes/Admin/Settings.php:131
+msgid "Disable for"
+msgstr ""
+
+#: includes/Admin/Settings.php:219
+msgid "Disable for free orders"
+msgstr ""
+
+#: templates/simple/invoice/template.php:137
+msgid "Discount"
+msgstr ""
+
+#: includes/Admin/Settings.php:200 includes/Admin/Settings.php:205
+msgid "Display customer note"
+msgstr ""
+
+#: includes/Admin/Settings.php:326
+msgid "Display customer notes"
+msgstr ""
+
+#: includes/Admin/Settings.php:306
+msgid "Display email address"
+msgstr ""
+
+#: includes/Admin/Settings.php:316
+msgid "Display note"
+msgstr ""
+
+#: includes/Admin/Settings.php:311
+msgid "Display phone number"
+msgstr ""
+
+#: includes/Admin/Settings.php:151
+msgid "Display shipping address"
+msgstr ""
+
+#: includes/Admin/Settings.php:231
+msgid "Download the PDF"
+msgstr ""
+
+#: includes/Admin/Settings.php:182 includes/Admin/Settings.php:186
+msgid "Email address"
+msgstr ""
+
+#: includes/Admin/Settings.php:48
+msgid "Enable Invoice"
+msgstr ""
+
+#: includes/Admin/Settings.php:52
+msgid "Enable or Disable invoice feature"
+msgstr ""
+
+#: includes/Admin/Settings.php:303
+msgid "Enable or Disable packing slips feature"
+msgstr ""
+
+#: includes/Admin/Settings.php:299
+msgid "Enable Packing Slips"
+msgstr ""
+
+#: includes/Admin/Settings.php:76 includes/Admin/Settings.php:80
+msgid "Failed order"
+msgstr ""
+
+#: includes/Admin/Settings.php:280
+msgid "Footer"
+msgstr ""
+
+#: includes/Admin/Settings.php:235
+msgid "How do you want to view the PDF ?"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://springdevs.com/"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://wordpress.org/plugins/wc-pips"
+msgstr ""
+
+#: includes/Admin/Required.php:54
+msgid "Install Woocommerce"
+msgstr ""
+
+#: includes/Frontend/Order.php:36 includes/Admin/Order.php:23
+#: templates/simple/invoice/template.php:26
+msgid "Invoice"
+msgstr ""
+
+#: includes/Admin/Settings.php:173 includes/Admin/Settings.php:177
+#: includes/Admin/views/order-form.php:11
+msgid "Invoice Date"
+msgstr ""
+
+#: templates/simple/invoice/template.php:55
+msgid "Invoice Date:"
+msgstr ""
+
+#: includes/Admin/Settings.php:241
+msgid "Invoice Logo"
+msgstr ""
+
+#: includes/Admin/Settings.php:168 includes/Admin/views/order-form.php:5
+msgid "Invoice Number"
+msgstr ""
+
+#: templates/simple/invoice/template.php:49
+msgid "Invoice Number:"
+msgstr ""
+
+#: includes/Admin/Settings.php:40
+msgid "Invoice Settings"
+msgstr ""
+
+#: includes/Admin/Settings.php:19 includes/Utils/Settings.php:15
+msgid "Invoices"
+msgstr ""
+
+#: includes/Admin/views/required-notice.php:8
+msgid "Learn more"
+msgstr ""
+
+#: includes/Admin/Settings.php:145
+msgid "Letter"
+msgstr ""
+
+#: includes/Admin/Settings.php:249
+msgid "Logo height"
+msgstr ""
+
+#: includes/Admin/Settings.php:244
+msgid "Logo URL for invoice"
+msgstr ""
+
+#: includes/Admin/Settings.php:62
+msgid "New order (Admin email)"
+msgstr ""
+
+#: includes/Admin/Settings.php:155
+msgid "No"
+msgstr ""
+
+#: includes/Admin/views/order-form.php:17
+msgid "Note"
+msgstr ""
+
+#: templates/simple/invoice/template.php:162
+#: templates/simple/packing/template.php:91
+msgid "Notes"
+msgstr ""
+
+#: includes/Admin/Settings.php:156
+msgid "Only when different from billing address"
+msgstr ""
+
+#: includes/Admin/Settings.php:232
+msgid "Open the PDF in a new browser tab/window"
+msgstr ""
+
+#: includes/Admin/Settings.php:214
+msgid "Order Column for direct view or download pdf (Admin)"
+msgstr ""
+
+#: templates/simple/invoice/template.php:64
+#: templates/simple/packing/template.php:45
+msgid "Order Date:"
+msgstr ""
+
+#: includes/Admin/MetaBoxes.php:31
+msgid "Order Invoices"
+msgstr ""
+
+#: templates/simple/invoice/template.php:60
+#: templates/simple/packing/template.php:41
+msgid "Order Number:"
+msgstr ""
+
+#: includes/Admin/Settings.php:85 includes/Admin/Settings.php:89
+msgid "Order on-hold"
+msgstr ""
+
+#: templates/simple/packing/template.php:24
+msgid "PACKING SLIP"
+msgstr ""
+
+#: includes/Admin/Settings.php:20
+msgid "Packing Slips"
+msgstr ""
+
+#: includes/Admin/Settings.php:293
+msgid "Packing Slips Settings"
+msgstr ""
+
+#: includes/Admin/Settings.php:140
+msgid "Paper Size"
+msgstr ""
+
+#: templates/simple/invoice/template.php:68
+msgid "Payment Method:"
+msgstr ""
+
+#: includes/Admin/views/invoice-buttons.php:2
+msgid "PDF Invoice"
+msgstr ""
+
+#. Name of the plugin
+msgid "PDF Invoices & Packing Slips"
+msgstr ""
+
+#: includes/Admin/views/invoice-buttons.php:4
+msgid "PDF Packing Slip"
+msgstr ""
+
+#: includes/Admin/Settings.php:191 includes/Admin/Settings.php:195
+msgid "Phone number"
+msgstr ""
+
+#: includes/Admin/Settings.php:94 includes/Admin/Settings.php:98
+msgid "Processing order"
+msgstr ""
+
+#: templates/simple/invoice/template.php:80
+#: templates/simple/packing/template.php:60
+msgid "Product"
+msgstr ""
+
+#: templates/simple/invoice/template.php:82
+msgid "Qty"
+msgstr ""
+
+#: templates/simple/packing/template.php:61
+msgid "Quantity"
+msgstr ""
+
+#: includes/Admin/Settings.php:112 includes/Admin/Settings.php:116
+msgid "Refunded order"
+msgstr ""
+
+#: includes/Admin/Links.php:29
+msgid "Review"
+msgstr ""
+
+#: includes/Admin/Links.php:26
+msgid "Settings"
+msgstr ""
+
+#: templates/simple/invoice/template.php:41
+msgid "Ship To:"
+msgstr ""
+
+#: templates/simple/packing/template.php:49
+msgid "Shipping Method:"
+msgstr ""
+
+#: includes/Admin/Settings.php:266
+msgid "Shop Address"
+msgstr ""
+
+#: includes/Admin/Settings.php:258
+msgid "Shop Name"
+msgstr ""
+
+#: includes/Admin/Settings.php:164
+msgid "Show / Hide"
+msgstr ""
+
+#. Author of the plugin
+msgid "SpringDevs"
+msgstr ""
+
+#: templates/simple/invoice/template.php:83
+#: templates/simple/invoice/template.php:125
+msgid "Subtotal"
+msgstr ""
+
+#: includes/Admin/Links.php:28
+msgid "Support"
+msgstr ""
+
+#: includes/Admin/views/required-notice.php:6
+msgid "Thanks for using PDF Invoices & Packing Slips"
+msgstr ""
+
+#: includes/Admin/Settings.php:42 includes/Admin/Settings.php:295
+msgid "The following options are used to configure Invoice Module"
+msgstr ""
+
+#: templates/simple/invoice/template.php:149
+msgid "Total"
+msgstr ""
+
+#: includes/Admin/Links.php:27
+msgid "Upgrade to premium"
+msgstr ""
+
+#: includes/Admin/Settings.php:227
+msgid "view PDF"
+msgstr ""
