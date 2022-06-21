@@ -236,6 +236,19 @@ class Settings
             'desc_tip' => true
         );
 
+        // Display invoice button on MyAccount Orders
+        $invoice_settings[] = array(
+            'name'     => __('Display invoice button (Front)', 'sdevs_pips'),
+            'id'       => 'pips_display_invoice_btn_front',
+            'type'     => 'select',
+            'options'  => [
+                'always' => __('Always', 'sdevs_pips'),
+                'order_status_pc' => __('When order status is processing/completed', 'sdevs_pips'),
+                'never' => __('Never', 'sdevs_pips'),
+            ],
+            'default' => 'always'
+        );
+
         // Logo Upload
         $invoice_settings[] = array(
             'name'     => __('Invoice Logo', 'sdevs_pips'),
