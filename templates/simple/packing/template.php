@@ -73,7 +73,7 @@
             }
             $sku = $product->get_sku();
             ?>
-            <tr class="wpo_wcpdf_item_row_class">
+            <tr>
                 <td class="product">
                     <span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
                     <dl class="meta"><small>SKU: <?php echo esc_html($sku); ?></small></dl>
@@ -85,7 +85,7 @@
 </table>
 
 <div>
-    <div style="margin: 40px 0;">
+    <div class="notes">
         <?php if ($this->get_packing_note() && "yes" === get_option("pips_packing_slip_display_note", "no")) : ?>
             <div>
                 <h3><?php _e('Notes', 'sdevs_pips'); ?></h3>
@@ -109,5 +109,5 @@
 <?php endif; ?>
 
 <?php if ($this->bulk) : ?>
-    <div style="page-break-after: always;"></div>
+    <div class="page-break"></div>
 <?php endif; ?>

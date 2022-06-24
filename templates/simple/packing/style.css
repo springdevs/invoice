@@ -12,11 +12,9 @@ body {
     color: #000;
     margin: 0cm;
     font-family: 'Open Sans', sans-serif;
-    /* want to use custom fonts? http://docs.wpovernight.com/woocommerce-pdf-invoices-packing-slips/using-custom-fonts/ */
     font-size: 9pt;
     line-height: 100%;
     line-height: 1.3rem;
-    /* fixes inherit dompdf bug */
 }
 
 h1,
@@ -122,10 +120,6 @@ td.shop-info {
     width: 40%;
 }
 
-.document-type-label {
-    text-transform: uppercase;
-}
-
 /* Recipient addressses & order data */
 table.order-data-addresses {
     width: 100%;
@@ -134,14 +128,6 @@ table.order-data-addresses {
 
 td.order-data {
     width: 40%;
-}
-
-.invoice .shipping-address {
-    width: 30%;
-}
-
-.packing-slip .billing-address {
-    width: 30%;
 }
 
 td.order-data table th {
@@ -183,20 +169,6 @@ table.order-details {
     border-color: black;
 }
 
-/* product bundles compatibility */
-.order-details tr.bundled-item td.product {
-    padding-left: 5mm;
-}
-
-.order-details tr.product-bundle td,
-.order-details tr.bundled-item td {
-    border: 0;
-}
-
-.order-details tr.bundled-item.hidden {
-    display: none;
-}
-
 /* item meta formatting for WC2.6 and older */
 dl {
     margin: 4px 0;
@@ -219,54 +191,18 @@ dd:after {
     white-space: pre;
 }
 
-/* item-meta formatting for WC3.0+ */
-.wc-item-meta {
-    margin: 4px 0;
-    font-size: 7pt;
-    line-height: 7pt;
-}
-
-.wc-item-meta p {
-    display: inline;
-}
-
-.wc-item-meta li {
-    margin: 0;
-    margin-left: 5px;
-}
-
 /* Notes & Totals */
 .document-notes,
 .customer-notes {
     margin-top: 5mm;
 }
 
-table.totals {
-    width: 100%;
-    margin-top: 5mm;
+.notes {
+    margin: 40px 0;
 }
 
-table.totals th,
-table.totals td {
-    border: 0;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-
-table.totals th.description,
-table.totals td.price {
-    width: 50%;
-}
-
-table.totals tr.order_total td,
-table.totals tr.order_total th {
-    border-top: 2px solid #000;
-    border-bottom: 2px solid #000;
-    font-weight: bold;
-}
-
-table.totals tr.payment_method {
-    display: none;
+.page-break {
+    page-break-after: always;
 }
 
 /* Footer Imprint */
@@ -276,19 +212,8 @@ table.totals tr.payment_method {
     left: 0;
     right: 0;
     height: 2cm;
-    /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
     text-align: center;
     border-top: 0.1mm solid gray;
     margin-bottom: 0;
     padding-top: 2mm;
-}
-
-/* page numbers */
-.pagenum:before {
-    content: counter(page);
-}
-
-.pagenum,
-.pagecount {
-    font-family: sans-serif;
 }

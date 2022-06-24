@@ -18,12 +18,28 @@ class Invoice
     public function __construct()
     {
         add_action('admin_menu', [$this, 'admin_menu']);
+        add_action('pips_invoice_template_html_header', [$this, 'load_stylesheets_invoice']);
+        add_action('pips_packing_template_html_header', [$this, 'load_stylesheets_packing']);
+    }
+
+    public function load_stylesheets_invoice()
+    {
+?>
+        <link rel="stylesheet" href="<?php echo esc_attr(pips_invoice_template_path() . '/style.css'); ?>" />
+    <?php
+    }
+
+    public function load_stylesheets_packing()
+    {
+    ?>
+        <link rel="stylesheet" href="<?php echo esc_attr(pips_packing_template_path() . '/style.css'); ?>" />
+<?php
     }
 
     public function admin_menu()
     {
         if ('yes' === get_option('pips_enable_invoice', 'yes')) :
-            $hook = add_submenu_page(null, 'Test PDF', 'Test', 'manage_options', 'pips_view_pdf', function () {
+            $hook = add_submenu_page(null, 'Preview PDF', 'Preview PDF', 'manage_options', 'pips_view_pdf', function () {
             });
             add_action('load-' . $hook, [$this, 'generate_order_pdf']);
         endif;
@@ -36,9 +52,10 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(PIPS_PATH . '/templates/simple/invoice/header.php', []);
-            $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/template.php', ['order' => $order]);
-            $html .= $this->render_template(PIPS_PATH . '/templates/simple/invoice/footer.php', []);
+            $invoice_template_path = pips_invoice_template_path();
+            $html = $this->render_template($invoice_template_path . '/header.php', []);
+            $html .= $this->render_template($invoice_template_path . '/template.php', ['order' => $order]);
+            $html .= $this->render_template($invoice_template_path . '/footer.php', []);
             $options = $dompdf->getOptions();
             $options->set('chroot', PIPS_PATH);
             $options->set('isRemoteEnabled', true);

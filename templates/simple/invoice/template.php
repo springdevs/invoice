@@ -73,14 +73,14 @@
 	</tr>
 </table>
 
-<table style="width: 100%;">
+<table class="products-table">
 	<thead>
-		<tr style="background-color: <?php echo get_option('pipspro_table_header_background', '#000000'); ?>;color: <?php echo get_option('pipspro_table_header_font_color', '#ffffff'); ?>;">
+		<tr class="product-header">
 			<?php do_action('pips_start_order_th', $this->order); ?>
-			<th style="padding: 5px;text-align: center;"><?php _e('Product', 'sdevs_pips'); ?></th>
+			<th><?php _e('Product', 'sdevs_pips'); ?></th>
 			<?php do_action('pips_th_content_after_product', $this->order); ?>
-			<th style="padding: 5px;text-align: center;"><?php _e('Qty', 'sdevs_pips'); ?></th>
-			<th style="padding: 5px;text-align: center;"><?php _e('Subtotal', 'sdevs_pips'); ?></th>
+			<th><?php _e('Qty', 'sdevs_pips'); ?></th>
+			<th><?php _e('Subtotal', 'sdevs_pips'); ?></th>
 			<?php do_action('pips_end_order_th'); ?>
 		</tr>
 	</thead>
@@ -95,9 +95,9 @@
 				$product = wc_get_product($item['product_id']);
 			}
 			?>
-			<tr>
+			<tr class="product-body-row">
 				<?php do_action('pips_start_order_td', $this->order, $product); ?>
-				<td style="width: 50%;border: 1px solid gray; padding: 10px;border-top:none;vertical-align: middle;">
+				<td class="product-content">
 					<span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
 					<?php if ($this->get_product_sku($product)) : ?>
 						<dl class="meta"><small>SKU: <?php echo esc_html($this->get_product_sku($product)); ?></small></dl>
@@ -105,10 +105,10 @@
 					<?php do_action('pips_invoice_after_sku', $this->order, $product, $item); ?>
 				</td>
 				<?php do_action('pips_td_content_after_product', $this->order, $product, $item); ?>
-				<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
+				<td>
 					<?php echo esc_html($item->get_quantity()); ?>
 				</td>
-				<td style="width: 20%;border: 1px solid gray; padding: 10px;border-top:none;text-align: center;vertical-align: middle;">
+				<td>
 					<?php echo wp_kses_post(apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product)); ?>
 				</td>
 				<?php do_action('pips_end_order_td', $item); ?>
@@ -121,10 +121,10 @@
 			<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
 				<td></td>
 			<?php endfor; ?>
-			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+			<td class="meta-key">
 				<strong><?php _e('Subtotal', 'sdevs_pips'); ?> : </strong>
 			</td>
-			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+			<td class="meta-value">
 				<?php echo wp_kses_post(wc_price($this->order->get_subtotal(), ['currency' => $this->order->get_currency()])); ?>
 			</td>
 		</tr>
@@ -133,10 +133,10 @@
 				<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
 					<td></td>
 				<?php endfor; ?>
-				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+				<td class="meta-key">
 					<strong><?php _e('Discount', 'sdevs_pips'); ?> : </strong>
 				</td>
-				<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+				<td class="meta-value">
 					- <?php echo wp_kses_post($this->order->get_discount_to_display()); ?>
 				</td>
 			</tr>
@@ -145,10 +145,10 @@
 			<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
 				<td></td>
 			<?php endfor; ?>
-			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: right;">
+			<td class="meta-key">
 				<strong><?php _e('Total', 'sdevs_pips'); ?> : </strong>
 			</td>
-			<td style="width: 20%;border: 1px solid gray; padding: 5px;border-top:none;text-align: center;">
+			<td class="meta-value">
 				<?php echo wp_kses_post($this->order->get_formatted_order_total()); ?>
 			</td>
 		</tr>
@@ -156,7 +156,7 @@
 </table>
 
 <div>
-	<div style="margin: 20px 0;">
+	<div class="notes">
 		<?php if ($this->get_invoice_note()) : ?>
 			<div>
 				<h3><?php _e('Notes', 'sdevs_pips'); ?></h3>
@@ -180,5 +180,5 @@
 <?php endif; ?>
 
 <?php if ($this->bulk) : ?>
-	<div style="page-break-after: always;"></div>
+	<div class="page-break"></div>
 <?php endif; ?>

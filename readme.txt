@@ -4,7 +4,7 @@ Donate link:
 Tags: pdf-invoice, woocommerce-invoice, product-invoice
 Requires at least: 4.0
 Tested up to: 6.0
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -61,11 +61,16 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 
 == Changelog ==
 
+= 1.1.1 - June 21, 2022 =
+- **New:** You can set when display invoice button on MyAccount orders column from invoice settings.
+- **New:** Bengali translation support added
+- **Update:** edit-order metabox ui
+
 = 1.1.0 - June 14, 2022 =
 - **Update:** Merge 2-settings into single tab "Invoices"
 - **Fix:** Deprecated related issues
 - **New:** Display "WooCommerce" installer notice if "WooCommerce" isn't installed OR activated.
-- **Update:** Update plugin readme
+- **Update:** Plugin readme
 
 = 1.0.0 =
 - **New:** Initial release
