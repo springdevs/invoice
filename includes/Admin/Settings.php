@@ -36,11 +36,6 @@ class Settings
     {
         $invoice_settings = [];
 
-        $available_templates = [
-            'simple' => __('Simple', 'sdevs_pips_pro')
-        ];
-        $available_templates = apply_filters('pips_invoice_templates', $available_templates);
-
         $invoice_settings[] = [
             'name' => __('Invoice Settings', 'sdevs_pips'),
             'type' => 'title',
@@ -241,14 +236,20 @@ class Settings
             'desc_tip' => true
         );
 
-        $invoice_settings[] = array(
-            'name'     => __('Template', 'sdevs_pips_pro'),
-            'id'       => 'pips_invoice_template',
-            'type'     => 'select',
-            'default' => 'proforma',
-            'options'   => $available_templates,
-            'desc' => __('To quick preview all of our premium templates. please go <a href="https://springdevs.com/invoice-templates" target="_blank">here</a>', 'sdevs_pips_pro')
-        );
+        if (!pips_pro_activated()) {
+            $available_templates = [
+                'simple' => __('Simple', 'sdevs_pips_pro')
+            ];
+            $available_templates = apply_filters('pips_invoice_templates', $available_templates);
+            $invoice_settings[] = array(
+                'name'     => __('Template', 'sdevs_pips_pro'),
+                'id'       => 'pips_invoice_template',
+                'type'     => 'select',
+                'default' => 'proforma',
+                'options'   => $available_templates,
+                'desc' => __('To quick preview all of our premium templates. please go <a href="https://springdevs.com/invoice-templates" target="_blank">here</a>', 'sdevs_pips_pro')
+            );
+        }
 
         // Display invoice button on MyAccount Orders
         $invoice_settings[] = array(
