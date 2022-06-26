@@ -183,6 +183,10 @@ table.products-table {
     border-top: none;
 }
 
+td.image-td>img {
+    width: 100%;
+}
+
 .meta-key {
     width: 20%;
     border: 1px solid gray;
