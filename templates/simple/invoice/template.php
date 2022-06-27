@@ -125,7 +125,18 @@
 				<strong><?php _e('Subtotal', 'sdevs_pips'); ?> : </strong>
 			</td>
 			<td class="meta-value">
-				<?php echo wp_kses_post(wc_price($this->order->get_subtotal(), ['currency' => $this->order->get_currency()])); ?>
+				<?php echo pips_price($this->order->get_subtotal(), $this->order->get_currency()); ?>
+			</td>
+		</tr>
+		<tr>
+			<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
+				<td></td>
+			<?php endfor; ?>
+			<td class="meta-key">
+				<strong><?php _e('Tax', 'sdevs_pips'); ?> : </strong>
+			</td>
+			<td class="meta-value">
+				<?php echo pips_price($this->order->get_total_tax(), $this->order->get_currency()); ?>
 			</td>
 		</tr>
 		<?php if ($this->order->get_discount_total() != 0) : ?>
@@ -149,7 +160,7 @@
 				<strong><?php _e('Total', 'sdevs_pips'); ?> : </strong>
 			</td>
 			<td class="meta-value">
-				<?php echo wp_kses_post($this->order->get_formatted_order_total()); ?>
+				<?php echo pips_price($this->order->get_total(), $this->order->get_currency()); ?>
 			</td>
 		</tr>
 	</tfoot>

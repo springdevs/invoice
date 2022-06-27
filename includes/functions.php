@@ -16,3 +16,8 @@ function pips_packing_template_path()
     $packing_template = get_option('pips_packing_template', 'simple');
     return apply_filters('pips_packing_template_locate', PIPS_PATH . '/templates/' . $packing_template . '/packing', $packing_template);
 }
+
+function pips_price($price, $currency)
+{
+    return wp_kses_post(get_woocommerce_currency_symbol($currency) . " " . number_format($price, wc_get_price_decimals(), wc_get_price_decimal_separator(), wc_get_price_thousand_separator()));
+}

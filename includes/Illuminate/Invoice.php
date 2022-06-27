@@ -26,6 +26,12 @@ class Invoice
     {
 ?>
         <link rel="stylesheet" href="<?php echo esc_attr(pips_invoice_template_path() . '/style.css'); ?>" />
+        <style>
+            body {
+                font-family: '<?php echo esc_html(get_option('pipspro_invoice_font_family', 'Open Sans')); ?>', sans-serif;
+                font-size: <?php echo esc_html(get_option('pipspro_invoice_font_size', '9pt')); ?>;
+            }
+        </style>
     <?php
     }
 
@@ -213,8 +219,6 @@ class Invoice
         $sale_price = $item->get_total();
         $currency_code = $order->get_currency();
         if ($regular_price != $sale_price && "yes" === get_option('pipspro_invoice_slashed_price', 'yes')) return wc_format_sale_price($regular_price, $sale_price);
-        return wc_price($sale_price, [
-            'currency' => $currency_code
-        ]);
+        return pips_price($sale_price, $currency_code);
     }
 }
