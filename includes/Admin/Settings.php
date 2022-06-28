@@ -238,16 +238,16 @@ class Settings
 
         if (!pips_pro_activated()) {
             $available_templates = [
-                'simple' => __('Simple', 'sdevs_pips_pro')
+                'simple' => __('Simple', 'sdevs_pips')
             ];
             $available_templates = apply_filters('pips_invoice_templates', $available_templates);
             $invoice_settings[] = array(
-                'name'     => __('Template', 'sdevs_pips_pro'),
+                'name'     => __('Template', 'sdevs_pips'),
                 'id'       => 'pips_invoice_template',
                 'type'     => 'select',
-                'default' => 'proforma',
+                'default' => 'simple',
                 'options'   => $available_templates,
-                'desc' => __('To quick preview all of our premium templates. please go <a href="https://springdevs.com/invoice-templates" target="_blank">here</a>', 'sdevs_pips_pro')
+                'desc' => sprintf('%s <a href="https://springdevs.com/invoice-templates" target="_blank">%s</a>', __('To quick preview all of our premium templates. please go', 'sdevs_pips'), __('here', 'sdevs_pips'))
             );
         }
 
@@ -316,6 +316,10 @@ class Settings
 
     public function packing_slip_settings(): array
     {
+        $templates = [
+            'simple' => __('Simple', 'sdevs_pips_pro')
+        ];
+        $templates = apply_filters('pips_packing_templates', $templates);
         $fields = array(
             [
                 'name' => __('Packing Slips Settings', 'sdevs_pips'),
@@ -329,6 +333,14 @@ class Settings
                 'type'     => 'checkbox',
                 'default'  => 'yes',
                 'desc' => __('Enable or Disable packing slips feature', 'sdevs_pips')
+            ],
+            [
+                'name'     => __('Template', 'sdevs_pips'),
+                'id'       => 'pips_packing_template',
+                'type'     => 'select',
+                'default' => 'simple',
+                'options'   => $templates,
+                'desc' => sprintf('%s <a href="https://springdevs.com/packing-templates" target="_blank">%s</a>', __('To quick preview all of our premium templates. please go', 'sdevs_pips'), __('here', 'sdevs_pips')),
             ],
             [
                 'name'     => __('Display email address', 'sdevs_pips'),

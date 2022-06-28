@@ -78,9 +78,10 @@ class Invoice
             $order = wc_get_order($_GET['post']);
             if (!$order) return;
             $this->order = $order;
-            $html = $this->render_template(PIPS_PATH . '/templates/simple/packing/header.php', []);
-            $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/template.php', ['order' => $order]);
-            $html .= $this->render_template(PIPS_PATH . '/templates/simple/packing/footer.php', []);
+            $packing_template_path = pips_packing_template_path();
+            $html = $this->render_template($packing_template_path . '/header.php', []);
+            $html .= $this->render_template($packing_template_path . '/template.php', ['order' => $order]);
+            $html .= $this->render_template($packing_template_path . '/footer.php', []);
             $options = $dompdf->getOptions();
             $options->set('chroot', PIPS_PATH);
             $options->set('isRemoteEnabled', true);
