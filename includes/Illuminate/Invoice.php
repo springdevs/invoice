@@ -26,12 +26,14 @@ class Invoice
     {
 ?>
         <link rel="stylesheet" href="<?php echo esc_attr(pips_invoice_template_path() . '/style.css'); ?>" />
-        <style>
-            body {
-                font-family: '<?php echo esc_html(get_option('pipspro_invoice_font_family', 'Open Sans')); ?>', sans-serif;
-                font-size: <?php echo esc_html(get_option('pipspro_invoice_font_size', '9pt')); ?>;
-            }
-        </style>
+        <?php if (!pips_pro_activated()) : ?>
+            <style>
+                body {
+                    font-family: 'Open Sans', sans-serif;
+                    font-size: 9pt;
+                }
+            </style>
+        <?php endif; ?>
     <?php
     }
 
@@ -204,7 +206,7 @@ class Invoice
         $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;
-        return $this->order->has_shipping_address();
+        return $this->order->has_shipping_address() && $this->order->get_billing_address_1 != $this->order->get_shipping_address_1;
     }
 
     public function get_product_sku($product)
