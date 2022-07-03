@@ -39,7 +39,7 @@ class Settings
         $invoice_settings[] = [
             'name' => __('Invoice Settings', 'sdevs_pips'),
             'type' => 'title',
-            'desc' => __('The following options are used to configure Invoice Module', 'sdevs_pips'),
+            'desc' => __('The following options are used to configure invoice settings', 'sdevs_pips'),
             'id' => 'invoice'
         ];
 
@@ -324,7 +324,7 @@ class Settings
             [
                 'name' => __('Packing Slips Settings', 'sdevs_pips'),
                 'type' => 'title',
-                'desc' => __('The following options are used to configure Invoice Module', 'sdevs_pips'),
+                'desc' => __('The following options are used to configure packing slips', 'sdevs_pips'),
                 'id'   => 'packing-slip'
             ],
             [
