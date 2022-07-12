@@ -20,11 +20,58 @@ class Invoice
         add_action('admin_menu', [$this, 'admin_menu']);
         add_action('pips_invoice_template_html_header', [$this, 'load_stylesheets_invoice']);
         add_action('pips_packing_template_html_header', [$this, 'load_stylesheets_packing']);
+        add_action('pips_product_column_product', [$this, 'product_content']);
+        add_action('pips_product_column_qty', [$this, 'product_qty']);
+        add_action('pips_product_column_subtotal', [$this, 'product_subtotal']);
+    }
+
+    public function product_content($item)
+    {
+        $product_variation_id = $item['variation_id'];
+        // Check if product has variation.
+        if ($product_variation_id) {
+            $product = wc_get_product($item['variation_id']);
+        } else {
+            $product = wc_get_product($item['product_id']);
+        }
+?>
+        <td class="product-content">
+            <span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
+            <?php if ($this->get_product_sku($product)) : ?>
+                <dl class="meta"><small>SKU: <?php echo esc_html($this->get_product_sku($product)); ?></small></dl>
+            <?php endif; ?>
+        </td>
+    <?php
+    }
+
+    public function product_qty($item)
+    {
+    ?>
+        <td>
+            <?php echo esc_html($item->get_quantity()); ?>
+        </td>
+    <?php
+    }
+
+    public function product_subtotal($item)
+    {
+        $product_variation_id = $item['variation_id'];
+        // Check if product has variation.
+        if ($product_variation_id) {
+            $product = wc_get_product($item['variation_id']);
+        } else {
+            $product = wc_get_product($item['product_id']);
+        }
+    ?>
+        <td>
+            <?php echo wp_kses_post(apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product)); ?>
+        </td>
+    <?php
     }
 
     public function load_stylesheets_invoice()
     {
-?>
+    ?>
         <link rel="stylesheet" href="<?php echo esc_attr(pips_invoice_template_path() . '/style.css'); ?>" />
         <?php if (!pips_pro_activated()) : ?>
             <style>
@@ -165,6 +212,22 @@ class Invoice
         if ($order_meta) return date(get_option('pipspro_invoice_date_format', 'F d, Y'), $order_meta);
         $default_date = date(get_option('pipspro_invoice_date_format', 'F d, Y'), strtotime($this->order->get_date_created()));
         return apply_filters("pips_filter_invoice_date", $default_date, $this->order->get_id());
+    }
+
+    public function get_product_invoice_columns()
+    {
+        $columns = [
+            "product" => __("Product", "sdevs_pips"),
+            "qty" => __("Qty", "sdevs_pips"),
+            "subtotal" => __("Subtotal", "sdevs_pips")
+        ];
+
+        return apply_filters('pips_invoice_product_columns', $columns, $this->order);
+    }
+
+    public function get_blank_columns()
+    {
+        return count($this->get_product_invoice_columns()) - 2;
     }
 
     public function get_invoice_note()

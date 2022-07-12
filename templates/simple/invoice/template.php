@@ -76,47 +76,22 @@
 <table class="products-table">
 	<thead>
 		<tr class="product-header">
-			<?php do_action('pips_start_order_th', $this->order); ?>
-			<th><?php _e('Product', 'sdevs_pips'); ?></th>
-			<?php do_action('pips_th_content_after_product', $this->order); ?>
-			<th><?php _e('Qty', 'sdevs_pips'); ?></th>
-			<th><?php _e('Subtotal', 'sdevs_pips'); ?></th>
-			<?php do_action('pips_end_order_th'); ?>
+			<?php foreach ($this->get_product_invoice_columns()  as $column_key => $column_label) : ?>
+				<th><?php echo esc_html($column_label); ?></th>
+			<?php endforeach; ?>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach ($this->order->get_items() as $item_id => $item) : ?>
-			<?php
-			$product_variation_id = $item['variation_id'];
-			// Check if product has variation.
-			if ($product_variation_id) {
-				$product = wc_get_product($item['variation_id']);
-			} else {
-				$product = wc_get_product($item['product_id']);
-			}
-			?>
 			<tr class="product-body-row">
-				<?php do_action('pips_start_order_td', $this->order, $product); ?>
-				<td class="product-content">
-					<span class="item-name"><?php echo esc_html($item->get_name()); ?></span>
-					<?php if ($this->get_product_sku($product)) : ?>
-						<dl class="meta"><small>SKU: <?php echo esc_html($this->get_product_sku($product)); ?></small></dl>
-					<?php endif; ?>
-					<?php do_action('pips_invoice_after_sku', $this->order, $product, $item); ?>
-				</td>
-				<?php do_action('pips_td_content_after_product', $this->order, $product, $item); ?>
-				<td>
-					<?php echo esc_html($item->get_quantity()); ?>
-				</td>
-				<td>
-					<?php echo wp_kses_post(apply_filters('woocommerce_get_price_html', $this->get_line_subtotal($this->order, $item), $product)); ?>
-				</td>
-				<?php do_action('pips_end_order_td', $item); ?>
+				<?php foreach ($this->get_product_invoice_columns()  as $column_key => $column_label) {
+					do_action('pips_product_column_' . $column_key, $item, $this->order);
+				} ?>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
 	<tfoot>
-		<?php $blank_columns = apply_filters('pips_invoice_table_footer_blank_columns', 1); ?>
+		<?php $blank_columns = $this->get_blank_columns(); ?>
 		<tr>
 			<?php for ($i = 0; $i < $blank_columns; $i++) : ?>
 				<td></td>
