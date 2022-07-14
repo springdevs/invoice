@@ -1,5 +1,6 @@
 .pips-action-buttons {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .pips-action-buttons>li {
