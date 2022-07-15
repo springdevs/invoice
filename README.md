@@ -4,11 +4,12 @@ Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
 ## Changelog
 
-## 1.1.1
+## 1.2.0
 
 - **New:** You can set when display invoice button on MyAccount orders column from invoice settings.
+- **New:** Template selection feature added
 - **New:** Bengali translation support added
-- **Update:** edit-order metabox ui
+- **Update:** Dependencies updated
 
 ## 1.1.0
 

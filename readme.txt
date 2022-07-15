@@ -61,10 +61,11 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 
 == Changelog ==
 
-= 1.1.1 - June 21, 2022 =
+= 1.2.0 - July 15, 2022 =
 - **New:** You can set when display invoice button on MyAccount orders column from invoice settings.
+- **New:** Template selection feature added
 - **New:** Bengali translation support added
-- **Update:** edit-order metabox ui
+- **Update:** Dependencies updated
 
 = 1.1.0 - June 14, 2022 =
 - **Update:** Merge 2-settings into single tab "Invoices"

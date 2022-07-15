@@ -3,7 +3,7 @@
 Plugin Name: PDF Invoices & Packing Slips
 Plugin URI: https://wordpress.org/plugins/wc-pips
 Description: Create, print & email PDF invoices & packing slips for WooCommerce orders.
-Version: 1.1.1
+Version: 1.2.0
 Author: SpringDevs
 Author URI: https://springdevs.com/
 License: GPLv2
@@ -57,7 +57,7 @@ final class Sdevs_pips
      *
      * @var string
      */
-    const version = '1.1.1';
+    const version = '1.2.0';
 
     /**
      * Holds various class instances
