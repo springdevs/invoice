@@ -269,7 +269,7 @@ class Invoice
         $setting = get_option('pips_invoice_display_shipping_address', 'when_different');
         if ('no' === $setting) return false;
         if ('always' === $setting) return true;
-        return $this->order->has_shipping_address() && $this->order->get_billing_address_1 != $this->order->get_shipping_address_1;
+        return $this->order->has_shipping_address() && $this->order->get_billing_address_1() != $this->order->get_shipping_address_1();
     }
 
     public function get_product_sku($product)
