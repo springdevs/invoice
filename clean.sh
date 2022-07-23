@@ -1,4 +1,4 @@
-composer install --no-dev
+composer install --no-dev --ignore-platform-reqs
 rm -r composer.json
 rm -r composer.lock
 
@@ -12,8 +12,8 @@ rm -rf tests/
 rm -rf mysql/
 rm -rf bin/
 rm -r docker-compose.yml
-rm -r phpunit.yml
-rm -r .phpcs.yml
+rm -r phpunit.xml
+rm -r .phpcs.xml
 rm -r .phpunit.result.cache
 rm -r .travis.yml
 
