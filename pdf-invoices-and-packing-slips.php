@@ -39,8 +39,8 @@ Domain Path: /languages
  */
 
 // don't call the file directly
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -50,192 +50,181 @@ require_once __DIR__ . '/vendor/autoload.php';
  *
  * @class Sdevs_pips The class that holds the entire Sdevs_pips plugin
  */
-final class Sdevs_pips
-{
-    /**
-     * Plugin version
-     *
-     * @var string
-     */
-    const version = '1.2.0';
+final class Sdevs_pips {
 
-    /**
-     * Holds various class instances
-     *
-     * @var array
-     */
-    private $container = [];
+	/**
+	 * Plugin version
+	 *
+	 * @var string
+	 */
+	const version = '1.2.0';
 
-    /**
-     * Constructor for the Sdevs_pips class
-     *
-     * Sets up all the appropriate hooks and actions
-     * within our plugin.
-     */
-    private function __construct()
-    {
-        $this->define_constants();
+	/**
+	 * Holds various class instances
+	 *
+	 * @var array
+	 */
+	private $container = array();
 
-        add_action('plugins_loaded', [$this, 'init_plugin']);
-    }
+	/**
+	 * Constructor for the Sdevs_pips class
+	 *
+	 * Sets up all the appropriate hooks and actions
+	 * within our plugin.
+	 */
+	private function __construct() {
+		$this->define_constants();
 
-    /**
-     * Initializes the Sdevs_pips() class
-     *
-     * Checks for an existing Sdevs_pips() instance
-     * and if it doesn't find one, creates it.
-     *
-     * @return Sdevs_pips|bool
-     */
-    public static function init()
-    {
-        static $instance = false;
+		add_action( 'plugins_loaded', array( $this, 'init_plugin' ) );
+	}
 
-        if (!$instance) {
-            $instance = new Sdevs_pips();
-        }
+	/**
+	 * Initializes the Sdevs_pips() class
+	 *
+	 * Checks for an existing Sdevs_pips() instance
+	 * and if it doesn't find one, creates it.
+	 *
+	 * @return Sdevs_pips|bool
+	 */
+	public static function init() {
+		static $instance = false;
 
-        return $instance;
-    }
+		if ( ! $instance ) {
+			$instance = new Sdevs_pips();
+		}
 
-    /**
-     * Magic getter to bypass referencing plugin.
-     *
-     * @param $prop
-     *
-     * @return mixed
-     */
-    public function __get($prop)
-    {
-        if (array_key_exists($prop, $this->container)) {
-            return $this->container[$prop];
-        }
+		return $instance;
+	}
 
-        return $this->{$prop};
-    }
+	/**
+	 * Magic getter to bypass referencing plugin.
+	 *
+	 * @param $prop
+	 *
+	 * @return mixed
+	 */
+	public function __get( $prop ) {
+		if ( array_key_exists( $prop, $this->container ) ) {
+			return $this->container[ $prop ];
+		}
 
-    /**
-     * Magic isset to bypass referencing plugin.
-     *
-     * @param $prop
-     *
-     * @return mixed
-     */
-    public function __isset($prop)
-    {
-        return isset($this->{$prop}) || isset($this->container[$prop]);
-    }
+		return $this->{$prop};
+	}
 
-    /**
-     * Define the constants
-     *
-     * @return void
-     */
-    public function define_constants()
-    {
-        define('PIPS_VERSION', self::version);
-        define('PIPS_FILE', __FILE__);
-        define('PIPS_PATH', dirname(PIPS_FILE));
-        define('PIPS_INCLUDES', PIPS_PATH . '/includes');
-        define('PIPS_URL', plugins_url('', PIPS_FILE));
-        define('PIPS_ASSETS', PIPS_URL . '/assets');
-    }
+	/**
+	 * Magic isset to bypass referencing plugin.
+	 *
+	 * @param $prop
+	 *
+	 * @return mixed
+	 */
+	public function __isset( $prop ) {
+		return isset( $this->{$prop} ) || isset( $this->container[ $prop ] );
+	}
 
-    /**
-     * Load the plugin after all plugins are loaded
-     *
-     * @return void
-     */
-    public function init_plugin()
-    {
-        $this->includes();
-        $this->init_hooks();
-    }
+	/**
+	 * Define the constants
+	 *
+	 * @return void
+	 */
+	public function define_constants() {
+		define( 'PIPS_VERSION', self::version );
+		define( 'PIPS_FILE', __FILE__ );
+		define( 'PIPS_PATH', dirname( PIPS_FILE ) );
+		define( 'PIPS_INCLUDES', PIPS_PATH . '/includes' );
+		define( 'PIPS_URL', plugins_url( '', PIPS_FILE ) );
+		define( 'PIPS_ASSETS', PIPS_URL . '/assets' );
+	}
 
-    /**
-     * Include the required files
-     *
-     * @return void
-     */
-    public function includes()
-    {
-        if ($this->is_request('admin')) {
-            $this->container['admin'] = new SpringDevs\WcPips\Admin();
-        }
+	/**
+	 * Load the plugin after all plugins are loaded
+	 *
+	 * @return void
+	 */
+	public function init_plugin() {
+		$this->includes();
+		$this->init_hooks();
+	}
 
-        if ($this->is_request('frontend')) {
-            $this->container['frontend'] = new SpringDevs\WcPips\Frontend();
-        }
+	/**
+	 * Include the required files
+	 *
+	 * @return void
+	 */
+	public function includes() {
+		if ( $this->is_request( 'admin' ) ) {
+			$this->container['admin'] = new SpringDevs\WcPips\Admin();
+		}
 
-        if ($this->is_request('ajax')) {
-            $this->container['ajax'] = new SpringDevs\WcPips\Ajax();
-        }
-    }
+		if ( $this->is_request( 'frontend' ) ) {
+			$this->container['frontend'] = new SpringDevs\WcPips\Frontend();
+		}
 
-    /**
-     * Initialize the hooks
-     *
-     * @return void
-     */
-    public function init_hooks()
-    {
-        add_action('init', [$this, 'init_classes']);
+		if ( $this->is_request( 'ajax' ) ) {
+			$this->container['ajax'] = new SpringDevs\WcPips\Ajax();
+		}
+	}
 
-        // Localize our plugin
-        add_action('init', [$this, 'localization_setup']);
-    }
+	/**
+	 * Initialize the hooks
+	 *
+	 * @return void
+	 */
+	public function init_hooks() {
+		add_action( 'init', array( $this, 'init_classes' ) );
 
-    /**
-     * Instantiate the required classes
-     *
-     * @return void
-     */
-    public function init_classes()
-    {
-        if ($this->is_request('ajax')) {
-            // $this->container['ajax'] =  new SpringDevs\WcPips\Ajax();
-        }
+		// Localize our plugin
+		add_action( 'init', array( $this, 'localization_setup' ) );
+	}
 
-        $this->container['api']    = new SpringDevs\WcPips\Api();
-        $this->container['assets'] = new SpringDevs\WcPips\Assets();
-    }
+	/**
+	 * Instantiate the required classes
+	 *
+	 * @return void
+	 */
+	public function init_classes() {
+		if ( $this->is_request( 'ajax' ) ) {
+			// $this->container['ajax'] =  new SpringDevs\WcPips\Ajax();
+		}
 
-    /**
-     * Initialize plugin for localization
-     *
-     * @uses load_plugin_textdomain()
-     */
-    public function localization_setup()
-    {
-        load_plugin_textdomain('sdevs_pips', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-    }
+		$this->container['api']    = new SpringDevs\WcPips\Api();
+		$this->container['assets'] = new SpringDevs\WcPips\Assets();
+	}
 
-    /**
-     * What type of request is this?
-     *
-     * @param string $type admin, ajax, cron or frontend.
-     *
-     * @return bool
-     */
-    private function is_request(string $type): bool
-    {
-        switch ($type) {
-            case 'admin':
-                return is_admin();
+	/**
+	 * Initialize plugin for localization
+	 *
+	 * @uses load_plugin_textdomain()
+	 */
+	public function localization_setup() {
+		load_plugin_textdomain( 'sdevs_pips', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
 
-            case 'ajax':
-                return defined('DOING_AJAX');
+	/**
+	 * What type of request is this?
+	 *
+	 * @param string $type admin, ajax, cron or frontend.
+	 *
+	 * @return bool
+	 */
+	private function is_request( string $type ): bool {
+		switch ( $type ) {
+			case 'admin':
+				return is_admin();
 
-            case 'rest':
-                return defined('REST_REQUEST');
+			case 'ajax':
+				return defined( 'DOING_AJAX' );
 
-            case 'cron':
-                return defined('DOING_CRON');
+			case 'rest':
+				return defined( 'REST_REQUEST' );
 
-            case 'frontend':
-                return (!is_admin() || defined('DOING_AJAX')) && !defined('DOING_CRON');
-        }
-    }
+			case 'cron':
+				return defined( 'DOING_CRON' );
+
+			case 'frontend':
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+		}
+	}
 } // Sdevs_pips
 
 /**
@@ -243,9 +232,8 @@ final class Sdevs_pips
  *
  * @return Sdevs_pips|bool
  */
-function sdevs_pips()
-{
-    return Sdevs_pips::init();
+function sdevs_pips() {
+	 return Sdevs_pips::init();
 }
 
 /**

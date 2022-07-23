@@ -8,14 +8,13 @@ use SpringDevs\WcPips\Illuminate\Email;
 /**
  * Frontend handler class
  */
-class Frontend
-{
-    /**
-     * Frontend constructor.
-     */
-    public function __construct()
-    {
-        new Order;
-        new Email;
-    }
+class Frontend {
+
+	/**
+	 * Frontend constructor.
+	 */
+	public function __construct() {
+		new Order();
+		new Email();
+	}
 }

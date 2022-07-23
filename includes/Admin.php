@@ -14,35 +14,38 @@ use SpringDevs\WcSubscription\Frontend\Product;
 /**
  * The admin class
  */
-class Admin
-{
+class Admin {
 
-    /**
-     * Initialize the class
-     */
-    public function __construct()
-    {
-        $this->dispatch_actions();
-        new Links;
-        new MetaBoxes;
-        new Invoice;
-        new Order;
-        new Settings;
-        new Email;
-        new Required;
-    }
 
-    /**
-     * Dispatch and bind actions
-     *
-     * @return void
-     */
-    public function dispatch_actions()
-    {
-        if (class_exists(Product::class)) new Product;
-        add_filter('woocommerce_get_settings_pages', function ($settings) {
-            $settings[] = require_once __DIR__ . '/Utils/Settings.php';
-            return $settings;
-        });
-    }
+	/**
+	 * Initialize the class
+	 */
+	public function __construct() {
+		$this->dispatch_actions();
+		new Links();
+		new MetaBoxes();
+		new Invoice();
+		new Order();
+		new Settings();
+		new Email();
+		new Required();
+	}
+
+	/**
+	 * Dispatch and bind actions
+	 *
+	 * @return void
+	 */
+	public function dispatch_actions() {
+		if ( class_exists( Product::class ) ) {
+			new Product();
+		}
+		add_filter(
+			'woocommerce_get_settings_pages',
+			function ( $settings ) {
+				$settings[] = require_once __DIR__ . '/Utils/Settings.php';
+				return $settings;
+			}
+		);
+	}
 }

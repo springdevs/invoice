@@ -7,53 +7,51 @@ namespace SpringDevs\WcPips\Admin;
  *
  * Class Menu
  */
-class Required
-{
-    private $plugin_file = true;
+class Required {
 
-    public function __construct()
-    {
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_assets']);
-        add_action('init', [$this, 'check_plugins']);
-    }
+	private $plugin_file = true;
 
-    public function check_plugins()
-    {
-        $plugin_file = WP_PLUGIN_DIR . '/woocommerce/woocommerce.php';
+	public function __construct() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'init', array( $this, 'check_plugins' ) );
+	}
 
-        if (!file_exists($plugin_file)) $this->plugin_file = false;
+	public function check_plugins() {
+		$plugin_file = WP_PLUGIN_DIR . '/woocommerce/woocommerce.php';
 
-        if (!file_exists($plugin_file) || !is_plugin_active('woocommerce/woocommerce.php')) {
-            add_action('admin_notices', [$this, 'install_plugin_notice']);
-        }
-    }
+		if ( ! file_exists( $plugin_file ) ) {
+			$this->plugin_file = false;
+		}
 
-    public function enqueue_assets()
-    {
-        if (!wp_style_is('sdevs_installer')) {
-            wp_enqueue_style('sdevs_installer');
-        }
+		if ( ! file_exists( $plugin_file ) || ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+			add_action( 'admin_notices', array( $this, 'install_plugin_notice' ) );
+		}
+	}
 
-        if (!wp_script_is('sdevs_installer')) {
-            wp_enqueue_script('sdevs_installer');
-            wp_localize_script(
-                'sdevs_installer',
-                'sdevs_installer_helper_obj',
-                array('ajax_url' => admin_url('admin-ajax.php'))
-            );
-        }
-    }
+	public function enqueue_assets() {
+		if ( ! wp_style_is( 'sdevs_installer' ) ) {
+			wp_enqueue_style( 'sdevs_installer' );
+		}
 
-    public function install_plugin_notice()
-    {
-        if ($this->plugin_file) {
-            $id = 'sdevs-activate-plugin';
-            $label = __('Activate Woocommerce', 'sdevs_pips');
-        } else {
-            $id = 'sdevs-install-plugin';
-            $label = __('Install Woocommerce', 'sdevs_pips');
-        }
+		if ( ! wp_script_is( 'sdevs_installer' ) ) {
+			wp_enqueue_script( 'sdevs_installer' );
+			wp_localize_script(
+				'sdevs_installer',
+				'sdevs_installer_helper_obj',
+				array( 'ajax_url' => admin_url( 'admin-ajax.php' ) )
+			);
+		}
+	}
 
-        include 'views/required-notice.php';
-    }
+	public function install_plugin_notice() {
+		if ( $this->plugin_file ) {
+			$id    = 'sdevs-activate-plugin';
+			$label = __( 'Activate Woocommerce', 'sdevs_pips' );
+		} else {
+			$id    = 'sdevs-install-plugin';
+			$label = __( 'Install Woocommerce', 'sdevs_pips' );
+		}
+
+		include 'views/required-notice.php';
+	}
 }
