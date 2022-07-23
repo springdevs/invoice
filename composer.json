@@ -23,7 +23,8 @@
     "brain/monkey": "^2.6"
   },
   "scripts": {
-    "test": "\"vendor/bin/phpunit\""
+    "test": "phpunit",
+    "phpcs": "phpcs -p . --standard=PHPCompatibilityWP --ignore=vendor/*"
   },
   "autoload": {
     "psr-4": {
