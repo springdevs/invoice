@@ -17,6 +17,10 @@ class Required {
 	}
 
 	public function check_plugins() {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		$plugin_file = WP_PLUGIN_DIR . '/woocommerce/woocommerce.php';
 
 		if ( ! file_exists( $plugin_file ) ) {
