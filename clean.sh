@@ -7,15 +7,13 @@ rm -r README.md
 rm -rf .git/
 rm -r .editorconfig
 rm -r .gitignore
-
-rm -rf tests/
-rm -rf mysql/
-rm -rf bin/
-rm -r docker-compose.yml
-rm -r phpunit.xml
 rm -r .phpcs.xml
-rm -r .phpunit.result.cache
 rm -r .travis.yml
+
+rm -rf cypress/
+rm -r cypress.config.js
+rm -r package.json
+rm -r yarn.lock
 
 echo "Production Ready 📦"
 rm -r clean.sh
