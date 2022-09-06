@@ -1,11 +1,11 @@
 jQuery(document).ready(function ($) {
     $('.sdevs-loading-icon').hide();
 
-    $('#sdevs-install-plugin').click(() => {
+    $('.sdevs-install-plugin').click(() => {
         install_woocommerce_plugin();
     });
 
-    $('#sdevs-activate-plugin').click(() => {
+    $('.sdevs-activate-plugin').click(() => {
         activate_woocommerce_plugin();
     });
 
