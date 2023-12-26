@@ -9,64 +9,105 @@ namespace SpringDevs\WcPips\Admin;
  *
  * @package SpringDevs\WcPips\Admin
  */
-class MetaBoxes {
+class MetaBoxes
+{
 
-	public function __construct() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		add_action( 'add_meta_boxes', array( $this, 'create_meta_boxes' ) );
-		add_action( 'save_post_shop_order', array( $this, 'save_invoice_meta' ) );
+	public function __construct()
+	{
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
+		add_action('add_meta_boxes', array($this, 'create_meta_boxes'));
+		add_action('save_post_shop_order', array($this, 'save_invoice_meta'));
+		add_action('woocommerce_process_shop_order_meta', array($this, 'save_invoice_meta'), 60);
+		// add_action('pips_invoice_template_html_header', [$this, 'pips_serbian_custom_font'], 20);
 	}
 
-	public function enqueue_assets() {
-		wp_enqueue_style( 'pips_admin_css' );
+	function pips_serbian_custom_font()
+	{
+?>
+		<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;700&display=swap" rel="stylesheet">
+		<style>
+			body {
+				font-family: 'Anek Bangla', sans-serif;
+			}
+		</style>
+<?php
 	}
 
-	public function create_meta_boxes() {
+	public function enqueue_assets()
+	{
+		wp_enqueue_style('pips_admin_css');
+	}
+
+	public function create_meta_boxes()
+	{
+		$screen = pips_wc_order_hpos_enabled()
+			? wc_get_page_screen_id('shop-order')
+			: 'shop_order';
 		// Sidebar [ pdf buttons & forms ]
-		if ( 'yes' === get_option( 'pips_enable_invoice', 'yes' ) ) :
+		if ('yes' === get_option('pips_enable_invoice', 'yes')) :
 			add_meta_box(
 				'pips_order_action',
-				__( 'Order Invoices', 'sdevs_pips' ),
-				array( $this, 'order_action_html' ),
-				'shop_order',
+				__('Order Invoices', 'sdevs_pips'),
+				array($this, 'order_action_html'),
+				$screen,
 				'side',
 				'default'
 			);
 		endif;
 	}
 
-	public function order_action_html() {
-		$post_id        = get_the_ID();
-		$invoice_number = get_post_meta( $post_id, '_pips_order_invoice_number', true ) ? get_post_meta( $post_id, '_pips_order_invoice_number', true ) : null;
-		$invoice_date   = get_post_meta( $post_id, '_pips_order_invoice_number', true ) ? get_post_meta( $post_id, '_pips_order_invoice_date', true ) : null;
-		if ( $invoice_date != null ) {
-			$invoice_date = date( 'Y-m-d', $invoice_date );
+	/**
+	 * Display single order invoice button.
+	 * 
+	 * @param \WC_Order|\WP_Post $post Post.
+	 * 
+	 */
+	public function order_action_html($post)
+	{
+		$order = null;
+		if ($post instanceof \WC_Order) {
+			$order = $post;
+		} else {
+			$order = wc_get_order($post->ID);
 		}
-		$invoice_note = get_post_meta( $post_id, '_pips_order_invoice_number', true ) ? get_post_meta( $post_id, '_pips_order_invoice_note', true ) : null;
+		$invoice_number = $order->get_meta('_pips_order_invoice_number') ? $order->get_meta('_pips_order_invoice_number') : null;
+		$invoice_date   = $order->get_meta('_pips_order_invoice_number') ? $order->get_meta('_pips_order_invoice_date') : null;
+		if ($invoice_date != null) {
+			$invoice_date = date('Y-m-d', $invoice_date);
+		}
 
-		$invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $post_id;
-		$packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $post_id;
-		if ( pips_pro_activated() ) {
-			do_action( 'pipspro_load_order_action_html', $post_id, $invoice_link, $packing_link );
+		$invoice_note = $order->get_meta('_pips_order_invoice_number') ? $order->get_meta('_pips_order_invoice_note') : null;
+
+		$invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $order->get_id();
+		$packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $order->get_id();
+		if (pips_pro_activated()) {
+			do_action('pipspro_load_order_action_html', $order->get_id(), $invoice_link, $packing_link);
 		} else {
 			include_once 'views/invoice-buttons.php';
 		}
 		include_once 'views/order-form.php';
 	}
 
-	public function save_invoice_meta( $post_id ) {
-		if ( ! isset( $_POST['pips_invoice_nonce'] ) ) {
+	public function save_invoice_meta($post_id)
+	{
+		if (!isset($_POST['pips_invoice_nonce'])) {
 			return;
 		}
-		if ( ! wp_verify_nonce( $_POST['pips_invoice_nonce'], 'pips_order_edit_invoice' ) ) {
-			wp_die( 'Undefined nonce !!' );
+		if (!wp_verify_nonce($_POST['pips_invoice_nonce'], 'pips_order_edit_invoice')) {
+			wp_die('Undefined nonce !!');
 		}
-		$invoice_number = sanitize_text_field( $_POST['pips_invoice_number'] );
-		$invoice_date   = sanitize_text_field( $_POST['pips_invoice_date'] );
-		$invoice_date   = strtotime( $invoice_date );
-		$invoice_note   = sanitize_text_field( $_POST['pips_invoice_note'] );
-		update_post_meta( $post_id, '_pips_order_invoice_number', $invoice_number );
-		update_post_meta( $post_id, '_pips_order_invoice_date', $invoice_date );
-		update_post_meta( $post_id, '_pips_order_invoice_note', $invoice_note );
+		$invoice_number = sanitize_text_field($_POST['pips_invoice_number']);
+		$invoice_date   = sanitize_text_field($_POST['pips_invoice_date']);
+		$invoice_date   = strtotime($invoice_date);
+		$invoice_note   = sanitize_text_field($_POST['pips_invoice_note']);
+
+		$order = wc_get_order($post_id);
+		if ($order) {
+			$order->update_meta_data('_pips_order_invoice_number', $invoice_number);
+			$order->update_meta_data('_pips_order_invoice_date', $invoice_date);
+			$order->update_meta_data('_pips_order_invoice_note', $invoice_note);
+
+			$order->save();
+		}
 	}
 }
