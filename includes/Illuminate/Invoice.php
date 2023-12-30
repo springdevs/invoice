@@ -73,23 +73,21 @@ class Invoice
 
 	public function load_stylesheets_invoice()
 	{
+		$styles = file_get_contents(esc_attr(pips_invoice_template_path() . '/style.css'));
 	?>
-		<link rel="stylesheet" href="<?php echo esc_attr(pips_invoice_template_path() . '/style.css'); ?>" />
-		<?php if (!pips_pro_activated()) : ?>
-			<style>
-				body {
-					font-family: 'Open Sans', sans-serif;
-					font-size: 9pt;
-				}
-			</style>
-		<?php endif; ?>
+		<style>
+			<?php echo $styles; ?>
+		</style>
 	<?php
 	}
 
 	public function load_stylesheets_packing()
 	{
+		$styles = file_get_contents(esc_attr(pips_packing_template_path() . '/style.css'));
 	?>
-		<link rel="stylesheet" href="<?php echo esc_attr(pips_packing_template_path() . '/style.css'); ?>" />
+		<style>
+			<?php echo $styles; ?>
+		</style>
 <?php
 	}
 

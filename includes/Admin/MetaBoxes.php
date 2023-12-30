@@ -18,19 +18,6 @@ class MetaBoxes
 		add_action('add_meta_boxes', array($this, 'create_meta_boxes'));
 		add_action('save_post_shop_order', array($this, 'save_invoice_meta'));
 		add_action('woocommerce_process_shop_order_meta', array($this, 'save_invoice_meta'), 60);
-		// add_action('pips_invoice_template_html_header', [$this, 'pips_serbian_custom_font'], 20);
-	}
-
-	function pips_serbian_custom_font()
-	{
-?>
-		<link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;700&display=swap" rel="stylesheet">
-		<style>
-			body {
-				font-family: 'Anek Bangla', sans-serif;
-			}
-		</style>
-<?php
 	}
 
 	public function enqueue_assets()
