@@ -61,7 +61,7 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 
 == Changelog ==
 
-= 1.2.2 - Dec 24, 2022 =
+= 1.2.2 - Dec 24, 2023 =
 - **Fix:** Some currencies not displayed
 - **Update:** HPOS support added
 
