@@ -1,253 +1,251 @@
 /* Main Body */
 @page {
-    margin: 1cm 2cm 3cm;
+  margin: 1cm 2cm 3cm;
 }
 
 * {
-    line-height: 1.5em;
+  line-height: 1.5em;
 }
 
 body {
-    background: #fff;
-    color: #000;
-    margin: 0cm;
-    line-height: 100%;
-    line-height: 1.3rem;
+  background: #fff;
+  color: #000;
+  margin: 0cm;
+  line-height: 100%;
+  line-height: 1.3rem;
 }
 
 h1,
 h2,
 h3,
 h4 {
-    font-weight: bold;
-    margin: 0;
+  font-weight: bold;
+  margin: 0;
 }
 
 h1 {
-    font-size: 16pt;
-    margin: 5mm 0;
+  font-size: 16pt;
+  margin: 5mm 0;
 }
 
 h2 {
-    font-size: 14pt;
+  font-size: 14pt;
 }
 
 h3,
 h4 {
-    font-size: 9pt;
+  font-size: 9pt;
 }
-
 
 ol,
 ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 li,
 ul {
-    margin-bottom: 0.75em;
+  margin-bottom: 0.75em;
 }
 
 p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-p+p {
-    margin-top: 1.25em;
+p + p {
+  margin-top: 1.25em;
 }
 
 a {
-    border-bottom: 1px solid;
-    text-decoration: none;
+  border-bottom: 1px solid;
+  text-decoration: none;
 }
 
 /* Basic Table Styling */
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    page-break-inside: always;
-    border: 0;
-    margin: 0;
-    padding: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  page-break-inside: always;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 
 th,
 td {
-    vertical-align: top;
-    text-align: left;
+  vertical-align: top;
+  text-align: left;
 }
 
 table.container {
-    width: 100%;
-    border: 0;
+  width: 100%;
+  border: 0;
 }
 
 tr.no-borders,
 td.no-borders {
-    border: 0 !important;
-    border-top: 0 !important;
-    border-bottom: 0 !important;
-    padding: 0 !important;
-    width: auto;
+  border: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  padding: 0 !important;
+  width: auto;
 }
 
 div.bottom-spacer {
-    clear: both;
-    height: 8mm;
+  clear: both;
+  height: 8mm;
 }
 
 /* Header */
 table.head {
-    margin-bottom: 12mm;
+  margin-bottom: 12mm;
 }
 
 td.header img {
-    max-height: 3cm;
-    width: auto;
+  max-height: 3cm;
+  width: auto;
 }
 
 td.header {
-    font-size: 16pt;
-    font-weight: 700;
+  font-size: 16pt;
+  font-weight: 700;
 }
 
 td.shop-info {
-    width: 40%;
+  width: 40%;
 }
 
 /* Recipient addressses & order data */
 table.order-data-addresses {
-    width: 100%;
-    margin-bottom: 10mm;
+  width: 100%;
+  margin-bottom: 10mm;
 }
 
 td.order-data {
-    width: 40%;
+  width: 40%;
 }
 
 .invoice .shipping-address {
-    width: 30%;
+  width: 30%;
 }
 
 .packing-slip .billing-address {
-    width: 30%;
+  width: 30%;
 }
 
 td.order-data table th {
-    font-weight: normal;
-    padding-right: 2mm;
+  font-weight: normal;
+  padding-right: 2mm;
 }
 
 /* Order details */
 table.order-details {
-    width: 100%;
-    margin-bottom: 0mm;
+  width: 100%;
+  margin-bottom: 0mm;
 }
 
 table.products-table {
-    width: 100%;
+  width: 100%;
 }
 
 .product-header {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 
-.product-header>th {
-    padding: 5px;
-    text-align: center;
+.product-header > th {
+  padding: 5px;
+  text-align: center;
 }
 
-.product-body-row>td {
-    width: 20%;
-    border: 1px solid gray;
-    padding: 10px;
-    border-top: none;
-    text-align: center;
-    vertical-align: middle;
+.product-body-row > td {
+  width: 20%;
+  border: 1px solid gray;
+  padding: 10px;
+  border-top: none;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.product-body-row>td.product-content {
-    width: 50%;
-    text-align: left;
+.product-body-row > td.product-content {
+  width: 50%;
+  text-align: left;
 }
 
-.product-body-row>td.image-td {
-    width: 10%;
-    border: 1px solid gray;
-    border-top: none;
+.product-body-row > td.image-td {
+  width: 10%;
+  border: 1px solid gray;
+  border-top: none;
 }
 
-td.image-td>img {
-    width: 100%;
+td.image-td > img {
+  width: 100%;
 }
 
 .meta-key {
-    width: 20%;
-    border: 1px solid gray;
-    padding: 5px;
-    border-top: none;
-    text-align: right;
+  width: 20%;
+  border: 1px solid gray;
+  padding: 5px;
+  border-top: none;
+  text-align: right;
 }
 
 .meta-value {
-    width: 20%;
-    border: 1px solid gray;
-    padding: 5px;
-    border-top: none;
-    text-align: center;
+  width: 20%;
+  border: 1px solid gray;
+  padding: 5px;
+  border-top: none;
+  text-align: center;
 }
 
 .notes {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .page-break {
-    page-break-after: always;
+  page-break-after: always;
 }
-
 
 /* item meta formatting for WC2.6 and older */
 dl {
-    margin: 4px 0;
+  margin: 4px 0;
 }
 
 dt,
 dd,
 dd p {
-    display: inline;
-    font-size: 7pt;
-    line-height: 7pt;
+  display: inline;
+  font-size: 7pt;
+  line-height: 7pt;
 }
 
 dd {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 dd:after {
-    content: "\A";
-    white-space: pre;
+  content: "\A";
+  white-space: pre;
 }
 
 /* Notes & Totals */
 .document-notes,
 .customer-notes {
-    margin-top: 5mm;
+  margin-top: 5mm;
 }
 
 /* Footer Imprint */
 #footer {
-    position: absolute;
-    bottom: -2cm;
-    left: 0;
-    right: 0;
-    height: 2cm;
-    /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
-    text-align: center;
-    border-top: 0.1mm solid gray;
-    margin-bottom: 0;
-    padding-top: 2mm;
+  position: absolute;
+  bottom: -2cm;
+  left: 0;
+  right: 0;
+  height: 2cm;
+  /* if you change the footer height, don't forget to change the bottom (=negative height) and the @page margin-bottom as well! */
+  text-align: center;
+  border-top: 0.1mm solid gray;
+  margin-bottom: 0;
+  padding-top: 2mm;
 }

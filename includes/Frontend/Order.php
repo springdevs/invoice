@@ -30,8 +30,15 @@ class Order {
 		}
 	}
 
+	/**
+	 * Check if invoice generation allowed.
+	 *
+	 * @param \WC_Order $order order.
+	 *
+	 * @return bool
+	 */
 	public function check_if_invoice_front_allowed( $order ) {
-		return ( get_option( 'pips_display_invoice_btn_front', 'always' ) === 'always' ) || ( get_option( 'pips_display_invoice_btn_front', 'always' ) === 'order_status_pc' && in_array( $order->get_status(), array( 'processing', 'completed' ) ) );
+		return $order->get_customer_id() === get_current_user_id() && ( ( get_option( 'pips_display_invoice_btn_front', 'always' ) === 'always' ) || ( get_option( 'pips_display_invoice_btn_front', 'always' ) === 'order_status_pc' && in_array( $order->get_status(), array( 'processing', 'completed' ), true ) ) );
 	}
 
 	public function add_custom_action( $actions, $order ) {
@@ -43,7 +50,7 @@ class Order {
 	}
 
 	public function invoice_button( $actions, $order ) {
-		$invoice_link = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) . '?view=pips_invoice&post=' . $order->get_id();
+		$invoice_link = wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) . '?view=pips_invoice&post=' . $order->get_id();
 		if ( 'download' === get_option( 'pips_view_invoice_front' ) ) {
 			$invoice_link .= '&download=true';
 		}
