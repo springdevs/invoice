@@ -3,12 +3,11 @@ rm -r composer.json
 rm -r composer.lock
 
 rm -r README.md
-rm -r phpcs.xml
 
 rm -rf .git/
 rm -r .editorconfig
 rm -r .gitignore
-rm -r .phpcs.xml
+rm -r phpcs.xml
 rm -r .travis.yml
 
 rm -rf cypress/
