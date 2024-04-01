@@ -3,6 +3,7 @@ rm -r composer.json
 rm -r composer.lock
 
 rm -r README.md
+rm -r phpcs.xml
 
 rm -rf .git/
 rm -r .editorconfig
