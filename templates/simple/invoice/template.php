@@ -85,7 +85,7 @@
 		<?php foreach ( $this->order->get_items() as $item_id => $item ) : ?>
 			<tr class="product-body-row">
 				<?php
-				foreach ( $this->get_product_invoice_columns()  as $column_key => $column_label ) {
+				foreach ( $this->get_product_invoice_columns() as $column_key => $column_label ) {
 					do_action( 'pips_product_column_' . $column_key, $item, $this->order );
 				}
 				?>

@@ -3,7 +3,7 @@ Contributors: springdevs, naminbd, ok9xnirab
 Donate link:
 Tags: pdf-invoice, woocommerce-invoice, product-invoice
 Requires at least: 4.0
-Tested up to: 6.4
+Tested up to: 6.5
 Stable tag: trunk
 Requires PHP: 7.0
 License: GPLv2 or later
@@ -60,6 +60,9 @@ To include PDF invoices and packing slips is a smart practice when shipping prod
 
 
 == Changelog ==
+
+= 1.2.3 - April 01, 2024 =
+- **Fix:** Email attachment
 
 = 1.2.2 - Dec 24, 2023 =
 - **Fix:** Some currencies not displayed

@@ -4,6 +4,10 @@ Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
 ## Changelog
 
+## 1.2.3
+
+- **Fix:** Email attachment
+
 ## 1.2.2
 
 - **Fix:** Some currencies not displayed

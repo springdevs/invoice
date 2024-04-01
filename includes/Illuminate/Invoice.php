@@ -13,7 +13,6 @@ use Dompdf\Dompdf;
  */
 class Invoice {
 
-
 	public $order;
 	public $bulk = false;
 
@@ -23,7 +22,67 @@ class Invoice {
 		add_action( 'pips_packing_template_html_header', array( $this, 'load_stylesheets_packing' ) );
 		add_action( 'pips_product_column_product', array( $this, 'product_content' ) );
 		add_action( 'pips_product_column_qty', array( $this, 'product_qty' ) );
-		add_action( 'pips_product_column_subtotal', array( $this, 'product_subtotal' ) );
+		add_action( 'pips_product_column_subtotal', array( $this, 'product_subtotal' ), 10, 2 );
+		add_filter( 'woocommerce_email_attachments', array( $this, 'include_pdf_with_email' ), 10, 3 );
+	}
+
+	/**
+	 * Attach invoice with email order.
+	 *
+	 * @param array     $attachments Attachments.
+	 * @param int       $email_id Email id.
+	 * @param \WC_Order $order Order data.
+	 *
+	 * @return array
+	 */
+	public function include_pdf_with_email( $attachments, $email_id, $order ) {
+		$email_ids = array( 'customer_invoice' );
+		if ( 'yes' === get_option( 'pips_free_order_invoice', 'no' ) && 0 === $order->get_total() ) {
+			return $attachments;
+		}
+
+		if ( 'yes' === get_option( 'pips_attach_pdf_new_order_admin', 'yes' ) ) {
+			$email_ids[] = 'new_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_cancelled_order', 'no' ) ) {
+			$email_ids[] = 'cancelled_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_failed_order', 'no' ) ) {
+			$email_ids[] = 'failed_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_on-hold_order', 'no' ) ) {
+			$email_ids[] = 'customer_on_hold_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_processing_order', 'no' ) ) {
+			$email_ids[] = 'customer_processing_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_completed_order', 'no' ) ) {
+			$email_ids[] = 'customer_completed_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_refunded_order', 'no' ) ) {
+			$email_ids[] = 'customer_refunded_order';
+		}
+		if ( 'yes' === get_option( 'pips_attach_pdf_admin_note_order', 'no' ) ) {
+			$email_ids[] = 'customer_note';
+		}
+
+		$disable_statuses = get_option( 'pips_invoice_disable_statuses', array() );
+		foreach ( $disable_statuses as $disable_statuse ) {
+			if ( $order->has_status( substr( $disable_statuse, 3 ) ) ) {
+				return $attachments;
+			}
+		}
+
+		if ( in_array( $email_id, $email_ids, true ) ) {
+			$file_path = $this->generate_save_pdf( $order->get_id() );
+			if ( file_exists( $file_path ) ) {
+				$attachments[]  = $file_path;
+				$path_options   = get_option( 'pips_save_pdfs', array() );
+				$path_options[] = $file_path;
+				update_option( 'pips_save_pdfs', $path_options );
+			}
+		}
+		return $attachments;
 	}
 
 	public function product_content( $item ) {
@@ -52,7 +111,7 @@ class Invoice {
 		<?php
 	}
 
-	public function product_subtotal( $item ) {
+	public function product_subtotal( $item, $order ) {
 		$product_variation_id = $item['variation_id'];
 		// Check if product has variation.
 		if ( $product_variation_id ) {
@@ -62,7 +121,7 @@ class Invoice {
 		}
 		?>
 		<td>
-			<?php echo wp_kses_post( apply_filters( 'woocommerce_get_price_html', $this->get_line_subtotal( $this->order, $item ), $product ) ); ?>
+			<?php echo wp_kses_post( apply_filters( 'woocommerce_get_price_html', $this->get_line_subtotal( $order, $item ), $product ) ); ?>
 		</td>
 		<?php
 	}
@@ -155,21 +214,20 @@ class Invoice {
 	}
 
 	public function generate_save_pdf( $order_id ) {
-		$dompdf = new Dompdf();
-		$order  = wc_get_order( $order_id );
-		if ( ! $order ) {
-			return;
-		}
-		$this->order = $order;
-		$html        = $this->render_template( PIPS_PATH . '/templates/simple/invoice/header.php', array() );
-		$html       .= $this->render_template( PIPS_PATH . '/templates/simple/invoice/template.php', array( 'order' => $order ) );
-		$html       .= $this->render_template( PIPS_PATH . '/templates/simple/invoice/footer.php', array() );
-		$options     = $dompdf->getOptions();
+		$dompdf                = new Dompdf();
+		$order                 = wc_get_order( $order_id );
+		$dompdf                = new Dompdf();
+		$this->order           = $order;
+		$invoice_template_path = pips_invoice_template_path();
+		$html                  = $this->render_template( $invoice_template_path . '/header.php', array() );
+		$html                 .= $this->render_template( $invoice_template_path . '/template.php' );
+		$html                 .= $this->render_template( $invoice_template_path . '/footer.php', array() );
+		$options               = $dompdf->getOptions();
 		$options->set( 'chroot', PIPS_PATH );
 		$options->set( 'isRemoteEnabled', true );
 		$dompdf->setOptions( $options );
 		$dompdf->loadHtml( $html );
-		$dompdf->setPaper( 'A4', 'portrait' );
+		$dompdf->setPaper( get_option( 'pips_invoice_paper_size', 'a4' ), 'portrait' );
 		$dompdf->render();
 		$upload_dir  = wp_upload_dir();
 		$upload_path = $upload_dir['basedir'] . '/pips';
@@ -180,7 +238,7 @@ class Invoice {
 		return $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
 	}
 
-	public function render_template( $file, $args ) {
+	public function render_template( $file ) {
 		ob_start();
 		if ( file_exists( $file ) ) {
 			include $file;

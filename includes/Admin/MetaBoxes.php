@@ -27,7 +27,6 @@ class MetaBoxes {
 		$screen = pips_wc_order_hpos_enabled()
 			? wc_get_page_screen_id( 'shop-order' )
 			: 'shop_order';
-		ray( $screen );
 		// Sidebar [ pdf buttons & forms ]
 		if ( 'yes' === get_option( 'pips_enable_invoice', 'yes' ) ) :
 			add_meta_box(
