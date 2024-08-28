@@ -269,13 +269,13 @@ class Settings {
 		);
 
 		// Logo height
-		$invoice_settings[] = array(
-			'name'        => __( 'Logo height', 'sdevs_pips' ),
-			'id'          => 'pips_invoice_logo_height',
-			'type'        => 'text',
-			'placeholder' => '3cm',
-			'css'         => 'width: 6em;',
-		);
+		// $invoice_settings[] = array(
+		// 'name'        => __( 'Logo height', 'sdevs_pips' ),
+		// 'id'          => 'pips_invoice_logo_height',
+		// 'type'        => 'text',
+		// 'placeholder' => '3cm',
+		// 'css'         => 'width: 6em;',
+		// );
 
 		// Shop Name
 		$invoice_settings[] = array(

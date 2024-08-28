@@ -2,8 +2,6 @@
 
 namespace SpringDevs\WcPips\Illuminate;
 
-use Dompdf\Dompdf;
-
 /**
  * Handle Invoices
  *
@@ -24,6 +22,14 @@ class Invoice {
 		add_action( 'pips_product_column_qty', array( $this, 'product_qty' ) );
 		add_action( 'pips_product_column_subtotal', array( $this, 'product_subtotal' ), 10, 2 );
 		add_filter( 'woocommerce_email_attachments', array( $this, 'include_pdf_with_email' ), 10, 3 );
+		// add_filter(
+		// 'woocommerce_localisation_address_formats',
+		// function ( $formats ) {
+		// $formats['BD'] = "{name}\n{company}\n{address_1}\n{address_2}\n{state}\n{country}";
+		// return $formats;
+		// }
+		// );
+		// add_filter( 'woocommerce_formatted_address_force_country_display', '__return_true' );
 	}
 
 	/**
@@ -160,82 +166,71 @@ class Invoice {
 	}
 
 	public function generate_order_pdf() {
-		if ( isset( $_GET['view'] ) && isset( $_GET['post'] ) && $_GET['view'] == 'pips_invoice' ) {
-			$dompdf = new Dompdf();
-			$order  = wc_get_order( $_GET['post'] );
-			if ( ! $order ) {
-				return;
-			}
-			$this->order           = $order;
-			$invoice_template_path = pips_invoice_template_path();
-			$html                  = $this->render_template( $invoice_template_path . '/header.php', array() );
-			$html                 .= $this->render_template( $invoice_template_path . '/template.php', array( 'order' => $order ) );
-			$html                 .= $this->render_template( $invoice_template_path . '/footer.php', array() );
-			$options               = $dompdf->getOptions();
-			$options->set( 'chroot', PIPS_PATH );
-			$options->set( 'isRemoteEnabled', true );
-			$dompdf->setOptions( $options );
-			$dompdf->loadHtml( $html );
-			$dompdf->setPaper( get_option( 'pips_invoice_paper_size', 'a4' ), 'portrait' );
-			$dompdf->render();
-			$attachment = false;
-			if ( isset( $_GET['download'] ) && $_GET['download'] === 'true' ) {
-				$attachment = true;
-			}
-			$dompdf->stream( 'invoice-' . $this->get_invoice_number(), array( 'Attachment' => $attachment ) );
-			exit;
-		} elseif ( isset( $_GET['view'] ) && isset( $_GET['post'] ) && $_GET['view'] == 'pips_packing_slip' && 'yes' === get_option( 'pips_enable_packing_slip', 'yes' ) ) {
-			$dompdf = new Dompdf();
-			$order  = wc_get_order( $_GET['post'] );
-			if ( ! $order ) {
-				return;
-			}
-			$this->order           = $order;
-			$packing_template_path = pips_packing_template_path();
-			$html                  = $this->render_template( $packing_template_path . '/header.php', array() );
-			$html                 .= $this->render_template( $packing_template_path . '/template.php', array( 'order' => $order ) );
-			$html                 .= $this->render_template( $packing_template_path . '/footer.php', array() );
-			$options               = $dompdf->getOptions();
-			$options->set( 'chroot', PIPS_PATH );
-			$options->set( 'isRemoteEnabled', true );
-			$dompdf->setOptions( $options );
-			$dompdf->loadHtml( $html );
-			$dompdf->setPaper( 'A4', 'portrait' );
-			$dompdf->render();
-			$attachment = false;
-			if ( isset( $_GET['download'] ) && $_GET['download'] === 'true' ) {
-				$attachment = true;
-			}
-			$dompdf->stream( 'packing-slip-' . $this->get_invoice_number(), array( 'Attachment' => $attachment ) );
-			exit;
+		do_action( 'pips_pdf_generator', $this );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $_GET['view'], $_GET['post'] ) ) {
+			return;
 		}
 
-		do_action( 'pips_pdf_generator', $this );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$view = sanitize_text_field( wp_unslash( $_GET['view'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order = wc_get_order( sanitize_text_field( wp_unslash( $_GET['post'] ) ) );
+		if ( ! $order ) {
+			return;
+		}
+		$this->order = $order;
+
+		if ( 'pips_invoice' === $view ) {
+			$invoice_template_path = pips_invoice_template_path();
+			$html                  = $this->render_template( $invoice_template_path . '/template.php' );
+			$name                  = 'invoice-' . $this->get_invoice_number();
+
+			$generator = pips_pdf_generator( $html );
+			$generator->SetTitle( $name );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
+			exit;
+		} elseif ( 'pips_packing_slip' === $view && 'yes' === get_option( 'pips_enable_packing_slip', 'yes' ) ) {
+			$packing_template_path = pips_packing_template_path();
+			$html                  = $this->render_template( $packing_template_path . '/template.php', array( 'order' => $order ) );
+			$name                  = 'packing-slip-' . $this->get_invoice_number();
+
+			$generator = pips_pdf_generator( $html );
+			$generator->SetTitle( $name );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
+			exit;
+		}
 	}
 
+	/**
+	 *
+	 * Generate and save pdf for email.
+	 *
+	 * @param int $order_id Order id.
+	 *
+	 * @return string
+	 */
 	public function generate_save_pdf( $order_id ) {
-		$dompdf                = new Dompdf();
 		$order                 = wc_get_order( $order_id );
-		$dompdf                = new Dompdf();
 		$this->order           = $order;
 		$invoice_template_path = pips_invoice_template_path();
-		$html                  = $this->render_template( $invoice_template_path . '/header.php', array() );
-		$html                 .= $this->render_template( $invoice_template_path . '/template.php' );
-		$html                 .= $this->render_template( $invoice_template_path . '/footer.php', array() );
-		$options               = $dompdf->getOptions();
-		$options->set( 'chroot', PIPS_PATH );
-		$options->set( 'isRemoteEnabled', true );
-		$dompdf->setOptions( $options );
-		$dompdf->loadHtml( $html );
-		$dompdf->setPaper( get_option( 'pips_invoice_paper_size', 'a4' ), 'portrait' );
-		$dompdf->render();
+
+		$html      = $this->render_template( $invoice_template_path . '/template.php' );
+		$generator = pips_pdf_generator( $html );
+
 		$upload_dir  = wp_upload_dir();
 		$upload_path = $upload_dir['basedir'] . '/pips';
 		if ( ! file_exists( $upload_path ) ) {
 			mkdir( $upload_path, 0777, true );
 		}
-		file_put_contents( $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf', $dompdf->output() );
-		return $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
+
+		$file_path = $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
+		$generator->Output( $file_path, 'F' );
+
+		return $file_path;
 	}
 
 	public function render_template( $file ) {
@@ -244,6 +239,24 @@ class Invoice {
 			include $file;
 		}
 		return ob_get_clean();
+	}
+
+	/**
+	 * Return formatted store address.
+	 *
+	 * @return array
+	 */
+	public function get_formatted_store_address() {
+		return WC()->countries->get_formatted_address(
+			array(
+				'address_1' => WC()->countries->get_base_address(),
+				'address_2' => WC()->countries->get_base_address_2(),
+				'city'      => WC()->countries->get_base_city(),
+				'state'     => WC()->countries->get_base_state(),
+				'postcode'  => WC()->countries->get_base_postcode(),
+				'country'   => WC()->countries->get_base_country(),
+			)
+		);
 	}
 
 	public function get_customer_details() {
@@ -296,7 +309,7 @@ class Invoice {
 	}
 
 	public function get_blank_columns() {
-		return count( $this->get_product_invoice_columns() ) - 2;
+		return count( $this->get_product_invoice_columns() ) - 1;
 	}
 
 	public function get_invoice_note() {
