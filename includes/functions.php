@@ -74,11 +74,14 @@ function pips_get_generator_instance( $pdf_type = 'invoice' ) {
 
 	return new Mpdf(
 		array(
-			'mode'         => 'utf-8',
-			'format'       => ucfirst( get_option( 'pips_invoice_paper_size', 'a4' ) ),
-			'fontDir'      => $font_dirs,
-			'fontdata'     => $font_data,
-			'default_font' => 'yes' === get_option( 'pipspro_enable_invoice_template_font' ) ? $default_theme_font : get_option( 'pipspro_invoice_font_family', 'kalpurush' ),
+			'mode'             => 'utf-8',
+			'debugfonts'       => false,
+			'format'           => ucfirst( get_option( 'pips_invoice_paper_size', 'a4' ) ),
+			'fontDir'          => $font_dirs,
+			'fontdata'         => $font_data,
+			'autoScriptToLang' => true,
+			'autoLangToFont'   => true,
+			'default_font'     => 'yes' === get_option( 'pipspro_enable_invoice_template_font' ) ? $default_theme_font : get_option( 'pipspro_invoice_font_family', 'kalpurush' ),
 		)
 	);
 }

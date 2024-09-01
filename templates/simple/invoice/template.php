@@ -244,6 +244,12 @@
 
 			<table>
 			<?php if ( $this->get_invoice_note() ) : ?>
+			<tr>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
 			<tr class="order-note">
 				<td>
 					<h4>Notes</h4>
