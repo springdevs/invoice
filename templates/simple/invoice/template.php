@@ -17,9 +17,9 @@
 			.invoice-box table tr td:nth-child(2) {
 				text-align: left;
 			}
-			.invoice-box table tr td:nth-child(3) {
+			/* .invoice-box table tr td:nth-child(3) {
 				text-align: right;
-			}
+			} */
 
 			.invoice-box table tr.top table td {
 				padding-bottom: 20px;
@@ -162,7 +162,7 @@
 										<?php echo wp_kses_post( $this->order->has_shipping_address() ? ( pips_pro_activated() ? $this->get_shipping_details() : $this->order->get_formatted_shipping_address() ) : 'N/A' ); ?>
 										<?php endif; ?>
 								</td>
-								<td style="font-size: 10pt;">
+								<td style="font-size: 10pt;text-align: right;">
 									<?php if ( 'yes' === get_option( 'pips_display_invoice_number', 'no' ) ) : ?>
 									<b>Invoice #</b><?php echo esc_html( $this->get_invoice_number() ); ?><br />
 									<?php endif; ?>
@@ -195,15 +195,8 @@
 					?>
 				</tr>
 				<?php endforeach; ?>
-				
-				<tr class="total">
-					<?php
-					for ( $i = 0; $i < ( $this->get_blank_columns() );
-					$i++ ) :
-						?>
+				<tr>
 					<td></td>
-					<?php endfor; ?>
-					<td><b>Subtotal</b>: <?php echo pips_price( $this->order->get_subtotal(), $this->order->get_currency() ); ?></td>
 				</tr>
 				<tr class="total">
 					<?php
@@ -212,7 +205,18 @@
 						?>
 					<td></td>
 					<?php endfor; ?>
-					<td><b>Tax</b>: <?php echo pips_price( $this->order->get_total_tax(), $this->order->get_currency() ); ?></td>
+					<td class="label"><b>Subtotal</b>:</td>
+					<td class="value"><?php echo pips_price( $this->order->get_subtotal(), $this->order->get_currency() ); ?></td>
+				</tr>
+				<tr class="total">
+					<?php
+					for ( $i = 0; $i < ( $this->get_blank_columns() );
+					$i++ ) :
+						?>
+					<td></td>
+					<?php endfor; ?>
+					<td class="label"><b>Tax</b>:</td>
+					<td class="value"><?php echo pips_price( $this->order->get_total_tax(), $this->order->get_currency() ); ?></td>
 				</tr>
 				<?php if ( $this->order->get_discount_total() != 0 ) : ?>
 				<tr class="total">
@@ -222,7 +226,8 @@
 						?>
 					<td></td>
 					<?php endfor; ?>
-					<td><b>Discount</b>: - <?php echo wp_kses_post( $this->order->get_discount_to_display() ); ?></td>
+					<td class="label"><b>Discount</b>:</td>
+					<td class="value">- <?php echo wp_kses_post( $this->order->get_discount_to_display() ); ?></td>
 				</tr>
 				<?php endif; ?>
 				<tr class="total">
@@ -232,7 +237,8 @@
 						?>
 					<td></td>
 					<?php endfor; ?>
-					<td><b>Total</b>: <?php echo pips_price( $this->order->get_total(), $this->order->get_currency() ); ?></td>
+					<td class="label"><b>Total</b>:</td>
+					<td class="value"><?php echo pips_price( $this->order->get_total(), $this->order->get_currency() ); ?></td>
 				</tr>
 			</table>
 

@@ -187,7 +187,8 @@ class Invoice {
 			$html                  = $this->render_template( $invoice_template_path . '/template.php' );
 			$name                  = 'invoice-' . $this->get_invoice_number();
 
-			$generator = pips_pdf_generator( $html );
+			$generator = pips_get_generator_instance();
+			$generator->WriteHTML( $html );
 			$generator->SetTitle( $name );
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
@@ -196,8 +197,10 @@ class Invoice {
 			$packing_template_path = pips_packing_template_path();
 			$html                  = $this->render_template( $packing_template_path . '/template.php', array( 'order' => $order ) );
 			$name                  = 'packing-slip-' . $this->get_invoice_number();
-
-			$generator = pips_pdf_generator( $html );
+			// echo $html;
+			// exit;
+			$generator = pips_get_generator_instance( 'packing' );
+			$generator->WriteHTML( $html );
 			$generator->SetTitle( $name );
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
@@ -219,7 +222,8 @@ class Invoice {
 		$invoice_template_path = pips_invoice_template_path();
 
 		$html      = $this->render_template( $invoice_template_path . '/template.php' );
-		$generator = pips_pdf_generator( $html );
+		$generator = pips_get_generator_instance();
+		$generator->WriteHTML( $html );
 
 		$upload_dir  = wp_upload_dir();
 		$upload_path = $upload_dir['basedir'] . '/pips';
@@ -309,7 +313,7 @@ class Invoice {
 	}
 
 	public function get_blank_columns() {
-		return count( $this->get_product_invoice_columns() ) - 1;
+		return count( $this->get_product_invoice_columns() ) - 2;
 	}
 
 	public function get_invoice_note() {
