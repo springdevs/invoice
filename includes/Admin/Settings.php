@@ -30,6 +30,9 @@ class Settings {
 	}
 
 	public function invoice_settings() {
+		wp_enqueue_media();
+		wp_enqueue_script( 'pips_settings' );
+
 		$invoice_settings = array();
 
 		$invoice_settings[] = array(
@@ -265,7 +268,7 @@ class Settings {
 			'name' => __( 'Invoice Logo', 'sdevs_pips' ),
 			'id'   => 'pips_invoice_logo',
 			'type' => 'text',
-			'desc' => __( 'Logo URL for invoice', 'sdevs_pips' ),
+			'desc' => __( 'Select Logo', 'sdevs_pips' ),
 		);
 
 		// Logo height
@@ -282,14 +285,7 @@ class Settings {
 			'name'        => __( 'Shop Name', 'sdevs_pips' ),
 			'id'          => 'pips_invoice_shop_name',
 			'type'        => 'text',
-			'placeholder' => 'Enter Shop Name',
-		);
-
-		// Shop Address
-		$invoice_settings[] = array(
-			'name' => __( 'Shop Address', 'sdevs_pips' ),
-			'id'   => 'pips_invoice_shop_address',
-			'type' => 'textarea',
+			'placeholder' => get_bloginfo( 'name' ),
 		);
 
 		// Default Invoice Note

@@ -1,3 +1,4 @@
+rm -rf vendor/
 composer install --no-dev --ignore-platform-reqs
 rm -r composer.json
 rm -r composer.lock

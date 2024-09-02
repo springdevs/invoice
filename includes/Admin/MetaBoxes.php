@@ -11,7 +11,9 @@ namespace SpringDevs\WcPips\Admin;
  */
 class MetaBoxes {
 
-
+	/**
+	 * Initialize the class.
+	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'add_meta_boxes', array( $this, 'create_meta_boxes' ) );
@@ -19,15 +21,25 @@ class MetaBoxes {
 		add_action( 'woocommerce_process_shop_order_meta', array( $this, 'save_invoice_meta' ), 60 );
 	}
 
+	/**
+	 * Enqueue Assets.
+	 *
+	 * @return void
+	 */
 	public function enqueue_assets() {
 		wp_enqueue_style( 'pips_admin_css' );
 	}
 
+	/**
+	 * Create meta boxes.
+	 *
+	 * @return void
+	 */
 	public function create_meta_boxes() {
 		$screen = pips_wc_order_hpos_enabled()
 			? wc_get_page_screen_id( 'shop-order' )
 			: 'shop_order';
-		// Sidebar [ pdf buttons & forms ]
+		// Sidebar [ pdf buttons & forms ].
 		if ( 'yes' === get_option( 'pips_enable_invoice', 'yes' ) ) :
 			add_meta_box(
 				'pips_order_action',

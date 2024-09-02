@@ -3,13 +3,11 @@
 namespace SpringDevs\WcPips;
 
 use SpringDevs\WcPips\Admin\Links;
-use SpringDevs\WcPips\Admin\Required;
 use SpringDevs\WcPips\Admin\MetaBoxes;
 use SpringDevs\WcPips\Admin\Order;
 use SpringDevs\WcPips\Admin\Settings;
 use SpringDevs\WcPips\Illuminate\Email;
 use SpringDevs\WcPips\Illuminate\Invoice;
-use SpringDevs\WcSubscription\Frontend\Product;
 
 /**
  * The admin class
@@ -28,7 +26,6 @@ class Admin {
 		new Order();
 		new Settings();
 		new Email();
-		new Required();
 	}
 
 	/**
@@ -37,9 +34,6 @@ class Admin {
 	 * @return void
 	 */
 	public function dispatch_actions() {
-		if ( class_exists( Product::class ) ) {
-			new Product();
-		}
 		add_filter(
 			'woocommerce_get_settings_pages',
 			function ( $settings ) {

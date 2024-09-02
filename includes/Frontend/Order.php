@@ -11,16 +11,21 @@ use SpringDevs\WcPips\Illuminate\Invoice;
  */
 class Order {
 
+	/**
+	 * Initialize the class.
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'handle_get_requests' ) );
 		add_filter( 'woocommerce_my_account_my_orders_actions', array( $this, 'add_custom_action' ), 10, 2 );
 		add_action( 'wp_footer', array( $this, 'js_scripts' ) );
 	}
 
+	/**
+	 * Generate and display Invoice.
+	 *
+	 * @return void
+	 */
 	public function handle_get_requests() {
-		if ( is_admin() ) {
-			return;
-		}
 		if ( isset( $_GET['view'] ) && isset( $_GET['post'] ) ) {
 			$order = wc_get_order( (int) $_GET['post'] );
 			if ( $this->check_if_invoice_front_allowed( $order ) ) {

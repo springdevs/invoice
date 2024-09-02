@@ -117,7 +117,7 @@
 								<?php if ( ! empty( get_option( 'pips_invoice_logo' ) ) ) : ?>
 									<img
 										src="<?php echo esc_html( get_option( 'pips_invoice_logo' ) ); ?>"
-										style="width: 100%; max-width: 300px"
+										style="width: 100%; max-width: 200px"
 									/>
 									<?php endif; ?>
 								</td>

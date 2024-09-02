@@ -11,7 +11,9 @@ namespace SpringDevs\WcPips\Admin;
  */
 class Links {
 
-
+	/**
+	 * Initialize the class.
+	 */
 	public function __construct() {
 		add_filter( 'plugin_action_links_' . plugin_basename( PIPS_FILE ), array( $this, 'plugin_action_links' ) );
 	}
@@ -19,7 +21,7 @@ class Links {
 	/**
 	 * Add plugin action links
 	 *
-	 * @param array $links array
+	 * @param array $links links.
 	 */
 	public function plugin_action_links( $links ) {
 		$links[] = '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=pips' ) . '">' . __( 'Settings', 'sdevs_pips' ) . '</a>';

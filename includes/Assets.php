@@ -69,8 +69,8 @@ class Assets {
 		$plugin_js_assets_path = PIPS_ASSETS . '/js/';
 
 		return array(
-			'sdevs_installer' => array(
-				'src'       => $plugin_js_assets_path . 'installer.js',
+			'pips_settings' => array(
+				'src'       => $plugin_js_assets_path . 'settings.js',
 				'deps'      => array( 'jquery' ),
 				'in_footer' => true,
 			),
@@ -86,11 +86,8 @@ class Assets {
 		$plugin_css_assets_path = PIPS_ASSETS . '/css/';
 
 		return array(
-			'pips_admin_css'  => array(
+			'pips_admin_css' => array(
 				'src' => $plugin_css_assets_path . 'admin.css',
-			),
-			'sdevs_installer' => array(
-				'src' => $plugin_css_assets_path . 'installer.css',
 			),
 		);
 	}
