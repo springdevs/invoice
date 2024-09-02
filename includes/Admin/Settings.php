@@ -126,13 +126,13 @@ class Settings {
 		);
 
 		// Disable for:
-		$invoice_settings[] = array(
-			'title'   => __( 'Disable for', 'sdevs_pips' ),
-			'id'      => 'pips_invoice_disable_statuses',
-			'class'   => 'wc-enhanced-select',
-			'type'    => 'multiselect',
-			'options' => function_exists( 'wc_get_order_statuses' ) ? wc_get_order_statuses() : array(),
-		);
+		// $invoice_settings[] = array(
+		// 'title'   => __( 'Disable for', 'sdevs_pips' ),
+		// 'id'      => 'pips_invoice_disable_statuses',
+		// 'class'   => 'wc-enhanced-select',
+		// 'type'    => 'multiselect',
+		// 'options' => function_exists( 'wc_get_order_statuses' ) ? wc_get_order_statuses() : array(),
+		// );
 
 		// Paper Size
 		$invoice_settings[] = array(

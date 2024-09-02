@@ -69,12 +69,12 @@ class Invoice {
 			$email_ids[] = 'customer_note';
 		}
 
-		$disable_statuses = get_option( 'pips_invoice_disable_statuses', array() );
-		foreach ( $disable_statuses as $disable_statuse ) {
-			if ( $order->has_status( substr( $disable_statuse, 3 ) ) ) {
-				return $attachments;
-			}
-		}
+		// $disable_statuses = get_option( 'pips_invoice_disable_statuses', array() );
+		// foreach ( $disable_statuses as $disable_statuse ) {
+		// if ( $order->has_status( substr( $disable_statuse, 3 ) ) ) {
+		// return $attachments;
+		// }
+		// }
 
 		if ( in_array( $email_id, $email_ids, true ) ) {
 			$file_path = $this->generate_save_pdf( $order->get_id() );
