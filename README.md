@@ -2,6 +2,16 @@
 
 Create, print & email PDF invoices & packing slips for WooCommerce orders.
 
+## Install
+
+```
+git clone git@github.com:springdevs/invoice.git "pdf-invoices-and-packing-slips"
+```
+
+```
+composer install
+```
+
 ## Changelog
 
 ## 1.2.3
