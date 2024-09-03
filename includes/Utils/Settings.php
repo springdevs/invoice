@@ -1,7 +1,7 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	exit; // Exit if accessed directly.
 }
 
 if ( ! class_exists( 'Pips_Invoice_Settings' ) ) :
@@ -11,6 +11,9 @@ if ( ! class_exists( 'Pips_Invoice_Settings' ) ) :
 	 */
 	class Pips_Invoice_Settings extends \WC_Settings_Page {
 
+		/**
+		 * Initialize the class.
+		 */
 		public function __construct() {
 			$this->id    = 'pips';
 			$this->label = __( 'Invoices', 'sdevs_pips' );

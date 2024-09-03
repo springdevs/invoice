@@ -40,16 +40,14 @@ class MetaBoxes {
 			? wc_get_page_screen_id( 'shop-order' )
 			: 'shop_order';
 		// Sidebar [ pdf buttons & forms ].
-		if ( 'yes' === get_option( 'pips_enable_invoice', 'yes' ) ) :
-			add_meta_box(
-				'pips_order_action',
-				__( 'Order Invoices', 'sdevs_pips' ),
-				array( $this, 'order_action_html' ),
-				$screen,
-				'side',
-				'default'
-			);
-		endif;
+		add_meta_box(
+			'pips_order_action',
+			__( 'Order Invoices', 'sdevs_pips' ),
+			array( $this, 'order_action_html' ),
+			$screen,
+			'side',
+			'default'
+		);
 	}
 
 	/**
@@ -74,11 +72,7 @@ class MetaBoxes {
 
 		$invoice_link = 'admin.php?page=pips_view_pdf&view=pips_invoice&post=' . $order->get_id();
 		$packing_link = 'admin.php?page=pips_view_pdf&view=pips_packing_slip&post=' . $order->get_id();
-		if ( pips_pro_activated() ) {
-			do_action( 'pipspro_load_order_action_html', $order, $invoice_link, $packing_link );
-		} else {
-			include_once 'views/invoice-buttons.php';
-		}
+		include_once 'views/invoice-buttons.php';
 		include_once 'views/order-form.php';
 	}
 

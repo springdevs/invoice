@@ -39,4 +39,20 @@ jQuery(document).ready(function ($) {
 
     image_frame.open();
   });
+
+  const invoice_number_type = $("#pips_invoice_number_type");
+  const invoice_number_start_field = $(
+    ".wc-settings-row-pips_invoice_number_start"
+  );
+
+  toggle_invoice_start();
+  invoice_number_type.on("change", toggle_invoice_start);
+
+  function toggle_invoice_start() {
+    if ("sequential" === invoice_number_type.val()) {
+      invoice_number_start_field.fadeIn();
+    } else {
+      invoice_number_start_field.hide();
+    }
+  }
 });

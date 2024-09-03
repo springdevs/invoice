@@ -8,27 +8,70 @@ namespace SpringDevs\WcPips\Admin;
  */
 class Settings {
 
+	/**
+	 * Initialize the class.
+	 */
 	public function __construct() {
 		add_filter( 'woocommerce_get_sections_pips', array( $this, 'add_section' ), 10 );
 		add_filter( 'woocommerce_get_settings_pips', array( $this, 'settings_content' ) );
+		add_action( 'woocommerce_update_option', array( $this, 'reset_sequential' ) );
 	}
 
+	/**
+	 * Reset sequential before new start_from saved.
+	 *
+	 * @return void
+	 */
+	public function reset_sequential() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['pips_invoice_number_start'] ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$new_value = (int) sanitize_text_field( wp_unslash( $_POST['pips_invoice_number_start'] ) );
+		$old_value = get_option( 'pips_invoice_number_start', 1 );
+
+		if ( $new_value !== $old_value ) {
+			delete_option( 'pips_last_invoice_number' );
+		}
+	}
+
+	/**
+	 * Add settings section.
+	 *
+	 * @param array $sections Sections.
+	 *
+	 * @return array
+	 */
 	public function add_section( $sections ) {
-		$sections['']          = __( 'Invoices', 'sdevs_pips' );
-		$sections['pips_slip'] = __( 'Packing Slips', 'sdevs_pips' );
+		$sections['']              = __( 'Invoices', 'sdevs_pips' );
+		$sections['packing_slips'] = __( 'Packing Slips', 'sdevs_pips' );
 		return $sections;
 	}
 
+	/**
+	 * Settings content.
+	 *
+	 * @param array $settings tabs.
+	 *
+	 * @return array
+	 */
 	public function settings_content( $settings ) {
 		global $current_section;
-		if ( $current_section == '' ) {
+		if ( '' === $current_section ) {
 			return $this->invoice_settings();
-		} elseif ( $current_section == 'pips_slip' ) {
+		} elseif ( 'packing_slips' === $current_section ) {
 			return $this->packing_slip_settings();
 		}
 		return $settings;
 	}
 
+	/**
+	 * Invoice settings.
+	 *
+	 * @return array
+	 */
 	public function invoice_settings() {
 		wp_enqueue_media();
 		wp_enqueue_script( 'pips_settings' );
@@ -42,7 +85,6 @@ class Settings {
 			'id'   => 'invoice',
 		);
 
-		// Enable / Disable Invoice
 		$invoice_settings[] = array(
 			'name'    => __( 'Enable Invoice', 'sdevs_pips' ),
 			'id'      => 'pips_enable_invoice',
@@ -51,7 +93,6 @@ class Settings {
 			'desc'    => __( 'Enable or Disable invoice feature', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ new order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Attach to', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_new_order_admin',
@@ -61,7 +102,6 @@ class Settings {
 			'desc'          => __( 'New order (Admin email)', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Cancelled order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Cancelled order', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_cancelled_order',
@@ -70,7 +110,6 @@ class Settings {
 			'desc'          => __( 'Cancelled order', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Failed order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Failed order', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_failed_order',
@@ -79,7 +118,6 @@ class Settings {
 			'desc'          => __( 'Failed order', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Order on-hold ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Order on-hold', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_on-hold_order',
@@ -88,7 +126,6 @@ class Settings {
 			'desc'          => __( 'Order on-hold', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Processing order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Processing order', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_processing_order',
@@ -97,7 +134,6 @@ class Settings {
 			'desc'          => __( 'Processing order', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Completed order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Completed order', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_completed_order',
@@ -106,7 +142,6 @@ class Settings {
 			'desc'          => __( 'Completed order', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Refunded order ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Refunded order', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_refunded_order',
@@ -115,7 +150,6 @@ class Settings {
 			'desc'          => __( 'Refunded order', 'sdevs_pips' ),
 		);
 
-		// attach pdf [ Customer note ]
 		$invoice_settings[] = array(
 			'name'          => __( 'Customer note', 'sdevs_pips' ),
 			'id'            => 'pips_attach_pdf_admin_note_order',
@@ -125,7 +159,7 @@ class Settings {
 			'desc'          => __( 'Customer note', 'sdevs_pips' ),
 		);
 
-		// Disable for:
+		// phpcs:ignore
 		// $invoice_settings[] = array(
 		// 'title'   => __( 'Disable for', 'sdevs_pips' ),
 		// 'id'      => 'pips_invoice_disable_statuses',
@@ -134,7 +168,6 @@ class Settings {
 		// 'options' => function_exists( 'wc_get_order_statuses' ) ? wc_get_order_statuses() : array(),
 		// );
 
-		// Paper Size
 		$invoice_settings[] = array(
 			'title'   => __( 'Paper Size', 'sdevs_pips' ),
 			'id'      => 'pips_invoice_paper_size',
@@ -145,7 +178,6 @@ class Settings {
 			),
 		);
 
-		// Display shipping address
 		$invoice_settings[] = array(
 			'name'    => __( 'Display shipping address', 'sdevs_pips' ),
 			'id'      => 'pips_invoice_display_shipping_address',
@@ -158,7 +190,6 @@ class Settings {
 			'default' => 'when_different',
 		);
 
-		// display invoice number
 		$invoice_settings[] = array(
 			'name'          => __( 'Show / Hide', 'sdevs_pips' ),
 			'id'            => 'pips_display_invoice_number',
@@ -167,7 +198,6 @@ class Settings {
 			'desc'          => __( 'Invoice Number', 'sdevs_pips' ),
 		);
 
-		// Enable invoice date
 		$invoice_settings[] = array(
 			'name'          => __( 'Invoice Date', 'sdevs_pips' ),
 			'id'            => 'pips_display_invoice_date',
@@ -176,7 +206,6 @@ class Settings {
 			'desc'          => __( 'Invoice Date', 'sdevs_pips' ),
 		);
 
-		// display email address
 		$invoice_settings[] = array(
 			'name'          => __( 'Email address', 'sdevs_pips' ),
 			'id'            => 'pips_display_user_email',
@@ -185,7 +214,6 @@ class Settings {
 			'desc'          => __( 'Email address', 'sdevs_pips' ),
 		);
 
-		// Display phone number
 		$invoice_settings[] = array(
 			'name'          => __( 'Phone number', 'sdevs_pips' ),
 			'id'            => 'pips_display_user_phone',
@@ -194,7 +222,6 @@ class Settings {
 			'desc'          => __( 'Phone number', 'sdevs_pips' ),
 		);
 
-		// Display customer note
 		$invoice_settings[] = array(
 			'name'          => __( 'Display customer note', 'sdevs_pips' ),
 			'id'            => 'pips_display_customer_note',
@@ -204,24 +231,71 @@ class Settings {
 			'desc'          => __( 'Display customer note', 'sdevs_pips' ),
 		);
 
-		// custom colum
 		$invoice_settings[] = array(
-			'name'    => __( 'Custom Column', 'sdevs_pips' ),
+			'name'              => __( 'Invoice Number', 'sdevs_pips' ),
+			'id'                => 'pips_invoice_number_type',
+			'type'              => 'select',
+			'default'           => 'order_id',
+			'options'           => array(
+				'order_id'   => __( 'Using Order Id', 'sdevs_pips' ),
+				'sequential' => __( 'Sequential numbering', 'sdevs_pips' ),
+			),
+			'custom_attributes' => array(
+				'required' => true,
+			),
+		);
+
+		$invoice_settings[] = array(
+			'name'              => __( 'Invoice Number Start from', 'sdevs_pips' ),
+			'id'                => 'pips_invoice_number_start',
+			'row_class'         => 'pips_invoice_number_start',
+			'type'              => 'number',
+			'default'           => 1,
+			'custom_attributes' => array(
+				'required' => true,
+				'min'      => 1,
+			),
+		);
+
+		$invoice_settings[] = array(
+			'name'              => __( 'Invoice Number Format', 'sdevs_pips' ),
+			'id'                => 'pips_invoice_number_format',
+			'type'              => 'text',
+			'default'           => '[number]',
+			'custom_attributes' => array(
+				'required' => true,
+			),
+			'desc'              => '<code>[number]</code> is the placeholder to display invoice number',
+		);
+
+		$invoice_settings[] = array(
+			'name'              => __( 'Invoice File name Format', 'sdevs_pips' ),
+			'id'                => 'pips_invoice_file_name_format',
+			'type'              => 'text',
+			'default'           => 'invoice-[number]',
+			'custom_attributes' => array(
+				'required' => true,
+			),
+			'desc'              => '<code>[number]</code> is the placeholder to display invoice number',
+		);
+
+		$invoice_settings[] = array(
+			'name'    => __( 'Order Column', 'sdevs_pips' ),
 			'id'      => 'pips_order_custom_column',
 			'type'    => 'checkbox',
 			'default' => 'yes',
-			'desc'    => __( 'Order Column for direct view or download pdf (Admin)', 'sdevs_pips' ),
+			'desc'    => __( 'Order Column for direct view and download pdf (Admin)', 'sdevs_pips' ),
 		);
 
-		// Disable for free orders
 		$invoice_settings[] = array(
 			'name' => __( 'Disable for free orders', 'sdevs_pips' ),
 			'id'   => 'pips_free_order_invoice',
 			'type' => 'checkbox',
-			'desc' => __( 'Disable invoice when the order total is ' . wc_price( 0 ), 'sdevs_pips' ),
+			// translators: currency with 0.
+			'desc' => sprintf( __( 'Disable invoice when the order total is %s', 'sdevs_pips' ), wc_price( 0 ) ),
 		);
 
-		// view pdf
+		// view pdf.
 		$invoice_settings[] = array(
 			'name'     => __( 'view PDF', 'sdevs_pips' ),
 			'id'       => 'pips_view_invoice_front',
@@ -250,7 +324,6 @@ class Settings {
 			);
 		}
 
-		// Display invoice button on MyAccount Orders
 		$invoice_settings[] = array(
 			'name'    => __( 'Display invoice button (Front)', 'sdevs_pips' ),
 			'id'      => 'pips_display_invoice_btn_front',
@@ -263,7 +336,6 @@ class Settings {
 			'default' => 'always',
 		);
 
-		// Logo Upload
 		$invoice_settings[] = array(
 			'name' => __( 'Invoice Logo', 'sdevs_pips' ),
 			'id'   => 'pips_invoice_logo',
@@ -271,7 +343,7 @@ class Settings {
 			'desc' => __( 'Select Logo', 'sdevs_pips' ),
 		);
 
-		// Logo height
+		// phpcs:ignore
 		// $invoice_settings[] = array(
 		// 'name'        => __( 'Logo height', 'sdevs_pips' ),
 		// 'id'          => 'pips_invoice_logo_height',
@@ -280,7 +352,6 @@ class Settings {
 		// 'css'         => 'width: 6em;',
 		// );
 
-		// Shop Name
 		$invoice_settings[] = array(
 			'name'        => __( 'Shop Name', 'sdevs_pips' ),
 			'id'          => 'pips_invoice_shop_name',
@@ -288,14 +359,12 @@ class Settings {
 			'placeholder' => get_bloginfo( 'name' ),
 		);
 
-		// Default Invoice Note
 		$invoice_settings[] = array(
 			'name' => __( 'Default Invoice Note', 'sdevs_pips' ),
 			'id'   => 'pips_invoice_note',
 			'type' => 'textarea',
 		);
 
-		// Footer
 		$invoice_settings[] = array(
 			'name' => __( 'Footer', 'sdevs_pips' ),
 			'id'   => 'pips_invoice_footer_note',

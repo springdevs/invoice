@@ -4,7 +4,7 @@
 		<label for="pips_invoice_number">
 			<strong><?php esc_html_e( 'Invoice Number', 'sdevs_pips' ); ?></strong>
 		</label>
-		<input name="pips_invoice_number" type="text" id="pips_invoice_number" placeholder="Custom Invoice Number" class="short" value="<?php echo esc_attr( $invoice_number ); ?>">
+		<input name="pips_invoice_number" type="text" id="pips_invoice_number" placeholder="<?php echo esc_attr( $order->get_id() ); ?>" class="short" value="<?php echo esc_attr( $invoice_number ); ?>">
 	</p>
 	<p class="form-field sdevs-form">
 		<label for="pips_invoice_date">

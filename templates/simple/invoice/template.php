@@ -164,14 +164,14 @@
 								</td>
 								<td style="font-size: 10pt;text-align: right;">
 									<?php if ( 'yes' === get_option( 'pips_display_invoice_number', 'no' ) ) : ?>
-									<b>Invoice #</b><?php echo esc_html( $this->get_invoice_number() ); ?><br />
+									<b>Invoice #</b> <?php echo esc_html( $this->get_formatted_invoice_number() ); ?><br />
 									<?php endif; ?>
 									<?php
 									if ( 'yes' === get_option( 'pips_display_invoice_date', 'no' ) ) :
 										?>
 									<b>Invoice Date:</b><br/> <?php echo esc_html( $this->get_invoice_date() ); ?><br />
 									<?php endif; ?>
-									<b>Order #</b><?php echo esc_html( $this->order->get_id() ); ?><br />
+									<b>Order #</b> <?php echo esc_html( $this->order->get_id() ); ?><br />
 									<b>Order Date:</b> <br/> <?php echo esc_html( gmdate( get_option( 'pipspro_invoice_date_format', 'F d, Y' ), strtotime( $this->order->get_date_created() ) ) ); ?><br />
 									<b>Payment Method:</b> <br/> <?php echo wp_kses_post( $this->order->get_payment_method_title() ); ?>
 								</td>

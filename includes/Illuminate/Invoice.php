@@ -3,7 +3,6 @@
 namespace SpringDevs\WcPips\Illuminate;
 
 /**
- * Handle Invoices
  *
  * Class Invoice
  *
@@ -25,8 +24,18 @@ class Invoice {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'pips_product_column_product', array( $this, 'product_content' ) );
 		add_action( 'pips_product_column_qty', array( $this, 'product_qty' ) );
-		add_action( 'pips_product_column_subtotal', array( $this, 'product_subtotal' ), 10, 2 );
-		add_filter( 'woocommerce_email_attachments', array( $this, 'include_pdf_with_email' ), 10, 3 );
+		add_action(
+			'pips_product_column_subtotal',
+			array( $this, 'product_subtotal' ),
+			10,
+			2
+		);
+		add_filter(
+			'woocommerce_email_attachments',
+			array( $this, 'include_pdf_with_email' ),
+			10,
+			3
+		);
 	}
 
 	/**
@@ -40,7 +49,10 @@ class Invoice {
 	 */
 	public function include_pdf_with_email( $attachments, $email_id, $order ) {
 		$email_ids = array( 'customer_invoice' );
-		if ( 'yes' === get_option( 'pips_free_order_invoice', 'no' ) && 0 === $order->get_total() ) {
+		if (
+			'yes' === get_option( 'pips_free_order_invoice', 'no' ) &&
+			0 === $order->get_total()
+		) {
 			return $attachments;
 		}
 
@@ -96,12 +108,17 @@ class Invoice {
 	 * @return void
 	 */
 	public function product_content( $item ) {
-		$product = $item->get_product();
-		?>
+		$product = $item->get_product(); ?>
 		<td class="product-content">
 			<span class="item-name"><?php echo esc_html( $item->get_name() ); ?></span>
 			<?php if ( $this->get_product_sku( $product ) ) : ?>
-				<dl class="meta"><small>SKU: <?php echo esc_html( $this->get_product_sku( $product ) ); ?></small></dl>
+				<dl class="meta"><small>SKU: 
+				<?php
+				echo esc_html(
+					$this->get_product_sku( $product )
+				);
+				?>
+	</small></dl>
 			<?php endif; ?>
 		</td>
 		<?php
@@ -140,7 +157,15 @@ class Invoice {
 		}
 		?>
 		<td>
-			<?php echo wp_kses_post( apply_filters( 'woocommerce_get_price_html', $this->get_line_subtotal( $order, $item ), $product ) ); ?>
+			<?php
+			echo wp_kses_post(
+				apply_filters(
+					'woocommerce_get_price_html',
+					$this->get_line_subtotal( $order, $item ),
+					$product
+				)
+			);
+			?>
 		</td>
 		<?php
 	}
@@ -151,18 +176,15 @@ class Invoice {
 	 * @return void
 	 */
 	public function admin_menu() {
-		if ( 'yes' === get_option( 'pips_enable_invoice', 'yes' ) ) :
-			$hook = add_submenu_page(
-				null,
-				'Preview PDF',
-				'Preview PDF',
-				'manage_options',
-				'pips_view_pdf',
-				function () {
-				}
-			);
-			add_action( 'load-' . $hook, array( $this, 'generate_order_pdf' ) );
-		endif;
+		$hook = add_submenu_page(
+			null,
+			'Preview PDF',
+			'Preview PDF',
+			'manage_options',
+			'pips_view_pdf',
+			function () {}
+		);
+		add_action( 'load-' . $hook, array( $this, 'generate_order_pdf' ) );
 	}
 
 	/**
@@ -173,41 +195,64 @@ class Invoice {
 	public function generate_order_pdf() {
 		do_action( 'pips_pdf_generator', $this );
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_GET['view'], $_GET['post'] ) ) {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$view = sanitize_text_field( wp_unslash( $_GET['view'] ) );
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$order = wc_get_order( sanitize_text_field( wp_unslash( $_GET['post'] ) ) );
 		if ( ! $order ) {
 			return;
 		}
 		$this->order = $order;
 
-		if ( 'pips_invoice' === $view ) {
+		if (
+			'pips_invoice' === $view &&
+			'yes' === get_option( 'pips_enable_invoice', 'yes' )
+		) {
 			$invoice_template_path = pips_invoice_template_path();
-			$html                  = $this->render_template( $invoice_template_path . '/template.php' );
-			$name                  = 'invoice-' . $this->get_invoice_number();
+			$html                  = $this->render_template(
+				$invoice_template_path . '/template.php'
+			);
+			$name                  = $this->get_invoice_file_name();
 
 			$generator = pips_get_generator_instance();
 			$generator->WriteHTML( $html );
 			$generator->SetTitle( $name );
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
-			exit;
-		} elseif ( 'pips_packing_slip' === $view && 'yes' === get_option( 'pips_enable_packing_slip', 'yes' ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$generator->Output(
+				$name . '.pdf',
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				isset( $_GET['download'] ) && 'true' === $_GET['download']
+					? 'D'
+					: 'I'
+			);
+			exit();
+		} elseif (
+			'pips_packing_slip' === $view &&
+			'yes' === get_option( 'pips_enable_packing_slip', 'yes' )
+		) {
 			$packing_template_path = pips_packing_template_path();
-			$html                  = $this->render_template( $packing_template_path . '/template.php', array( 'order' => $order ) );
+			$html                  = $this->render_template(
+				$packing_template_path . '/template.php',
+				array( 'order' => $order )
+			);
 			$name                  = 'packing-slip-' . $this->get_invoice_number();
 			$generator             = pips_get_generator_instance( 'packing' );
 			$generator->WriteHTML( $html );
 			$generator->SetTitle( $name );
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$generator->Output( $name . '.pdf', isset( $_GET['download'] ) && 'true' === $_GET['download'] ? 'D' : 'I' );
-			exit;
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$generator->Output(
+				$name . '.pdf',
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+				isset( $_GET['download'] ) && 'true' === $_GET['download']
+					? 'D'
+					: 'I'
+			);
+			exit();
 		}
 	}
 
@@ -224,7 +269,9 @@ class Invoice {
 		$this->order           = $order;
 		$invoice_template_path = pips_invoice_template_path();
 
-		$html      = $this->render_template( $invoice_template_path . '/template.php' );
+		$html      = $this->render_template(
+			$invoice_template_path . '/template.php'
+		);
 		$generator = pips_get_generator_instance();
 		$generator->WriteHTML( $html );
 
@@ -234,7 +281,8 @@ class Invoice {
 			mkdir( $upload_path, 0777, true );
 		}
 
-		$file_path = $upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
+		$file_path =
+			$upload_path . '/invoice-' . $this->get_invoice_number() . '.pdf';
 		$generator->Output( $file_path, 'F' );
 
 		return $file_path;
@@ -304,16 +352,78 @@ class Invoice {
 	}
 
 	/**
+	 * Get invoice file name.
+	 *
+	 * @return string
+	 */
+	public function get_invoice_file_name() {
+		$invoice_number = $this->get_invoice_number();
+
+		$file_name_format = trim(
+			get_option( 'pips_invoice_file_name_format', 'invoice-[number]' )
+		);
+		preg_match_all( '/\[([^\]]*)\]/', $file_name_format, $matches );
+		$matches = $matches[1];
+		foreach ( $matches as $match ) {
+			if ( 'number' === $match ) {
+				$file_name_format = str_replace(
+					'[' . $match . ']',
+					$invoice_number,
+					$file_name_format
+				);
+			}
+		}
+
+		return $file_name_format;
+	}
+
+	/**
 	 * Get Invoice Number.
 	 *
 	 * @return string
 	 */
 	public function get_invoice_number() {
-		$order_meta = $this->order->get_meta( '_pips_order_invoice_number' );
-		if ( $order_meta ) {
-			return $order_meta;
+		$invoice_number = $this->order->get_meta( '_pips_order_invoice_number' );
+
+		if ( empty( $invoice_number ) ) {
+			$invoice_number = $this->order->get_id();
+			if ( 'sequential' === get_option( 'pips_invoice_number_type', 'order_id' ) ) {
+				$start_from       = get_option( 'pips_invoice_number_start', 1 );
+				$previous_invoice = get_option( 'pips_last_invoice_number', $start_from );
+				$invoice_number   = $previous_invoice + 1;
+				update_option( 'pips_last_invoice_number', $invoice_number );
+			}
+			$this->order->update_meta_data( '_pips_order_invoice_number', $invoice_number );
+			$this->order->save();
 		}
-		return $this->order->get_id();
+
+		return $invoice_number;
+	}
+
+	/**
+	 * Get formatted invoice number.
+	 *
+	 * @return string
+	 */
+	public function get_formatted_invoice_number() {
+		$invoice_number = $this->get_invoice_number();
+
+		$invoice_format = trim(
+			get_option( 'pips_invoice_number_format', '[number]' )
+		);
+		preg_match_all( '/\[([^\]]*)\]/', $invoice_format, $matches );
+		$matches = $matches[1];
+		foreach ( $matches as $match ) {
+			if ( 'number' === $match ) {
+				$invoice_format = str_replace(
+					'[' . $match . ']',
+					$invoice_number,
+					$invoice_format
+				);
+			}
+		}
+
+		return $invoice_format;
 	}
 
 	/**
@@ -323,11 +433,22 @@ class Invoice {
 	 */
 	public function get_invoice_date() {
 		$order_meta = $this->order->get_meta( '_pips_order_invoice_date' );
-		if ( $order_meta ) {
-			return gmdate( get_option( 'pipspro_invoice_date_format', 'F d, Y' ), $order_meta );
+		if ( ! empty( $order_meta ) ) {
+			return gmdate(
+				get_option( 'pipspro_invoice_date_format', 'F d, Y' ),
+				$order_meta
+			);
 		}
-		$default_date = gmdate( get_option( 'pipspro_invoice_date_format', 'F d, Y' ), strtotime( $this->order->get_date_created() ) );
-		return apply_filters( 'pips_filter_invoice_date', $default_date, $this->order );
+		$default_date = gmdate(
+			get_option( 'pipspro_invoice_date_format', 'F d, Y' ),
+			strtotime( $this->order->get_date_created() )
+		);
+
+		return apply_filters(
+			'pips_filter_invoice_date',
+			$default_date,
+			$this->order
+		);
 	}
 
 	/**
@@ -342,7 +463,11 @@ class Invoice {
 			'subtotal' => __( 'Subtotal', 'sdevs_pips' ),
 		);
 
-		return apply_filters( 'pips_invoice_product_columns', $columns, $this->order );
+		return apply_filters(
+			'pips_invoice_product_columns',
+			$columns,
+			$this->order
+		);
 	}
 
 	/**
@@ -404,14 +529,22 @@ class Invoice {
 	 * @return bool
 	 */
 	public function has_shipping_address(): bool {
-		$setting = get_option( 'pips_invoice_display_shipping_address', 'when_different' );
+		if ( ! $this->order->needs_shipping_address() ) {
+			return false;
+		}
+		$setting = get_option(
+			'pips_invoice_display_shipping_address',
+			'when_different'
+		);
 		if ( 'no' === $setting ) {
 			return false;
 		}
 		if ( 'always' === $setting ) {
 			return true;
 		}
-		return $this->order->has_shipping_address() && $this->order->get_billing_address_1() !== $this->order->get_shipping_address_1();
+		return $this->order->has_shipping_address() &&
+			$this->order->get_billing_address_1() !==
+				$this->order->get_shipping_address_1();
 	}
 
 	/**
@@ -426,7 +559,6 @@ class Invoice {
 		return apply_filters( 'pips_product_sku', $sku, $product );
 	}
 
-
 	/**
 	 * Get line subtotal.
 	 *
@@ -440,7 +572,10 @@ class Invoice {
 		$regular_price = $single_price * $item->get_quantity();
 		$sale_price    = $item->get_total();
 		$currency_code = $order->get_currency();
-		if ( $regular_price != $sale_price && 'yes' === get_option( 'pipspro_invoice_slashed_price', 'yes' ) ) {
+		if (
+			$regular_price != $sale_price &&
+			'yes' === get_option( 'pipspro_invoice_slashed_price', 'yes' )
+		) {
 			return wc_format_sale_price( $regular_price, $sale_price );
 		}
 		return pips_price( $sale_price, $currency_code );
