@@ -49,6 +49,10 @@
 				border-bottom: 1px solid #eee;
 			}
 
+			.invoice-box table tr.item td.product-content {
+				width: 40%;
+			}
+
 			.invoice-box table tr.item.last td {
 				border-bottom: none;
 			}
